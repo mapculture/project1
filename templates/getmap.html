@@ -1,0 +1,70 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html> <head>
+
+<!-- Bootstrap requires the following three meta tags to appear first -->
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<title>CIS 422: Project 1 (Team 5) Rough</title>
+
+<!-- Javascript and CSS libraries -->
+<!-- mostly from content delivery networks                 -->
+
+<!-- jquery; CDN load is usually quick because it's likely cached -->
+<script type="text/javascript"
+     src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js">
+</script>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<link rel="stylesheet" href="/static/style.css" />
+
+</head>
+
+
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-6 text-center">
+        <h1>Enter a set of coordinates!</h1>
+      </div>
+    </div>
+
+  <div class="row">
+    <div class="col-xs-6 text-center">
+      <form id="coordinate_entry">
+        <label for="coords">Coordinates:</label>
+        <input id="coords" name="coords" type="text" width="10" autocomplete="off" autofocus />
+        <input type="submit" value="submit">
+      </form>
+    </div>
+  </div>
+
+  <p id="map"> </p> <!-- Illustration of inserting graphics into page -->
+
+  <script>
+
+    $("#coordinate_entry").on('submit',function(event) {
+      event.preventDefault();
+
+      var coords = $("#coords").val();
+      $.getJSON( "/_getmap", {coords: coords}, 
+                 function(data) {
+                   mapImageURL = data.result.map_image_url;
+                   showMapImage(mapImageURL);
+                 }
+      );
+    });
+
+    function showMapImage(URL) {
+      $("#map").html("<img src='" + URL + "'>");
+    }
+  </script>
+</div> <!-- container -->
+</body> </html>
