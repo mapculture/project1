@@ -4,6 +4,6 @@ Modified/retrofitted pieces of code from UOCIS322's Project 3: https://bitbucket
 
 
 1. Install docker
-2. Obtain an API key of Google Maps Static API
-3. Put your API key on line 16 of `/flask_ajax.py`
+2. Obtain an API key of Google Maps Javascript API
+3. Put your API key on line 1 of `/static/index.js`
 4. ./run.sh

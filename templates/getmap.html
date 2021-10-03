@@ -25,46 +25,27 @@
 
 <link rel="stylesheet" href="/static/style.css" />
 
+<script src="/static/index.js"></script>
+
 </head>
 
 
 <body>
   <div class="container">
-    <div class="row">
-      <div class="col-xs-6 text-center">
+    <div class = "center">
+      <div class="row">
         <h1>Enter a set of coordinates!</h1>
       </div>
+
+      <div class="row">
+        <form id="coordinate_entry">
+          <label for="coords">Coordinates:</label>
+          <input id="coords" name="coords" type="text" width="10" autocomplete="off" autofocus />
+          <input type="submit" value="submit">
+        </form>
+      </div>
     </div>
+  </div> <!-- container -->
 
-  <div class="row">
-    <div class="col-xs-6 text-center">
-      <form id="coordinate_entry">
-        <label for="coords">Coordinates:</label>
-        <input id="coords" name="coords" type="text" width="10" autocomplete="off" autofocus />
-        <input type="submit" value="submit">
-      </form>
-    </div>
-  </div>
-
-  <p id="map"> </p> <!-- Illustration of inserting graphics into page -->
-
-  <script>
-
-    $("#coordinate_entry").on('submit',function(event) {
-      event.preventDefault();
-
-      var coords = $("#coords").val();
-      $.getJSON( "/_getmap", {coords: coords}, 
-                 function(data) {
-                   mapImageURL = data.result.map_image_url;
-                   showMapImage(mapImageURL);
-                 }
-      );
-    });
-
-    function showMapImage(URL) {
-      $("#map").html("<img src='" + URL + "'>");
-    }
-  </script>
-</div> <!-- container -->
+  <div id="map"></div> <!-- Illustration of inserting graphics into page -->
 </body> </html>

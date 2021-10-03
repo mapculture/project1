@@ -1,1 +1,33 @@
+/* Always set the map height explicitly to define the size of the div
+       * element that contains the map. (source: Google API reference) */
+.container {
+  height: 25%;
+  position: relative;
+}
+
+/* source: https://css-tricks.com/centering-css-complete-guide/ */ 
+
+.center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.row{
+  padding: 2px;
+}
+
+#map {
+  height: 75%;
+}
+
+/* Optional: Makes the sample page fill the window. */
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
 

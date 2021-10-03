@@ -31,6 +31,7 @@ def index():
 ###############
 
 
+# IGNORE: old static map API stuff
 @app.route("/_getmap")
 def getmap():
     coords = flask.request.args.get("coords", type=str)
