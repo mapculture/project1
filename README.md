@@ -32,4 +32,3 @@ Google Maps Javascript API: https://developers.google.com/maps/documentation/jav
 ### Credit:
 
 Modified/retrofitted pieces of code from UOCIS322's Project 3: https://bitbucket.org/UOCIS322/proj3-jsa/src/master/
-(I will better document what code was used from this project in each individual file soon - Kelemen)
