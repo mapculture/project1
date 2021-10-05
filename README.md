@@ -1,7 +1,5 @@
 ### CIS 422 Project 1
 
-Modified/retrofitted pieces of code from UOCIS322's Project 3: https://bitbucket.org/UOCIS322/proj3-jsa/src/master/
-
 1. Install docker
 2. Obtain an API key of Google Maps Javascript API
 3. Put your API key on line 1 of `/flask_app/static/index.js`
@@ -25,3 +23,8 @@ Eventually, it will be a good idea to create a docker-compose file that will aut
 Docker: https://docs.docker.com/get-started/
 Flask web framework: https://flask.palletsprojects.com/en/2.0.x/
 Google Maps Javascript API: https://developers.google.com/maps/documentation/javascript/overview
+
+### Credit
+
+Modified/retrofitted pieces of code from UOCIS322's Project 3: https://bitbucket.org/UOCIS322/proj3-jsa/src/master/
+(I will better document what code was used from this project in each individual file soon - Kelemen)
