@@ -1,54 +1,30 @@
-<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
-<html> <head>
+<!DOCTYPE html>
+<html> 
+  <head>
+    <title>CIS 422: Project 1</title>
+    <link rel="stylesheet" href="/static/style.css" />
+    <script src="/static/index.js"></script>
+  </head>
 
-<!-- Bootstrap requires the following three meta tags to appear first -->
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+  <body>
+    <div class="container">
+      <div class = "center">
+        <div class="row">
+          <h1>Enter a set of coordinates!</h1>
+        </div>
+        <div class="row">
+          <form id="destEntry">
+            <label for="origin">Origin:</label>
+            <input id="origin" name="origin" type="text" width="10" autocomplete="off"/>
+            <label for="dest1">Destination 1:</label>
+            <input class="destInput" id="dest1" name="dest1" type="text" width="10" autocomplete="off"/>
+            <input type="submit" value="submit">
+          </form>
 
-
-<title>CIS 422: Project 1 (Team 5) Rough</title>
-
-<!-- Javascript and CSS libraries -->
-<!-- mostly from content delivery networks                 -->
-
-<!-- jquery; CDN load is usually quick because it's likely cached -->
-<script type="text/javascript"
-     src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js">
-</script>
-
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
-<link rel="stylesheet" href="/static/style.css" />
-
-<script src="/static/index.js"></script>
-
-</head>
-
-
-<body>
-  <div class="container">
-    <div class = "center">
-      <div class="row">
-        <h1>Enter a set of coordinates!</h1>
+          <button id="addDest" name="addDest" type="button">Add destination</button>
+        </div>
       </div>
-
-      <div class="row">
-        <form id="destEntry">
-          <label for="origin">Origin:</label>
-          <input id="origin" name="origin" type="text" width="10" autocomplete="off" autofocus />
-          <label for="dest1">Destination 1:</label>
-          <input class="destInput" id="dest1" name="dest1" type="text" width="10" autocomplete="off" autofocus />
-          <input type="submit" value="submit">
-        </form>
-        <button id="addDest" name="addDest" type="button">Add destination</button>
-      </div>
-    </div>
-  </div> <!-- container -->
-
-  <div id="map"></div> <!-- Illustration of inserting graphics into page -->
-</body> </html>
+    </div> <!-- container -->
+    <div id="map"></div> <!-- This is where the map will be inserted -->
+  </body> 
+</html>

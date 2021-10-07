@@ -3,19 +3,19 @@ var API_KEY = "INSERT API KEY HERE";
 // NEED TO USE FLASK/AJAX TO SAVE/REMEMBER HOW MANY DESTINATIONS ARE CREATED 
 // THE numDests variable implemenation is of poor design
 
-$(document).ready(function () { 
-    $("#destEntry").submit(function(event) {
-        event.preventDefault();
-        var numDests = $('.destInput').length;
-        //var coords = $("#dest1").val();
-        var coords = $("#origin").val();
+// Wait for DOM to load before manipulating elements
+document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById('destEntry').addEventListener('submit', (e) => {
+        e.preventDefault();
+        var numDests = document.querySelectorAll('.destInput').length;
+        var coords = document.getElementById('origin').value;
         var script = document.createElement('script');
         script.src = "https://maps.googleapis.com/maps/api/js?key=" + API_KEY + "&callback=initMap";
         script.async = true;
         window.initMap = function() {
             var latitude = parseFloat(coords.split(",")[0]);
             var longitude = parseFloat(coords.split(",")[1]);
-            const map = new google.maps.Map(document.getElementById("map"), {
+            const map = new google.maps.Map(document.getElementById('map'), {
                     center: { lat: latitude, lng: longitude},
                     zoom: 12,
             });
@@ -27,13 +27,20 @@ $(document).ready(function () {
         document.head.appendChild(script);
     });
     
-    $("#addDest").click(function(){
-        var numDests = $('.destInput').length + 1;
+    document.getElementById('addDest').addEventListener('click', (e) => {
+        var numDests = document.querySelectorAll('.destInput').length + 1;
         var destId = "dest" + String(numDests);
-        var newDestLabel = $("<label for='" + destId + "'>Destination " + numDests + ":</label>");
-        var newDestInput = $("<input class='destInput' type='text' width='10' autocomplete='off' id='" + destId + "' name='" + destId + "'/>");
-        newDestLabel.appendTo("#destEntry"); 
-        newDestInput.appendTo("#destEntry"); 
+        var newDestLabel = document.createElement("label");
+        newDestLabel.htmlFor = destId;
+        newDestLabel.textContent = "Destination: " + numDests + ":";
+
+        var newDestInput = document.createElement("input");
+        newDestLabel.id = destId;
+        newDestLabel.className = "destInput";
+        newDestLabel.name = destId;
+
+        var destinationEntryForm = document.getElementById('destEntry');
+        destinationEntryForm.append(newDestLabel,newDestInput);
     });
         
 });
