@@ -17,7 +17,7 @@ In order to view the changes that you have made to any of the files belonging to
 3. Build a new Docker image using the updated source code
 4. Create and run a new Docker container from the newly created image
 
-You can use the `kill.sh` script to do this quickly.
+You can use the `kill.sh` script followed by the `run.sh` script to do this quickly.
 
 NOTE: Eventually, it will be a good idea to create a docker-compose file that will automatically push changes to the web app immediately after changes are made (without having to run any commands or scripts).
 
