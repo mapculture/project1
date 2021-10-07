@@ -7,7 +7,8 @@ $(document).ready(function () {
     $("#destEntry").submit(function(event) {
         event.preventDefault();
         var numDests = $('.destInput').length;
-        var coords = $("#dest1").val();
+        //var coords = $("#dest1").val();
+        var coords = $("#origin").val();
         var script = document.createElement('script');
         script.src = "https://maps.googleapis.com/maps/api/js?key=" + API_KEY + "&callback=initMap";
         script.async = true;
