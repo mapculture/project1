@@ -5,9 +5,9 @@ var API_KEY = "INSERT API KEY HERE";
 
 // Wait for DOM to load before manipulating elements
 document.addEventListener("DOMContentLoaded", function() {
-    document.getElementById('destEntry').addEventListener('submit', (e) => {
+    document.getElementById('dest-form').addEventListener('submit', (e) => {
         e.preventDefault();
-        var numDests = document.querySelectorAll('.destInput').length;
+        var numDests = document.querySelectorAll('.dest-form').length;
         var coords = document.getElementById('origin').value;
         var script = document.createElement('script');
         script.src = "https://maps.googleapis.com/maps/api/js?key=" + API_KEY + "&callback=initMap";
@@ -27,8 +27,8 @@ document.addEventListener("DOMContentLoaded", function() {
         document.head.appendChild(script);
     });
     
-    document.getElementById('addDest').addEventListener('click', (e) => {
-        var numDests = document.querySelectorAll('.destInput').length + 1;
+    document.getElementById('add-dest-bttn').addEventListener('click', (e) => {
+        var numDests = document.querySelectorAll('.dest-form').length + 1;
         var destId = "dest" + String(numDests);
         var newDestLabel = document.createElement("label");
         newDestLabel.htmlFor = destId;
@@ -36,10 +36,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
         var newDestInput = document.createElement("input");
         newDestLabel.id = destId;
-        newDestLabel.className = "destInput";
+        newDestLabel.className = "dest-input";
         newDestLabel.name = destId;
 
-        var destinationEntryForm = document.getElementById('destEntry');
+        var destinationEntryForm = document.getElementById('dest-form');
         destinationEntryForm.append(newDestLabel,newDestInput);
     });
         
