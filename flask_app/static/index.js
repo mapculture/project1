@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
     
     document.getElementById('add-dest-bttn').addEventListener('click', (e) => {
-        var numDests = document.querySelectorAll('.dest-form').length + 1;
+        var numDests = document.querySelectorAll('.dest-entry').length + 1;
         var destId = "dest" + String(numDests);
         var newDestLabel = document.createElement("label");
         newDestLabel.htmlFor = destId;
@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         var newDestInput = document.createElement("input");
         newDestLabel.id = destId;
-        newDestLabel.className = "dest-input";
+        newDestLabel.className = "dest-entry";
         newDestLabel.name = destId;
 
         var destinationEntryForm = document.getElementById('dest-form');
