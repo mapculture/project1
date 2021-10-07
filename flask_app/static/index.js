@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function() {
         var destId = "dest" + String(numDests);
         var newDestLabel = document.createElement("label");
         newDestLabel.htmlFor = destId;
-        newDestLabel.textContent = "Destination: " + numDests + ":";
+        newDestLabel.textContent = "Destination " + numDests + ":";
 
         var newDestInput = document.createElement("input");
         newDestLabel.id = destId;
