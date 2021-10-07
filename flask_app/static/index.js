@@ -1,9 +1,13 @@
 var API_KEY = "INSERT API KEY HERE";
 
+// NEED TO USE FLASK/AJAX TO SAVE/REMEMBER HOW MANY DESTINATIONS ARE CREATED 
+// THE numDests variable implemenation is of poor design
+
 $(document).ready(function () { 
-    $("#coordinate_entry").submit(function(event) {
+    $("#destEntry").submit(function(event) {
         event.preventDefault();
-        var coords = $("#coords").val();
+        var numDests = $('.destInput').length;
+        var coords = $("#dest1").val();
         var script = document.createElement('script');
         script.src = "https://maps.googleapis.com/maps/api/js?key=" + API_KEY + "&callback=initMap";
         script.async = true;
@@ -21,6 +25,16 @@ $(document).ready(function () {
         };
         document.head.appendChild(script);
     });
+    
+    $("#addDest").click(function(){
+        var numDests = $('.destInput').length + 1;
+        var destId = "dest" + String(numDests);
+        var newDestLabel = $("<label for='" + destId + "'>Destination " + numDests + ":</label>");
+        var newDestInput = $("<input class='destInput' type='text' width='10' autocomplete='off' id='" + destId + "' name='" + destId + "'/>");
+        newDestLabel.appendTo("#destEntry"); 
+        newDestInput.appendTo("#destEntry"); 
+    });
+        
 });
 
 
