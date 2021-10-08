@@ -28,9 +28,9 @@ html,
 body {
   height: 100%;
   margin: 0;
-  padding: 0;
-  /*background-color: #FFE0D9;*/
-  /*padding: 20px;*/
+  /*padding: 0;*/
+  background-color: #9DDA94;
+  padding: 20px;
 }
 
 label {
