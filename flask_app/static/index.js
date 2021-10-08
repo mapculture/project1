@@ -1,4 +1,4 @@
-var API_KEY = "INSERT API KEY HERE";
+var API_KEY = "AIzaSyA5LTlFvTkZPeaepUQ_mzW-NkMtB2xC0L8";
 
 // NEED TO USE FLASK/AJAX TO SAVE/REMEMBER HOW MANY DESTINATIONS ARE CREATED 
 // THE numDests variable implemenation is of poor design
