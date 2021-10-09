@@ -1,6 +1,3 @@
-// NEED TO USE FLASK/AJAX TO SAVE/REMEMBER HOW MANY DESTINATIONS ARE CREATED 
-// THE numDests variable implemenation is of poor design
-
 // Places API or Geocoding API is necessary to convert addresses to coordinates
 // In the meantime I will work strictly with coordinates
 
@@ -82,6 +79,55 @@ function setMapOnAll(map){
     }
 }
 
+// create distance matrix given origin and destinations (list)
+// distanceMatrixService will send a request to Google for the distance matrix
+// a response to the request will be fed back to the callback function
+// distance results are in km
+
+function createDistanceMatrix(origin, dests){
+    var distanceMatrixService = new google.maps.DistanceMatrixService();
+    distanceMatrixService.getDistanceMatrix({
+        // create an n x n distance matrix
+        // calculate the distance and time between the origin to each destination
+        // calculate the distance and time between each destination to each other destination
+        // calculate the distance and time between each destination to the origin
+        // note: this also counts distance/time from a location to itself (i.e. origin to origin)
+        origins: [origin].concat(dests),
+        destinations: dests,
+        travelMode: 'DRIVING',
+        unitSystem: google.maps.UnitSystem.METRIC,
+    }, distanceMatrixCallback);
+}
+
+// https://developers.google.com/maps/documentation/javascript/distancematrix#distance_matrix_parsing_the_results
+
+// Receive and parse Google's response to our distance matrix request
+// The rows of the matrix correspond to the origin addresses
+// The rows' elements correspond to the destination addresses
+
+function distanceMatrixCallback(response, status) {
+    if (status == 'OK') {
+        console.log("response data: ", response);
+        var origins = response.originAddresses;
+        var destinations = response.destinationAddresses;
+        
+        for (var i = 0; i < origins.length; i++) {
+            var results = response.rows[i].elements;
+            for (var j = 0; j < results.length; j++) {
+                var element = results[j];
+                var from = origins[i];
+                var to = destinations[j];
+                console.log("from: " + from);
+                console.log("to: " + to);
+                var distance = element.distance.text;
+                var duration = element.duration.text;
+                console.log("distance: " + distance);
+                console.log("duration: " + duration);
+            }
+        }
+    }
+}
+        
 // Wait for DOM to load before manipulating elements
 document.addEventListener("DOMContentLoaded", function() {
     // If 'submit' button is clicked:
@@ -91,7 +137,7 @@ document.addEventListener("DOMContentLoaded", function() {
         e.preventDefault();
 
         var originEntry = document.getElementById('origin').value;
-        originCoords = stringToLatLng(originEntry); 
+        var originCoords = stringToLatLng(originEntry); 
 
         initMap(originCoords);
         addMarker(originCoords);
@@ -106,9 +152,11 @@ document.addEventListener("DOMContentLoaded", function() {
         // create a marker for each destination 
         for (let i = 0; i < numDests; i++) {
             var destCoords = stringToLatLng(destEntries[i].value);
-            dests.push(destCoords)
+            dests.push(destCoords);
             addMarker(destCoords,i);
         }
+        // calculate the distance matrix
+        createDistanceMatrix(originCoords,dests);
         // put all markers on the map
         setMapOnAll(map);
         // display the route on the map

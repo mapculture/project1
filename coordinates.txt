@@ -3,3 +3,6 @@ University of Oregon:
 
 The Duck Store:
 44.04583,-123.07895
+
+Google Headquarters:
+37.4221,-122.0841
