@@ -3,8 +3,8 @@
 #### Running the web app:
 
 1. Install docker
-2. Obtain an API key of Google Maps Javascript API
-3. Put your API key on line 1 of `/flask_app/static/index.js`
+2. Obtain an API key of Google Maps Javascript API, Directions API, Distance Matrix API
+3. Put your API key on line 8 of `/flask_app/templates/getmap.html`
 
 4. Build a Docker image, create and run a Docker container using docker-compose:
 
