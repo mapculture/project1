@@ -4,5 +4,11 @@ University of Oregon:
 The Duck Store:
 44.04583,-123.07895
 
+Downtown Eugene Post Office:
+44.05422897437321, -123.09311928031369
+
+Bailey Hill Liquor
+44.02429407073191,-123.16806906378606
+
 Google Headquarters:
 37.4221,-122.0841

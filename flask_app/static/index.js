@@ -93,7 +93,7 @@ function createDistanceMatrix(origin, dests){
         // calculate the distance and time between each destination to the origin
         // note: this also counts distance/time from a location to itself (i.e. origin to origin)
         origins: [origin].concat(dests),
-        destinations: dests,
+        destinations: [origin].concat(dests),
         travelMode: 'DRIVING',
         unitSystem: google.maps.UnitSystem.METRIC,
     }, distanceMatrixCallback);
@@ -110,21 +110,34 @@ function distanceMatrixCallback(response, status) {
         console.log("response data: ", response);
         var origins = response.originAddresses;
         var destinations = response.destinationAddresses;
+       
+        var distanceMatrix = new Array(origins.length);
+        var durationMatrix = new Array(origins.length);
         
         for (var i = 0; i < origins.length; i++) {
             var results = response.rows[i].elements;
+            distanceMatrix[i] = new Array(results.length);
+            durationMatrix[i] = new Array(results.length);
+            
             for (var j = 0; j < results.length; j++) {
                 var element = results[j];
                 var from = origins[i];
                 var to = destinations[j];
+                var distance = element.distance.value;
+                var duration = element.duration.value;
+                distanceMatrix[i][j] = distance;
+                durationMatrix[i][j] = duration;
+
                 console.log("from: " + from);
                 console.log("to: " + to);
-                var distance = element.distance.text;
-                var duration = element.duration.text;
                 console.log("distance: " + distance);
                 console.log("duration: " + duration);
             }
         }
+        console.log("Distance Matrix:");
+        console.log(distanceMatrix);
+        console.log("Duration Matrix:"); 
+        console.log(durationMatrix);
     }
 }
         
