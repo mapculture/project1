@@ -18,6 +18,16 @@
   /* padding: 2px; */
 }
 
+/*creating box around "enter set of coordinates" text */
+.box {
+    height: 200px;
+    width: 200px;
+    background-color: dimgray;
+    padding: 10px;
+    border: solid 3px black;
+    margin: 20px;
+}
+
 #map {
   height: 75%; /*setting the map height explicitly*/
 }
@@ -29,7 +39,7 @@ body {
   height: 100%;
   margin: 0;
   /*padding: 0;*/
-  background-color: #9DDA94;
+  background-color: #9DDA94; /*avocado green background*/
   padding: 20px;
 }
 
