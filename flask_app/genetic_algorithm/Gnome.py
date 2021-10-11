@@ -1,6 +1,6 @@
 # Author:       Kaiser Slocum
 # Created:      10/4/2021
-# Last Edited:  10/8/2021 
+# Last Edited:  10/10/2021 
 import random
 
 class Gnome(object):
@@ -47,14 +47,19 @@ class Gnome(object):
             for x in range(0, self.numCells):
                 self.distance = self.distance + self.__distanceMatrix[self.__gnome[x]][self.__gnome[x+1]]   
     # Randomly swaps two cells
-    def mutate(self):
-        randNum1 = random.randint(1,self.numCells-2)
-        #print("RandNum1: ", randNum1)
-        randNum2 = random.randint(randNum1+1, self.numCells-1)
-        #print("RandNum2: ", randNum2)
-        temp = self.__gnome[randNum1]
-        self.__gnome[randNum1] = self.__gnome[randNum2]
-        self.__gnome[randNum2] = temp
+    def mutate(self, mutationRate=0.01):
+        if (self.numCells < 3):
+            return
+        if (random.random() <= mutationRate):
+            randNum1 = random.randint(1,self.numCells-2)
+            #print("RandNum1: ", randNum1)
+            randNum2 = random.randint(randNum1+1, self.numCells-1)
+            #print("RandNum2: ", randNum2)
+            temp = self.__gnome[randNum1]
+            self.__gnome[randNum1] = self.__gnome[randNum2]
+            self.__gnome[randNum2] = temp
+            self.calcDis()
+            self.calcDur()
     # Overloaded Operator: Returns cell at specified index
     def __getitem__(self, index):
         if ((index < 0) or (index > self.numCells)):
@@ -65,10 +70,8 @@ class Gnome(object):
         if ((index <= 0) or (index >= self.numCells)):
             raise Exception
         self.__gnome[index] = value
-        # Automatically updates the distance and duration values
-        # This can potentially slow the software down
-        self.calcDur()
         self.calcDis()
+        self.calcDur()
     # Returns a copy of the list of cells (copy Gnome)
     def getGnome(self):
         return self.__gnome    

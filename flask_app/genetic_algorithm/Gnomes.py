@@ -1,6 +1,6 @@
 # Author:       Kaiser Slocum
 # Created:      10/4/2021
-# Last Edited:  10/8/2021 
+# Last Edited:  10/10/2021 
 import Gnome, random
 
 class Gnomes(object):
@@ -11,10 +11,17 @@ class Gnomes(object):
     """
     # Constructor
     # NOTE: numCells is the number of unique cells, not the length of the gnome
-    def __init__(self, numGnomes=1, numCells=1, durationMatrix = None, distanceMatrix = None):
+    def __init__(self, numGnomes=1, numCells=1, numElites=1,mutationRate=0.1, durationMatrix = None, distanceMatrix = None):
         if (numCells < 1):
-            raise Exception
+            raise Exception("Too few number of cells!")
+        if ((durationMatrix != None) and ((numCells != len(durationMatrix)) or (numCells != len(durationMatrix[0])))):
+            raise Exception("Nume of cells in durationMatrix does not match numCells Arg!")  
+        if ((distanceMatrix != None) and ((numCells != len(distanceMatrix)) or (numCells != len(distanceMatrix[0])))):
+            raise Exception("Nume of cells in distanceMatrix does not match numCells Arg!")  
+        
+        self.mutationRate = mutationRate
         self.numGnomes = numGnomes
+        self.numElites = numElites
         self.numCells = numCells
         self.durationMatrix = durationMatrix
         self.distanceMatrix = distanceMatrix
@@ -23,18 +30,43 @@ class Gnomes(object):
         self.gnomes = [0] * numGnomes
         for x in range(0, numGnomes):
             self.gnomes[x] = Gnome.Gnome(numCells, durationMatrix, distanceMatrix);
-        self.createAverages()   
 
+        self.bestDistanceRoute = Gnome.Gnome(numCells, durationMatrix, distanceMatrix);
+        self.copy(self.bestDistanceRoute, self.gnomes[0])
+        self.computeDistances()
+
+        self.bestDurationRoute = Gnome.Gnome(numCells, durationMatrix, distanceMatrix);
+        self.copy(self.bestDurationRoute, self.gnomes[0])
+        self.computeDurations()
+
+    # Helper Function: Swaps two gnomes - a normal assignment swap won't work as python will not copy over the cells
     def swap(self, g1, g2):
         newg = Gnome.Gnome(self.numCells, self.durationMatrix, self.distanceMatrix)
-        for x in range(1, self.numCells):
-            newg[x] = g1[x]
+        self.copy(newg, g1)
+        self.copy(g1, g2)
+        self.copy(g2, newg)            
+    # Helper Function: Copies the cells in g2 to g1
+    def copy(self, g1, g2):
         for x in range(1, self.numCells):
             g1[x] = g2[x]
-        for x in range(1, self.numCells):
-            g2[x] = newg[x]
+    # Helper Function: Checks if specified number is in specified list
+    def inList(self, num, list):
+        for x in range(0, len(list)):
+            if (list[x] == num):
+                return True
+        return False
+            
+    # These two methods update the shortest distance route and shortest duration route 
+    def computeDistances(self):
+        for x in range(0, self.numGnomes):
+            if(self.gnomes[x].distance < self.bestDistanceRoute.distance):
+                self.copy(self.bestDistanceRoute, self.gnomes[x])
+    def computeDurations(self):
+        for x in range(0, self.numGnomes):
+            if(self.gnomes[x].duration < self.bestDurationRoute.duration):
+                self.copy(self.bestDurationRoute, self.gnomes[x])
 
-    # Sorts gnomes with shortest distance at the top of the list (first index)
+    # These two methods sort gnomes with shortest distance and shortest duration at the top of the list (first index)
     def selectionSortByDistance(self):
         for i in range(0, self.numGnomes):
             bestDisInd = i
@@ -42,7 +74,6 @@ class Gnomes(object):
                 if (self.gnomes[j].distance < self.gnomes[bestDisInd].distance):
                     bestDisInd = j
             self.swap(self.gnomes[bestDisInd],self.gnomes[i])
-    # Sorts gnomes with shortest duration at the top of the list (first index)
     def selectionSortByDuration(self):
         for i in range(0, self.numGnomes):
             bestDurInd = i
@@ -51,15 +82,15 @@ class Gnomes(object):
                     bestDurInd = j
             self.swap(self.gnomes[bestDurInd],self.gnomes[i])
 
-    # Boolean, helper function for crossOver method
-    # Checks if specified number is in specified list
-    def inList(self, num, list):
-        for x in range(0, len(list)):
-            if (list[x] == num):
-                return True
-        return False
+    # Mutates all gnomes
+    def mutateGnomes(self):
+        for x in range(0, self.numGnomes):
+            self.gnomes[x].mutate(self.mutationRate)      
     # Takes two gnomes parents and crosses them into new child
     def crossOver(self, g1, g2):
+        gChild = Gnome.Gnome(self.numCells, self.durationMatrix, self.distanceMatrix)  
+        if (self.numCells < 4):
+            return gChild
         randNum1 = random.randint(1,self.numCells-2)
         randNum2 = random.randint(randNum1+1,self.numCells-1)
         gChild = Gnome.Gnome(self.numCells, self.durationMatrix, self.distanceMatrix)        
@@ -70,7 +101,6 @@ class Gnomes(object):
         for x in range(randNum1, randNum2+1):
             tempList[index] = g2[x]
             index = index+1
-        print("TempList: ", tempList)
 
         #Take the relavent cells from g1 and place them in gChild
         for y in range(randNum1, randNum2+1):
@@ -85,21 +115,18 @@ class Gnomes(object):
                 gChild[nxtSpt] = g1[x]   
                 nxtSpt = nxtSpt + 1     
         gChild.calcDis()
-        print("gChild: ", gChild.getGnome(), "distance: ", gChild.distance)
-        
-        #Return the child
         return gChild
 
     # Creates a new population using the specified number of elites and 
     # the children created by crossing-over the better half of all of the parents
-    def createNewDisPop(self, numElites):
-        self.selectionSortByDistance()
+    def createNewDisPop(self):
+        self.selectionSortByDistance()        
         newGnomes = [0] * self.numGnomes
         for x in range(0, self.numGnomes):
             newGnomes[x] = Gnome.Gnome(self.numCells, self.durationMatrix, self.distanceMatrix)
-        for x in range(0, numElites):
+        for x in range(0, self.numElites):
             newGnomes[x] = self.gnomes[x]
-        for x in range(numElites, self.numGnomes):
+        for x in range(self.numElites, self.numGnomes):
             num1 = random.randint(0, self.numGnomes/2)
             num2 = num1
             while (num2 == num1):
@@ -107,50 +134,30 @@ class Gnomes(object):
             newGnomes[x] = self.crossOver(self.gnomes[num1], self.gnomes[num2])   
         self.mutateGnomes()
         self.gnomes = newGnomes
-
-    def createNewDurPop(self, numElites):
-        self.selectionSortByDuration()
-        newGnomes = [0] * numGnomes
-        for x in range(0, numGnomes):
-            newGnomes[x] = Gnome.Gnome(numTarget)
-        for x in range(0, numElites):
-            newGnomes[x] = self.gnomes[self.numGnomes-x]
-        for x in range(numElites, self.numGnomes):
-            g1 = random.randInt(self.numGnomes/2, self.numGnomes)
-            g2 = g1
-            while (g2 == g1):
-                g2 = random.randInt(self.numGnomes/2, self.numGnomes)
-            newGnomes[x] = crossOver(g1, g2)   
+        self.computeDistances()
+    def createNewDurPop(self):
+        self.selectionSortByDuration()        
+        newGnomes = [0] * self.numGnomes
+        for x in range(0, self.numGnomes):
+            newGnomes[x] = Gnome.Gnome(self.numCells, self.durationMatrix, self.distanceMatrix)
+        for x in range(0, self.numElites):
+            newGnomes[x] = self.gnomes[x]
+        for x in range(self.numElites, self.numGnomes):
+            num1 = random.randint(0, self.numGnomes/2)
+            num2 = num1
+            while (num2 == num1):
+                num2 = random.randint(0, self.numGnomes/2)
+            newGnomes[x] = self.crossOver(self.gnomes[num1], self.gnomes[num2])   
         self.mutateGnomes()
         self.gnomes = newGnomes
-
-    # Calculates the average distance and duration and stores them in class variables
-    def createAverages(self):
-        totalDis = 0
-        totalDur = 0
-        for x in range(0, self.numGnomes):
-            print(self.gnomes[x].distance)
-            totalDis = totalDis + self.gnomes[x].distance
-            totalDur = totalDur + self.gnomes[x].duration
-        self.averageDistance = totalDis / self.numGnomes
-        self.averageDuration = totalDur / self.numGnomes
+        self.computeDurations()
+    
     # Overloaded Operator: Returns gnome at specified index
     def __getitem__(self, index):
         if ((index < 0) or (index > self.numGnomes)):
             raise Exception
-        return self.gnomes[index]
-    # Mutates all gnomes
-    def mutateGnomes(self):
-        for x in range(0, self.numGnomes):
-            self.gnomes[x].mutate()   
-    # Prints all gnomes
+        return self.gnomes[index]     
+    # Print Method: Prints all gnomes
     def printGnomes(self):
         for x in range(0, self.numGnomes):
             self.gnomes[x].printGnome()
-
-    
-
-    
-    
-
-
