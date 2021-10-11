@@ -21,8 +21,8 @@
 /*creating box around "enter set of coordinates" text */
 .box {
     height: 200px;
-    width: 200px;
-    background-color: dimgray;
+    width: 700px;
+    background-color: honeydew;
     padding: 10px;
     border: solid 3px black;
     margin: 20px;
