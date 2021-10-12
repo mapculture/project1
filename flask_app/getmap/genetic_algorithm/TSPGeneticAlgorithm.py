@@ -8,7 +8,11 @@
 #https://www.geeksforgeeks.org/traveling-salesman-problem-using-genetic-algorithm/
 #https://www.hindawi.com/journals/cin/2017/7430125/
 #https://towardsdatascience.com/tuning-a-traveling-salesman-cadfd7d22e1c
-import random, operator, Gnome, Gnomes, time, math
+
+#import random, operator, Gnome, Gnomes, time, math
+import random, operator, time, math
+
+from . import Gnome, Gnomes
 
 # For testing purposes only: DON'T USE!
 def fixedStatTester():

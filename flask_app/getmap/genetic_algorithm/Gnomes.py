@@ -1,7 +1,9 @@
 # Author:       Kaiser Slocum
 # Created:      10/4/2021
 # Last Edited:  10/10/2021 
-import Gnome, random
+#import Gnome, random
+import random
+from . import Gnome
 
 class Gnomes(object):
     """
