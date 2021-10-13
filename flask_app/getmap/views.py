@@ -20,9 +20,10 @@ def runAlgorithm():
     # POST request
     if request.method == 'POST':
         received_message = request.get_json(force=True) # parse as json
-        distMatrix = received_message['distMatrix']
+        dist_matrix = received_message['distMatrix']
+        num_dests = received_message['numDests']
         #message = {'rightbackatya': distMatrix}
-        optimal_route = TSPGeneticAlgorithm.getBestDistanceRoute(3,distMatrix,10)
+        optimal_route = TSPGeneticAlgorithm.getBestDistanceRoute(num_dests,dist_matrix,10)
         message = {'optimal_route': optimal_route}
         #return 'OK', 200
         return jsonify(message)

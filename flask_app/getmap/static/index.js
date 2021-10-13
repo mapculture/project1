@@ -141,12 +141,13 @@ function distanceMatrixCallback(response, status) {
         console.log(distanceMatrix);
         console.log("Duration Matrix:"); 
         console.log(durationMatrix);
-       
+      
+        console.log(destinations.length); 
         const shipMatrices = async () => {
             const response = await fetch('/test', {
                 method: 'POST',
-                body: JSON.stringify({'distMatrix': distanceMatrix}),
-            })
+                body: JSON.stringify({'numDests': destinations.length, 'distMatrix': distanceMatrix}),
+            });
 
             const data = await response.json();
             console.log('POST response:');
