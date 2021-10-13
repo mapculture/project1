@@ -52,6 +52,10 @@ Using docker-compose script will automatically push changes to the web app immed
     ├── requirements.txt
     └── run.sh
 
+### Debugging the Flask server:
+
+    docker logs -t project1-flaskwebservice
+    
 ### Resources:
 
 Docker: https://docs.docker.com/get-started/
