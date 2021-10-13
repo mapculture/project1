@@ -15,7 +15,8 @@ function initMap(centerCoords){
     directionsService = new google.maps.DirectionsService();
     directionsRenderer = new google.maps.DirectionsRenderer({
         // disable the DirectionsRenderer from producing its own markers
-        suppressMarkers: true
+        //suppressMarkers: true
+        suppressMarkers: false
     });
     map = new google.maps.Map(document.getElementById('map'), {
             center: centerCoords,
@@ -37,6 +38,7 @@ function displayRoute(origin, dests) {
     // create a request for round-trip directions (from origin to origin)
     // and visit all waypoints along the way
     // (waypoints followed in order of waypts list)
+    console.log(waypts);
     var request = {
         origin: origin,
         destination: origin,
@@ -108,6 +110,7 @@ function createDistanceMatrix(origin, dests){
 function distanceMatrixCallback(response, status) {
     if (status == 'OK') {
         console.log("response data: ", response);
+        //origins and destinations are the same locations in the same order
         var origins = response.originAddresses;
         var destinations = response.destinationAddresses;
        
@@ -138,6 +141,26 @@ function distanceMatrixCallback(response, status) {
         console.log(distanceMatrix);
         console.log("Duration Matrix:"); 
         console.log(durationMatrix);
+       
+        const shipMatrices = async () => {
+            const response = await fetch('/test', {
+                method: 'POST',
+                body: JSON.stringify({'distMatrix': distanceMatrix}),
+            })
+
+            const data = await response.json();
+            console.log('POST response:');
+            console.log(data);
+            // an array that represents optimal destination order
+            var optimal_route = data['optimal_route'];
+            destinations = optimal_route.map(i => destinations[i]);
+            // slice the first and last destinations (and waypoints) (the origin)
+            // fix this slicing! can make this more efficient many steps ago
+            displayRoute(origins[0],destinations.slice(1,-1));
+             
+        };
+        
+        shipMatrices();
     }
 }
         
@@ -153,7 +176,7 @@ document.addEventListener("DOMContentLoaded", function() {
         var originCoords = stringToLatLng(originEntry); 
 
         initMap(originCoords);
-        addMarker(originCoords);
+        //addMarker(originCoords);
 
         // a list of destination elements 
         var destEntries = document.querySelectorAll('.dest-entry');
@@ -166,14 +189,14 @@ document.addEventListener("DOMContentLoaded", function() {
         for (let i = 0; i < numDests; i++) {
             var destCoords = stringToLatLng(destEntries[i].value);
             dests.push(destCoords);
-            addMarker(destCoords,i);
+        //    addMarker(destCoords,i);
         }
         // calculate the distance matrix
         createDistanceMatrix(originCoords,dests);
         // put all markers on the map
-        setMapOnAll(map);
+        //setMapOnAll(map);
         // display the route on the map
-        displayRoute(originCoords,dests);
+        //displayRoute(originCoords,dests);
     });
     
     document.getElementById('add-dest-bttn').addEventListener('click', (e) => {
