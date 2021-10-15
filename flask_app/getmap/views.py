@@ -7,6 +7,7 @@ from .genetic_algorithm import TSPGeneticAlgorithm
 def getmap():
     # load the getmap.html at the root of the website
     return render_template('getmap.html') 
+    #return render_template('getmap_old.html') 
 
 # POST: sending of information to another location
 # example: sending a letter in the mail
