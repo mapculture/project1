@@ -40,12 +40,13 @@ body, html {height: 100%}
           <button id="add-dest-bttn" name="add-dest-bttn" type="button">Add destination</button>
           <button type="submit" value="submit" form="dest-form">Submit</button>
       </div>
-    </div> <!-- container -->
+  </div>
+</div> <!-- container -->
     <div id="map"></div> <!-- This is where the map will be inserted -->
-  </div>
-  <div class="w3-display-bottomleft w3-padding-large">
+</div>
+    <div class="w3-display-bottomleft w3-padding-large">
     Powered by CIS 422 Students
-  </div>
+    </div>
 </div>
 
 </body>
