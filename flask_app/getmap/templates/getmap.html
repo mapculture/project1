@@ -1,34 +1,37 @@
 <!-- Test doc for sexier website, I need to figure out how to move map and buttons here -->
 <!DOCTYPE html>
-<html>
-<title>W3.CSS Template</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
-<script src="/getmap/static/index.js"></script>
+<html lang="en">
+  <head>
+      <title>CIS 422: Project 1</title>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <script src="/getmap/static/index.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5LTlFvTkZPeaepUQ_mzW-NkMtB2xC0L8" async=true></script>
-<style>
-body,h1 {font-family: "Raleway", sans-serif}
-body, html {height: 100%}
-.bgimg {
-  background-image: url("https://cdn.pixabay.com/photo/2015/09/02/12/30/foot-bridge-918476_960_720.jpg");
-  min-height: 100%;
-  background-position: center;
-  background-size: cover;
-}
-</style>
-<body>
+  </head>
 
-<div class="bgimg w3-display-container w3-animate-opacity w3-text-white">
-  <div class="w3-display-topleft w3-padding-large w3-xlarge">
-    Efficient Route Algorithm
-  </div>
-  <div class="w3-display-middle">
-    <h1 class="w3-jumbo w3-animate-top">MapCulture.Co</h1>
-    <hr class="w3-border-grey" style="margin:auto;width:40%">
-    <p class="w3-large w3-center">Enter a set of coordinates</p>
-      <div class="row">
+  <style>
+  body,h1 {font-family: "Raleway", sans-serif}
+  body, html {height: 100%}
+  .bgimg {
+    background-image: url("https://cdn.pixabay.com/photo/2015/09/02/12/30/foot-bridge-918476_960_720.jpg");
+    min-height: 100%;
+    background-position: center;
+    background-size: cover;
+  }
+  </style>
+
+  <body>
+    <div class="bgimg w3-display-container w3-animate-opacity w3-text-white">
+    <div class="w3-display-topleft w3-padding-large w3-xlarge">
+      Efficient Route Algorithm
+    </div>
+      <div class="w3-display-middle">
+          <h1 class="w3-jumbo w3-animate-top">MapCulture.Co</h1>
+          <hr class="w3-border-grey" style="margin:auto;width:40%">
+          <p class="w3-large w3-center">Enter a set of coordinates</p>
+        <div class="row">
           <form id="dest-form">
             <label for="origin">Origin:</label>
             <input id="origin" name="origin" type="text" width="10" autocomplete="off"/ value="44.0448,-123.0726">
@@ -39,15 +42,14 @@ body, html {height: 100%}
           </form>
           <button id="add-dest-bttn" name="add-dest-bttn" type="button">Add destination</button>
           <button type="submit" value="submit" form="dest-form">Submit</button>
-      </div>
-  </div>
-</div> <!-- container -->
-    <div id="map"></div> <!-- This is where the map will be inserted -->
-</div>
-    <div class="w3-display-bottomleft w3-padding-large">
-    Powered by CIS 422 Students
+        </div>
+     </div>
+    </div> <!-- container -->
+      <div id="map"></div> <!-- This is where the map will be inserted -->
     </div>
-</div>
-
-</body>
+      <div class="w3-display-bottomleft w3-padding-large">
+      Powered by CIS 422 Students
+      </div>
+    </div>
+ </body>
 </html>
