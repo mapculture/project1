@@ -33,20 +33,22 @@
         <hr class="w3-border-grey" style="margin:auto;width:40%">
         <p class="w3-large w3-center">Enter a set of coordinates</p>
           <div class="row">
-          <form id="dest-form">
-            <label for="origin">Origin:</label>
-            <input id="origin" name="origin" type="text" width="10" autocomplete="off"/ value="44.0448,-123.0726">
-            <label for="dest1">Destination 1:</label>
-            <input class="dest-entry" id="dest1" name="dest1" type="text" width="10" autocomplete="off" value="44.05422897437321, -123.09311928031369"/>
-            <label for="dest2">Destination 2:</label>
-            <input class="dest-entry" id="dest2" name="dest2" type="text" width="10" autocomplete="off" value="44.02429407073191,-123.16806906378606"/>
-          </form>
-          <button id="add-dest-bttn" name="add-dest-bttn" type="button">Add destination</button>
-          <button type="submit" value="submit" form="dest-form">Submit</button>
+            <form id="dest-form">
+              <label for="origin">Origin:</label>
+              <input id="origin" name="origin" type="text" width="10" autocomplete="off"/ value="44.0448,-123.0726">
+              <label for="dest1">Destination 1:</label>
+              <input class="dest-entry" id="dest1" name="dest1" type="text" width="10" autocomplete="off" value="44.05422897437321, -123.09311928031369"/>
+              <label for="dest2">Destination 2:</label>
+              <input class="dest-entry" id="dest2" name="dest2" type="text" width="10" autocomplete="off" value="44.02429407073191,-123.16806906378606"/>
+            </form>
+            <button id="add-dest-bttn" name="add-dest-bttn" type="button">Add destination</button>
+            <button type="submit" value="submit" form="dest-form">Submit</button>
           </div>
        </div>
     </div>
-     <div id="map"></div> <!-- This is where the map will be inserted -->
+      </div> <!-- container -->
+        <div id="map"></div> <!-- This is where the map will be inserted -->
+      </div>
       <div class="bgimg w3-display-container w3-animate-opacity w3-text-white">
         <div class="w3-display-bottomleft w3-padding-large">
         Powered by CIS 422 Students
