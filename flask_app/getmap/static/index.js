@@ -9,9 +9,10 @@
 let map;
 let directionsService;
 let directionsRenderer;
+let placesService;
 let markers = [];
 
-function initMap(centerCoords){
+function initMap(){
     directionsService = new google.maps.DirectionsService();
     directionsRenderer = new google.maps.DirectionsRenderer({
         // disable the DirectionsRenderer from producing its own markers
@@ -19,10 +20,41 @@ function initMap(centerCoords){
         suppressMarkers: false
     });
     map = new google.maps.Map(document.getElementById('map'), {
-            center: centerCoords,
+            //center: centerCoords,
             zoom: 12,
     });
+    placesService = new google.maps.places.PlacesService(map);
+   
     directionsRenderer.setMap(map);
+}
+
+function getPlace(address){
+    var request = {
+        query: address,
+        fields: ['name','geometry'],
+    }; 
+    return new Promise((resolve, reject) => {
+        placesService.findPlaceFromQuery(
+            request,
+            (response, status) => {
+                if(status == 'OK'){
+                    resolve({
+                        lat: response[0].geometry.location.lat(),
+                        lng: response[0].geometry.location.lng(),
+                    });
+                }
+                else {
+                    reject(response);
+                }
+            }
+        )
+    });
+}
+            
+async function userInputToPlace(address){
+    const result = await getPlace(address);
+    console.log(result);
+    return result;
 }
 
 function displayRoute(origin, dests) {
@@ -61,6 +93,8 @@ function stringToLatLng(s){
     return coords;
 }
 
+    
+    
 // add a marker to the 'markers' list
 // markers are labeled A-Z in order of their priority in the route
 function addMarker(coords,index){
@@ -164,7 +198,28 @@ function distanceMatrixCallback(response, status) {
         shipMatrices();
     }
 }
-        
+
+async function drawMap(origin,destinations){
+    initMap();
+    var originCoords = await userInputToPlace(origin); 
+    console.log(originCoords);
+    console.log(destinations);
+    map.setCenter(originCoords);
+    var numDests = destinations.length;
+    var dests = [];
+    // convert user inputted destination coordinates to coordinate objects
+    // create a marker for each destination 
+    for (let i = 0; i < numDests; i++) {
+        var destCoords = await userInputToPlace(destinations[i]); 
+        dests.push(destCoords);
+    }
+    // calculate the distance matrix
+    console.log(originCoords);
+    console.log(dests);
+    createDistanceMatrix(originCoords,dests);
+}
+     
+    
 // Wait for DOM to load before manipulating elements
 document.addEventListener("DOMContentLoaded", function() {
     // If 'submit' button is clicked:
@@ -173,31 +228,32 @@ document.addEventListener("DOMContentLoaded", function() {
         // prevent form submission from reloading the page
         e.preventDefault();
 
-        var originEntry = document.getElementById('origin').value;
-        var originCoords = stringToLatLng(originEntry); 
-
-        initMap(originCoords);
-        //addMarker(originCoords);
+        var origin = document.getElementById('origin').value;
 
         // a list of destination elements 
         var destEntries = document.querySelectorAll('.dest-entry');
+        var destinations = [];
+
+        for(let i = 0; i < destEntries.length; i++){
+           destinations.push(destEntries[i].value);
+        } 
+        drawMap(origin,destinations);
+        //initMap();
+        //var originCoords = userInputToPlace(originEntry);
+        //map.setCenter(originCoords);
+
         // total destinations entered 
-        var numDests = destEntries.length;
-        var dests = [];
+        //var numDests = destEntries.length;
+        //var dests = [];
 
         // convert user inputted destination coordinates to coordinate objects
         // create a marker for each destination 
-        for (let i = 0; i < numDests; i++) {
-            var destCoords = stringToLatLng(destEntries[i].value);
-            dests.push(destCoords);
-        //    addMarker(destCoords,i);
-        }
+        //for (let i = 0; i < numDests; i++) {
+        //    var destCoords = stringToLatLng(destEntries[i].value);
+        //    dests.push(destCoords);
+        //}
         // calculate the distance matrix
-        createDistanceMatrix(originCoords,dests);
-        // put all markers on the map
-        //setMapOnAll(map);
-        // display the route on the map
-        //displayRoute(originCoords,dests);
+        //createDistanceMatrix(originCoords,dests);
     });
     
     document.getElementById('add-dest-bttn').addEventListener('click', (e) => {
