@@ -8,7 +8,7 @@
       <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
       <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
     <script src="/getmap/static/index.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5LTlFvTkZPeaepUQ_mzW-NkMtB2xC0L8" async=true></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5LTlFvTkZPeaepUQ_mzW-NkMtB2xC0L8&libraries=places" async=true></script>
   </head>
 
   <style>
@@ -33,15 +33,15 @@
           <p class="w3-large w3-center">Enter a set of coordinates</p>
           <form id="dest-form">
               <label for="origin">Point of Origin:</label>
-              <input id="origin" name="origin" type="text" width="10" autocomplete="off"/ value="44.0448,-123.0726">
+              <input id="origin" name="origin" type="text" width="10" autocomplete="off"/ value="University of Oregon">
           </form>
          <form id="dest-form">
               <label for="dest1">Destination 1:</label>
-              <input class="dest-entry" id="dest1" name="dest1" type="text" width="10" autocomplete="off" value="44.05422897437321, -123.09311928031369"/>
+              <input class="dest-entry" id="dest1" name="dest1" type="text" width="10" autocomplete="off" value="Bailey Hill Liquor"/>
          </form>
          <form id="dest-form">
               <label for="dest2">Destination 2:</label>
-              <input class="dest-entry" id="dest1" name="dest1" type="text" width="10" autocomplete="off" value="0, 0"/>
+              <input class="dest-entry" id="dest1" name="dest1" type="text" width="10" autocomplete="off" value="The Duck Store"/>
          </form>
          <br>
          <button id="add-dest-bttn" name="add-dest-bttn" type="button">Add destination</button>
