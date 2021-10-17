@@ -1,10 +1,6 @@
-// Places API or Geocoding API is necessary to convert addresses to coordinates
-// In the meantime I will work strictly with coordinates
-
 // Directions API is necessary to draw routes between markers
 
 //TODO: Improper input handling... no input, wrong coordinate syntax
-//TODO: Address geolocation -> coordinates 
 
 let map;
 let directionsService;
@@ -15,16 +11,14 @@ let markers = [];
 function initMap(){
     directionsService = new google.maps.DirectionsService();
     directionsRenderer = new google.maps.DirectionsRenderer({
-        // disable the DirectionsRenderer from producing its own markers
+        // stop the DirectionsRenderer from producing its own markers
         //suppressMarkers: true
         suppressMarkers: false
     });
     map = new google.maps.Map(document.getElementById('map'), {
-            //center: centerCoords,
             zoom: 12,
     });
     placesService = new google.maps.places.PlacesService(map);
-   
     directionsRenderer.setMap(map);
 }
 
@@ -50,14 +44,11 @@ function getPlace(address){
         )
     });
 }
-            
-async function userInputToPlace(address){
-    const result = await getPlace(address);
-    console.log(result);
-    return result;
-}
 
-function displayRoute(origin, dests) {
+function drawRoute(dests) {
+    var origin = dests[0];
+    // slice the first and last destinations (the origin)
+    dests = dests.slice(1,-1);
     var waypts = [];
     // create a waypoint for each destination in the list
     for(i = 0; i < dests.length; i++){
@@ -70,7 +61,6 @@ function displayRoute(origin, dests) {
     // create a request for round-trip directions (from origin to origin)
     // and visit all waypoints along the way
     // (waypoints followed in order of waypts list)
-    console.log(waypts);
     var request = {
         origin: origin,
         destination: origin,
@@ -85,16 +75,6 @@ function displayRoute(origin, dests) {
     });
 }
 
-// convert Strings in "LAT,LANG" format to google maps LatLng object
-function stringToLatLng(s){
-    var lat = parseFloat(s.split(",")[0]);
-    var lng = parseFloat(s.split(",")[1]);
-    var coords = new google.maps.LatLng(lat,lng);
-    return coords;
-}
-
-    
-    
 // add a marker to the 'markers' list
 // markers are labeled A-Z in order of their priority in the route
 function addMarker(coords,index){
@@ -119,106 +99,82 @@ function setMapOnAll(map){
 // distanceMatrixService will send a request to Google for the distance matrix
 // a response to the request will be fed back to the callback function
 // distance results are in km
-
-function createDistanceMatrix(origin, dests){
-    var distanceMatrixService = new google.maps.DistanceMatrixService();
-    distanceMatrixService.getDistanceMatrix({
-        // create an n x n distance matrix
-        // calculate the distance and time between the origin to each destination
-        // calculate the distance and time between each destination to each other destination
-        // calculate the distance and time between each destination to the origin
-        // note: this also counts distance/time from a location to itself (i.e. origin to origin)
-        origins: [origin].concat(dests),
-        destinations: [origin].concat(dests),
-        travelMode: 'DRIVING',
-        unitSystem: google.maps.UnitSystem.METRIC,
-    }, distanceMatrixCallback);
-}
-
 // https://developers.google.com/maps/documentation/javascript/distancematrix#distance_matrix_parsing_the_results
-
 // Receive and parse Google's response to our distance matrix request
 // The rows of the matrix correspond to the origin addresses
 // The rows' elements correspond to the destination addresses
-
-function distanceMatrixCallback(response, status) {
-    if (status == 'OK') {
-        console.log("response data: ", response);
-        //origins and destinations are the same locations in the same order
-        var origins = response.originAddresses;
-        var destinations = response.destinationAddresses;
-       
-        var distanceMatrix = new Array(origins.length);
-        var durationMatrix = new Array(origins.length);
+async function getMatrix(dests){
+    var origin = dests[0];
+    var distanceMatrixService = new google.maps.DistanceMatrixService();
+    // create an n x n distance matrix
+    // calculate the distance and time between the origin to each destination
+    // calculate the distance and time between each destination to each other destination
+    // calculate the distance and time between each destination to the origin
+    // note: this also counts distance/time from a location to itself (i.e. origin to origin)
+    const response = await distanceMatrixService.getDistanceMatrix({
+        origins: dests.slice(0,-1),
+        destinations: dests.slice(0,-1),
+        travelMode: 'DRIVING',
+        unitSystem: google.maps.UnitSystem.METRIC,
+    });
+    console.log(response);
+    //origins and destinations are the same locations in the same order
+    var origins = response.originAddresses;
+    var destinations = response.destinationAddresses;
+    var distanceMatrix = new Array(origins.length);
+    var durationMatrix = new Array(origins.length);
+    for (var i = 0; i < origins.length; i++) {
+        var results = response.rows[i].elements;
+        distanceMatrix[i] = new Array(results.length);
+        durationMatrix[i] = new Array(results.length);
         
-        for (var i = 0; i < origins.length; i++) {
-            var results = response.rows[i].elements;
-            distanceMatrix[i] = new Array(results.length);
-            durationMatrix[i] = new Array(results.length);
-            
-            for (var j = 0; j < results.length; j++) {
-                var element = results[j];
-                var from = origins[i];
-                var to = destinations[j];
-                var distance = element.distance.value;
-                var duration = element.duration.value;
-                distanceMatrix[i][j] = distance;
-                durationMatrix[i][j] = duration;
+        for (var j = 0; j < results.length; j++) {
+            var element = results[j];
+            var from = origins[i];
+            var to = destinations[j];
+            var distance = element.distance.value;
+            var duration = element.duration.value;
+            distanceMatrix[i][j] = distance;
+            durationMatrix[i][j] = duration;
 
-                console.log("from: " + from);
-                console.log("to: " + to);
-                console.log("distance: " + distance);
-                console.log("duration: " + duration);
-            }
+            console.log("from:",from,"\n","to:",to,"\n","distance:",distance,"\n","duration:",duration);
         }
-        console.log("Distance Matrix:");
-        console.log(distanceMatrix);
-        console.log("Duration Matrix:"); 
-        console.log(durationMatrix);
-      
-        console.log(destinations.length); 
-        const shipMatrices = async () => {
-            const response = await fetch('/test', {
-                method: 'POST',
-                body: JSON.stringify({'numDests': destinations.length, 'distMatrix': distanceMatrix}),
-            });
-
-            const data = await response.json();
-            console.log('POST response:');
-            console.log(data);
-            // an array that represents optimal destination order
-            var optimal_route = data['optimal_route'];
-            destinations = optimal_route.map(i => destinations[i]);
-            // slice the first and last destinations (and waypoints) (the origin)
-            // fix this slicing! can make this more efficient many steps ago
-            displayRoute(origins[0],destinations.slice(1,-1));
-             
-        };
-        
-        shipMatrices();
     }
+    console.log("Distance Matrix:", distanceMatrix,"\n","Duration matrix:",durationMatrix);
+    return distanceMatrix;
 }
 
-async function drawMap(origin,destinations){
+async function getOptimalRoute (matrix, destinations){
+    const flask_response = await fetch('/test', {
+        method: 'POST',
+        body: JSON.stringify({'numDests': destinations.length-1, 'distMatrix': matrix}),
+    });
+    const data = await flask_response.json();
+    console.log('POST response:', data);
+    // an array that represents optimal destination order
+    var optimal_route = data['optimal_route'];
+    return optimal_route;
+}
+
+async function drawMap(destinations){
     initMap();
-    var originCoords = await userInputToPlace(origin); 
-    console.log(originCoords);
-    console.log(destinations);
-    map.setCenter(originCoords);
-    var numDests = destinations.length;
-    var dests = [];
+    var destCoords = [];
     // convert user inputted destination coordinates to coordinate objects
     // create a marker for each destination 
-    for (let i = 0; i < numDests; i++) {
-        var destCoords = await userInputToPlace(destinations[i]); 
-        dests.push(destCoords);
+    console.log(destinations);
+    for (let i = 0; i < destinations.length; i++) {
+        var coords = await getPlace(destinations[i]);
+        destCoords.push(coords);
     }
+    console.log(destCoords);
+    var originCoords = destCoords[0];
+    map.setCenter(originCoords);
     // calculate the distance matrix
-    console.log(originCoords);
-    console.log(dests);
-    createDistanceMatrix(originCoords,dests);
+    var distanceMatrix = await getMatrix(destCoords);
+    var optimalRoute = await getOptimalRoute(distanceMatrix,destCoords);
+    console.log(optimalRoute);
+    drawRoute(optimalRoute.map(i => destCoords[i]));
 }
-     
     
 // Wait for DOM to load before manipulating elements
 document.addEventListener("DOMContentLoaded", function() {
@@ -227,33 +183,22 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById('dest-form').addEventListener('submit', (e) => {
         // prevent form submission from reloading the page
         e.preventDefault();
-
+        
         var origin = document.getElementById('origin').value;
 
         // a list of destination elements 
         var destEntries = document.querySelectorAll('.dest-entry');
         var destinations = [];
 
+        // origin point is the starting destination
+        destinations.push(origin);
+
         for(let i = 0; i < destEntries.length; i++){
            destinations.push(destEntries[i].value);
         } 
-        drawMap(origin,destinations);
-        //initMap();
-        //var originCoords = userInputToPlace(originEntry);
-        //map.setCenter(originCoords);
-
-        // total destinations entered 
-        //var numDests = destEntries.length;
-        //var dests = [];
-
-        // convert user inputted destination coordinates to coordinate objects
-        // create a marker for each destination 
-        //for (let i = 0; i < numDests; i++) {
-        //    var destCoords = stringToLatLng(destEntries[i].value);
-        //    dests.push(destCoords);
-        //}
-        // calculate the distance matrix
-        //createDistanceMatrix(originCoords,dests);
+        // origin point is also the final destination
+        destinations.push(origin);
+        drawMap(destinations);
     });
     
     document.getElementById('add-dest-bttn').addEventListener('click', (e) => {
@@ -272,4 +217,3 @@ document.addEventListener("DOMContentLoaded", function() {
         destinationEntryForm.append(newDestLabel,newDestInput);
     });
 });
-
