@@ -21,7 +21,6 @@ Last Modified: 10/17/2021
 TODO: - Improper input handling... no input, wrong coordinate syntax
 *****************************************************************************************************************************************************************************\
 
-
 /* Declare global index.js variables: */
 let map;                   /* The Google Maps Javascript API map instance */
 let directionsService;     /* Communicates with the Google Maps Javascript API Directions Service. Enables the app to send an ordered set of destinations and receive a path. */
@@ -30,12 +29,12 @@ let distanceMatrixService; /* Communicates with the Google Maps Javascript API D
 let placesService;         /* This object communicates with the Google Maps Javascript API Places Library. Enables the app to obtain a coordinate given an address or place name */
 let markers = [];          /* Set of map markers, to be drawn on map */
 
-
 /*****************************************************************************************************************************************************************************
 FUNCTION: initMap
 
 This function instantiates and initializes the interactive map that is provided by the Google Maps Javascript API.
 All services or libraries used by the Google Maps Javascript API map are initalized here as well (Places, DistanceMatrix, Directions).
+
 ****************************************************************************************************************************************************************************/
 function initMap(){
     // Assign the Distance Matrix and Directions service to their respective global variables
@@ -45,8 +44,8 @@ function initMap(){
     // Assign the DirectionsRenderer to its respective global variable, set properties for the DirectionsRenderer object
     directionsRenderer = new google.maps.DirectionsRenderer({
         // stop the DirectionsRenderer from producing its own markers
-        // suppressMarkers: true
-        suppressMarkers: false
+        suppressMarkers: true
+        //suppressMarkers: false
     });
    
     // Instantiate a Google Maps Javascript API interactive map and assign it to the global variable, set initial properties for the Map object
@@ -302,6 +301,7 @@ FUNCTION: drawMap
 This is the main function that draws an interactive map with an optimal route between an origin and a set of destinations. 
 This function takes in a list of user inputted location strings, where the first and last locations are the same. (Round trip).
 It initializes the Google Maps Javascript API map, then calls the helper function getPlace to convert the user inputted destinations into coordinates.
+A marker is created at each set of coordinates (except for the final location, to not overlap with the starting location's marker -- as they are the same).
 The distance and duration matrices are obtained by calling getMatrix, a call is then made to getOptimalRoute with that function as input.
 Finally, the route is drawn on the map using drawRoute.
 
@@ -316,10 +316,23 @@ async function drawMap(destinations){
     for (let i = 0; i < destinations.length; i++) {
         var coords = await getPlace(destinations[i]);
         destCoords.push(coords);
+        // if the destination is not the final destination, then create a Marker object and add it to the global list
+        // (this is to avoid overlapping the origin location with two markers
+        if ( i != destinations.length - 1){
+            addMarker(coords,i);
+        }
     }
+    // draw the Markers on the map
+    setMapOnAll(map);
+
     console.log(destCoords);
+
+    // the origin coordinates are the first (and last) coordinates in the list that contains all destination coords
     var originCoords = destCoords[0];
+
+    // center the map's view on the origin location
     map.setCenter(originCoords);
+
 
     // obtian the distance matrix
     var distanceMatrix = await getMatrix(destCoords);
