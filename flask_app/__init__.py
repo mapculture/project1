@@ -12,7 +12,6 @@ https://flask.palletsprojects.com/en/2.0.x/patterns/packages/
 
 from flask import Flask
 
-
 # create and configure the Flask app
 def create_app(test_config=None):
    

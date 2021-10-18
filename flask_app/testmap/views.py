@@ -1,6 +1,7 @@
 from . import testmap_blueprint
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, jsonify, render_template, request, current_app
 from .genetic_algorithm import TSPGeneticAlgorithm
+from .mst_algorithm import mst_algorithm
 
 # create a connection/route between URL/ and the function index() that returns a response
 @testmap_blueprint.route('/testmap', methods=['GET'])
@@ -13,17 +14,23 @@ def testmap():
 # GET: retrieving information 
 # example: going to the post office to ask for your letter
 
-@testmap_blueprint.route('/test', methods=['GET', 'POST'])
+@testmap_blueprint.route('/algo', methods=['GET', 'POST'])
 def runAlgorithm():
     
     # POST request
+    current_app.logger.debug('test')
     if request.method == 'POST':
         received_message = request.get_json(force=True) # parse as json
         dist_matrix = received_message['distMatrix']
         num_dests = received_message['numDests']
-        #message = {'rightbackatya': distMatrix}
-        optimal_route = TSPGeneticAlgorithm.getBestDistanceRoute(num_dests,dist_matrix,10)
-        message = {'optimal_route': optimal_route}
+        algorithm = received_message['algorithm']
+
+        if algorithm == 'genetic':
+            optimal_route = TSPGeneticAlgorithm.getBestDistanceRoute(num_dests,dist_matrix,10)
+        else: 
+            optimal_route = mst_algorithm.primMST(num_dests,dist_matrix)
+
+        message = {'optimal_route': optimal_route, 'algorithm_used': algorithm}
         #return 'OK', 200
         return jsonify(message)
 
