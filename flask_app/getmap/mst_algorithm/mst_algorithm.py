@@ -1,48 +1,75 @@
-#
-# Adjacency Matrix Initialization and Population
-# ======= MapCultire.co =======
-# Written By: Jordan Whiteley
-#
+#####################################
+#         Jordan W - prim MST       #
+#     Created: October 8th, 2021    #
+#  Last edited: October 15th, 2021  #
+#####################################
+"""
+This algorithm takes an 2 params, those being
+(num_node, adjMatrix), which are the number of nodes/locations
+used in the search, and a num_node x num_node adjacency matrix
+with the weights of each edge pair.
+"""
 
-#Create/Populate Adj Matrix
-class Graph:
+import math
+#import sys
+#from time import time
 
-    # Initialize empty (filled w 0's) adj_matrix
-    def __init__ (self, dim):
-        self.adj_matrix = list()
-        for i in range(dim):
-            self.adj_matrix.append(0 for i in range(dim))
-        self.dim = dim
+def primMST(num_node, adjMatrix):
+    if (num_node != len(adjMatrix)):
+        print("{} Is not equal to {} -> (NxN) adjency matrix".format(num_node, len(adjMatrix)))
+        return -1
+    #Create maximum boundary for to help initiate automatic minimum
+    inf = math.inf
+    #Populate the node selection for specific row
+    select_node = [0 for _ in range(num_node)]
+    #Add origin node to the visited list
+    select_node[0] = True
 
-    # return the row/col length
-    def __len__(self):
-        return self.dim
+    #Tracking to make sure each node is visited only once
+    track = 0
+    #Reroute output to output.txt(can be variable)
 
-    # Add an edge to the adj_matrix (1 meaning there is a connection)
-    # Weight not displayed in adj_matrix
-    def add_edge(self, p1, p2, weight):
-        if (p1 == p2):
-            print("This is the same vertex, cannot add edge.")
-        self.adj_matrix[p1][p2].append(int(weight))
-        self.adj_matrix[p2][p1].append(int(weight))
+    #Initialize return array
+    # array = list()
+    array1 = list()
+    array1.append(0)
 
-    # Remove an edge to the adj_matrix (0 meaning returning to original state)
-    # Weight not displayed in adj_matrix
-    def remove_edge(self, p1, p2):
-        if (p1 == p2):
-            print("This is the same vertex, cannot remove edge.")
-        self.adj_matrix[p1][p2].append(0)
-        self.adj_matrix[p2][p1].append(0)
+    #Iterate through graph (0,n-1)
+    while(track < num_node - 1):
+        #init minimum w/ inf
+        min = inf
+        v1 = 0
+        v2 = 0
+        #Iterate through rows
+        for i in range(num_node):
+            #True for weight present except for starting node [0,0]
+            if select_node[i]:
+                #Iterate through columns
+                for j in range(num_node):
+                    #if the node is ot in the selected nodes and it is presen
+                    #in the adjMatrix
+                    if ((not select_node[j]) and adjMatrix[i][j]):
+                        #Update minimum cost in min and update verticies
+                        if min > adjMatrix[i][j]:
+                            min = adjMatrix[i][j]
+                            #Update verticies in list
+                            v1 = i
+                            v2 = j
 
-    def weight_present(self, p1, p2):
-        if (p1 != p2):
-            if (self.adj_matrix[p1][p2] is 0):
-                return False
-            else:
-                return True
+        #Print edges with weights attached
+        # array.append(adjMatrix[v1][v2])
+        # array1.append(v1)
+        array1.append(v2)
+        #Add vertex to visited node list
+        select_node[v2] = True
+        #increment counter for visited verticies
+        track += 1
 
-    def print_matrix(self):
-        for i in self.adj_matrix:
-            for j in i:
-                print(j, end=' ')
-            print()
+    #Append final path from last node to start node
+    # array.append(adjMatrix[array1[-1]][0])
+    # array1.append(array1[-1])
+    array1.append(0)
+    # print(array)
+    print(array1)
+    # print(sum(array))
+    #Close the open file
