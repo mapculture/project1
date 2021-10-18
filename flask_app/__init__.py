@@ -25,8 +25,10 @@ def create_app(test_config=None):
     with app.app_context():
         # import blueprints
         from .getmap import getmap_blueprint 
+        from .testmap import testmap_blueprint
         #from .home import home_blueprint
 
         # register blueprints
         app.register_blueprint(getmap_blueprint)
+        app.register_blueprint(testmap_blueprint)
         return app
