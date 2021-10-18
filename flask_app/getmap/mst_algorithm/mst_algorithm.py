@@ -70,6 +70,6 @@ def primMST(num_node, adjMatrix):
     # array1.append(array1[-1])
     array1.append(0)
     # print(array)
-    print(array1)
+    return array1
     # print(sum(array))
     #Close the open file
