@@ -5,23 +5,23 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="/getmap/static/style.css" />
     <script src="/getmap/static/index.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5LTlFvTkZPeaepUQ_mzW-NkMtB2xC0L8" async=true></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAIMtZNFs_FpaqQC-EkWO5hcRtncK2L5Ec&libraries=places" async=true></script>
   </head>
 
   <body>
     <div class="container">
       <div class="center">
         <div class="row">
-          <h1>Enter a set of coordinates!</h1>
+          <h1>Enter a set of addresses!</h1>
         </div>
         <div class="row">
           <form id="dest-form">
             <label for="origin">Origin:</label>
-            <input id="origin" name="origin" type="text" width="10" autocomplete="off"/ value="44.0448,-123.0726">
+            <input id="origin" name="origin" type="text" width="10" autocomplete="off"/ value="University of Oregon">
             <label for="dest1">Destination 1:</label>
-            <input class="dest-entry" id="dest1" name="dest1" type="text" width="10" autocomplete="off" value="44.05422897437321, -123.09311928031369"/>
+            <input class="dest-entry" id="dest1" name="dest1" type="text" width="10" autocomplete="off" value="Bailey Hill Liquor"/>
             <label for="dest2">Destination 2:</label>
-            <input class="dest-entry" id="dest2" name="dest2" type="text" width="10" autocomplete="off" value="44.02429407073191,-123.16806906378606"/>
+            <input class="dest-entry" id="dest2" name="dest2" type="text" width="10" autocomplete="off" value="The Duck Store"/>
           </form>
           <button id="add-dest-bttn" name="add-dest-bttn" type="button">Add destination</button>
           <button type="submit" value="submit" form="dest-form">Submit</button>
