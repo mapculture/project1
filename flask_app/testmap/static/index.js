@@ -231,10 +231,12 @@ The async/await keywords allow the the function to operate asynchronously. The f
 ****************************************************************************************************************************************************************************/
 async function getOptimalRoute (algorithm, matrix, destinations){
     // send HTTP POST request to the URL /optimalroute
+    // header specifies to the receiving Flask server that we are sending a json
     // body of request is a JSON with the number of destinations on the route and distance matrix
     console.log("Algorithm requested:",algorithm);
     const flask_response = await fetch('/algo', {
         method: 'POST',
+        headers: {'Content-Type':'application/json'},
         body: JSON.stringify({'numDests': destinations.length-1, 'distMatrix': matrix, 'algorithm': algorithm}),
     });
 
