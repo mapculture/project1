@@ -318,14 +318,7 @@ async function drawMap(destinations,algorithm){
     for (let i = 0; i < destinations.length; i++) {
         var coords = await getPlace(destinations[i]);
         destCoords.push(coords);
-        // if the destination is not the final destination, then create a Marker object and add it to the global list
-        // (this is to avoid overlapping the origin location with two markers
-        if ( i != destinations.length - 1){
-            addMarker(coords,i);
-        }
     }
-    // draw the Markers on the map
-    setMapOnAll(map);
 
     console.log(destCoords);
 
@@ -345,7 +338,19 @@ async function drawMap(destinations,algorithm){
     console.log("Optimal route:",optimalRoute);
 
     // sort the destinations in order of the optimalRoute, draw the route on the map
-    drawRoute(optimalRoute.map(i => destCoords[i]));
+    var sortedDestCoords = optimalRoute.map(i => destCoords[i]);
+
+    for (let i = 0; i < sortedDestCoords.length; i++) {
+        // if the destination is not the final destination, then create a Marker object and add it to the global list
+        // (this is to avoid overlapping the origin location with two markers
+        if ( i != sortedDestCoords.length - 1){
+            addMarker(sortedDestCoords[i],i);
+        }
+    }
+    // draw the Markers on the map
+    setMapOnAll(map);
+
+    drawRoute(sortedDestCoords);
 }
     
 /****************************************************************************************************************************************************************************
