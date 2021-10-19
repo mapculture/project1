@@ -1,6 +1,6 @@
 # Author:       Kaiser Slocum
 # Created:      10/4/2021
-# Last Edited:  10/10/2021 
+# Last Edited:  10/18/2021 
 import random
 
 class Gnome(object):
@@ -32,7 +32,6 @@ class Gnome(object):
         # The distance and duration are updated before the method ends
         self.calcDur()
         self.calcDis()
-        #self.printGnome()
 
     # Calculates the total duration for the Gnome, if there is no duration matrix, nothing is done
     def calcDur(self): 
@@ -47,19 +46,21 @@ class Gnome(object):
             for x in range(0, self.numCells):
                 self.distance = self.distance + self.__distanceMatrix[self.__gnome[x]][self.__gnome[x+1]]   
     # Randomly swaps two cells
-    def mutate(self, mutationRate=0.01):
+    def mutate(self):
+        # If we have only one city, don't bother mutating
         if (self.numCells < 3):
             return
-        if (random.random() <= mutationRate):
-            randNum1 = random.randint(1,self.numCells-2)
-            #print("RandNum1: ", randNum1)
-            randNum2 = random.randint(randNum1+1, self.numCells-1)
-            #print("RandNum2: ", randNum2)
-            temp = self.__gnome[randNum1]
-            self.__gnome[randNum1] = self.__gnome[randNum2]
-            self.__gnome[randNum2] = temp
-            self.calcDis()
-            self.calcDur()
+        # We must pick two random cells to swap
+        randNum1 = random.randint(1,self.numCells-2)
+        randNum2 = random.randint(randNum1+1, self.numCells-1)
+        # Swap the cells
+        temp = self.__gnome[randNum1]
+        self.__gnome[randNum1] = self.__gnome[randNum2]
+        self.__gnome[randNum2] = temp
+        # Calculate the new distance/duration
+        self.calcDis()
+        self.calcDur()
+    # I overload the index operators because we want to access each cell in the list of cells straightaway
     # Overloaded Operator: Returns cell at specified index
     def __getitem__(self, index):
         if ((index < 0) or (index > self.numCells)):
@@ -70,9 +71,10 @@ class Gnome(object):
         if ((index <= 0) or (index >= self.numCells)):
             raise Exception
         self.__gnome[index] = value
+        # if we ever change a cell, we need to recalculate the duration and distance so our duration/distance is always correct
         self.calcDis()
         self.calcDur()
-    # Returns a copy of the list of cells (copy Gnome)
+    # Returns a reference to the list of cells
     def getGnome(self):
         return self.__gnome    
     # Prints entire Gnome to console

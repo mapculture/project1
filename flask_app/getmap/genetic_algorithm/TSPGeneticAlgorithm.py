@@ -1,17 +1,10 @@
 # Author:       Kaiser Slocum
 # Created:      10/4/2021
-# Last Edited:  10/10/2021 
-# The following articles were referenced in the creation of this project
-# Only the basic concepts were gleaned - any code shown in the articles was ignored
-# Hence, any similarities in code is purely coincidental due to the similar nature of the projects
-#https://towardsdatascience.com/evolution-of-a-salesman-a-complete-genetic-algorithm-tutorial-for-python-6fe5d2b3ca35
-#https://www.geeksforgeeks.org/traveling-salesman-problem-using-genetic-algorithm/
-#https://www.hindawi.com/journals/cin/2017/7430125/
-#https://towardsdatascience.com/tuning-a-traveling-salesman-cadfd7d22e1c
+# Last Edited:  10/18/2021 
 
+# Gnome and Gnomes need to be imported using relative path name for flask
 #import random, operator, Gnome, Gnomes, time, math
 import random, operator, time, math
-
 from . import Gnome, Gnomes
 
 # For testing purposes only: DON'T USE!
@@ -87,22 +80,31 @@ def randomStatTester():
 # Use this to get the best distance route
 # This method returns a Python array of the best route
 def getBestDistanceRoute(numCity, distanceMatrix, timeSec):
+    # The number of columns in distanceMatrix must match the number of cities
     if (len(distanceMatrix) != numCity):
         raise Exception("The size of the distanceMatrix does not match the number of cities!")
+    # We can't have fewer than 1 city
     if (numCity <= 1):
         raise Exception("You must have at least two cities!")
+    # We can't have more than thirty cities (just for the sake of choosing a number here
     if (numCity > 30):
         raise Exception("Too many cities provided!")
 
+    # If we have less than five cities, we can afford to just create a population of the number of permutations
     if(numCity < 5):
         numPop = math.factorial(numCity)
+    # Otherwise, we just multiply by ten
+    # Technically, we need to increase by more than a factor of ten as we leave numCity=10, but it's okay for now
     else:
         numPop = 10 * numCity
     numCells = numCity
+    # We don't want to have a high mutation rate, so we need to not have a high number of elites
     numElites = 1
     mutationRate = 0.1
     
+    # Create a list of gnomes (routes)
     gnomes = Gnomes.Gnomes(numPop,numCells,numElites,mutationRate,None,distanceMatrix)
+    # Due to the fact that we cannot end our gnomes.createNewDisPop() method before it has completed, we are likely to go a little over the number of seconds specified
     t = time.perf_counter()
     while (t < timeSec):
         gnomes.createNewDisPop()
@@ -113,22 +115,31 @@ def getBestDistanceRoute(numCity, distanceMatrix, timeSec):
 # Use this to get the best duration route
 # This method returns a Python array of the best route
 def getBestDurationRoute(numCity, durationMatrix, timeSec):
+    # The number of columns in durationMatrix must match the number of cities
     if (len(durationMatrix) != numCity):
         raise Exception("The size of the durationMatrix does not match the number of cities!")
+    # We can't have fewer than 1 city
     if (numCity <= 1):
         raise Exception("You must have at least two cities!")
+    # We can't have more than thirty cities (just for the sake of choosing a number here
     if (numCity > 30):
         raise Exception("Too many cities provided!")
 
+    # If we have less than five cities, we can afford to just create a population of the number of permutations
     if(numCity < 5):
         numPop = math.factorial(numCity)
+    # Otherwise, we just multiply by ten
+    # Technically, we need to increase by more than a factor of ten as we leave numCity=10, but it's okay for now
     else:
         numPop = 10 * numCity
     numCells = numCity
+    # We don't want to have a high mutation rate, so we need to not have a high number of elites
     numElites = 1
     mutationRate = 0.1
     
+    # Create a list of gnomes (routes)
     gnomes = Gnomes.Gnomes(numPop,numCells,numElites,mutationRate,durationMatrix, None)
+    # Due to the fact that we cannot end our gnomes.createNewDisPop() method before it has completed, we are likely to go a little over the number of seconds specified
     t = time.perf_counter()
     while (t < timeSec):
         gnomes.createNewDisPop()
