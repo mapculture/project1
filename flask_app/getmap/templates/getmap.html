@@ -24,27 +24,34 @@
 
   <!-- use w3-container for groupings -->
   <body>
-    <div class="container">
-      <div class="center">
-        <div class="row">
-          <h1>Enter a set of addresses!</h1>
-        </div>
-        <div class="row">
-          <form id="dest-form">
-            <label for="origin">Origin:</label>
-            <input id="origin" name="origin" type="text" width="10" autocomplete="off" value="University of Oregon"/>
-            <label for="dest1">Destination 1:</label>
-            <input class="dest-entry" id="dest1" name="dest1" type="text" width="10" autocomplete="off" value="Bailey Hill Liquor"/>
-            <label for="dest2">Destination 2:</label>
-            <input class="dest-entry" id="dest2" name="dest2" type="text" width="10" autocomplete="off" value="The Duck Store"/>
-          </form>
-          <button id="add-dest-bttn" name="add-dest-bttn" type="button">Add destination</button>
-          <button type="submit" value="submit" form="dest-form">Submit</button>
-          </div>
+    <div class="bgimg w3-display-container w3-animate-opacity w3-text-white"> <!-- background image -->
+      <div class="w3-display-topleft w3-padding-large w3-xlarge">
+        Efficient Route Algorithm
       </div>
-    </div> <!-- container -->
-    <div id="map"></div> <!-- This is where the map will be inserted -->
+        <div class="w3-display-middle"> <!-- changed from w3-display-topmiddle" -->
+          <h1 class="w3-jumbo">MapCulture.Co</h1>
+          <hr class="w3-border-grey" style="margin:auto;width:50%">
+          <p class="w3-large w3-center">Enter a set of addresses</p>
+          <div class="w3-display-container">
+            <div class="w3-cell-row">
+              <form id="dest-form">
+                  <label for="origin">Origin:</label>
+                  <input id="origin" name="origin" type="text" width="10" autocomplete="off" value="University of Oregon"/>
+                  <br>
+                  <label for="dest1">Destination 1:</label>
+                  <input class="dest-entry" id="dest1" name="dest1" type="text" width="10" autocomplete="off" value="Bailey Hill Liquor"/>
+                  <br>
+                  <label for="dest2">Destination 2:</label>
+                  <input class="dest-entry" id="dest2" name="dest2" type="text" width="10" autocomplete="off" value="The Duck Store"/>
+                  <br>
+              </form>
+              <button id="add-dest-bttn" name="add-dest-bttn" type="button">Add destination</button>
+              <button type="submit" value="submit" form="dest-form">Submit</button>
+            </div> <!-- row -->
+          </div> <!-- container -->
+          <div id="map"></div> <!-- This is where the map will be inserted -->
+        <div class="w3-display-bottomleft w3-padding-large">
+            Powered by CIS 422 Students
+        </div>
   </body>
-
-
 </html>
