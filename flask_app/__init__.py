@@ -40,6 +40,7 @@ def create_app(test_config=None):
         # import blueprints
         from .getmap import getmap_blueprint 
         from .testmap import testmap_blueprint
+        from .testmapOOP import testmapOOP_blueprint
         #from .home import home_blueprint
 
         app.register_error_handler(404,page_not_found)
@@ -49,6 +50,7 @@ def create_app(test_config=None):
         # register blueprints
         app.register_blueprint(getmap_blueprint)
         app.register_blueprint(testmap_blueprint)
+        app.register_blueprint(testmapOOP_blueprint)
         return app
 
 #https://flask.palletsprojects.com/en/2.0.x/errorhandling/#blueprint-error-handlers
