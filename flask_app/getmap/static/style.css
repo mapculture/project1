@@ -35,13 +35,15 @@
 /* Optional: Makes the sample page fill the window. */
 
 html,
+/*
 body {
   height: 100%;
   margin: 0;
   /*padding: 0;*/
-  background-color: darkcyan;
+  /*background-color: darkcyan;
   padding: 20px;
 }
+*/
 
 label {
     width:180px;
