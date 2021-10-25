@@ -41,7 +41,7 @@ def create_app(test_config=None):
         from .getmap import getmap_blueprint 
         from .testmap import testmap_blueprint
         from .testmapOOP import testmapOOP_blueprint
-        #from .home import home_blueprint
+        from .auth import auth_blueprint
 
         app.register_error_handler(404,page_not_found)
         app.register_error_handler(405,method_not_allowed)
@@ -51,6 +51,7 @@ def create_app(test_config=None):
         app.register_blueprint(getmap_blueprint)
         app.register_blueprint(testmap_blueprint)
         app.register_blueprint(testmapOOP_blueprint)
+        app.register_blueprint(auth_blueprint)
         return app
 
 #https://flask.palletsprojects.com/en/2.0.x/errorhandling/#blueprint-error-handlers

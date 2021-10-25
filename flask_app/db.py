@@ -2,6 +2,7 @@
 Database insertion and retrieval
 """
 from pymongo import MongoClient
+from flask import current_app
 
 class Mongodb:
     def __init__(self, client_name="testclient"):
