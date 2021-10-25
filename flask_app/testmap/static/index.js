@@ -435,6 +435,8 @@ document.addEventListener("DOMContentLoaded", function() {
         var newDestLabel = document.createElement("label");
         newDestLabel.htmlFor = destId;
         newDestLabel.textContent = "Destination " + numDests + ":";
+        newDestLabel.id = "destlabel" + String(numDests);
+        
 
         // create a new HTML <input> element and set the 'id' attribute to destId, 'class' attribute to 'dest-entry', 'name' attribute to destId
         var newDestInput = document.createElement("input");
@@ -447,5 +449,19 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // append the newly created <label> and <input> elements to the form
         destinationEntryForm.append(newDestLabel,newDestInput);
+    });
+    document.getElementById('remove-dest-bttn').addEventListener('click', (e) => {
+        // the number of destination entry boxes that currently exist in the HTML
+        var numDests = document.querySelectorAll('.dest-entry').length;
+        if (numDests > 1){
+                
+            // create a string to be used in as an HTML id attribute, represents what 'dest' number the element is
+            var destInputId = "dest" + String(numDests);
+            var destLabelId = "destlabel" + String(numDests);
+            var lastDestInput = document.getElementById(destInputId);
+            var lastDestLabel = document.getElementById(destLabelId);
+            lastDestInput.remove();
+            lastDestLabel.remove();
+        }
     });
 });
