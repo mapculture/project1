@@ -36,12 +36,20 @@
 
 html,
 body{
+    font-family: Arial;
     height: 100%;
     margin: 0;
     /* padding: 0;*/
     /*background-color: darkcyan;*/
     background-image: url("https://cdn.pixabay.com/photo/2015/09/02/12/30/foot-bridge-918476_960_720.jpg");
-    padding: 20px;
+    padding: 0; /*changed from 20px*/
+}
+
+header{
+  padding: 60px;
+  text-align: center;
+  color: white;
+  font-size: 40px;
 }
 
 label {
