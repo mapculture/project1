@@ -229,12 +229,15 @@ The request consists of the number of inputted destinations and the distance or 
 The Flask server responds with a JSON that contains the optimal order in which to travel to each destination (determined by TSP algorithm).
 The async/await keywords allow the the function to operate asynchronously. The function will pause until the request completes.
 ****************************************************************************************************************************************************************************/
-async function getOptimalRoute (matrix, destinations){
+async function getOptimalRoute (algorithm, matrix, destinations){
     // send HTTP POST request to the URL /optimalroute
+    // header specifies to the receiving Flask server that we are sending a json
     // body of request is a JSON with the number of destinations on the route and distance matrix
-    const flask_response = await fetch('/test', {
+    console.log("Algorithm requested:",algorithm);
+    const flask_response = await fetch('/algo', {
         method: 'POST',
-        body: JSON.stringify({'numDests': destinations.length-1, 'distMatrix': matrix}),
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({'numDests': destinations.length-1, 'distMatrix': matrix, 'algorithm': algorithm}),
     });
 
     // extract the JSON object from the response (the data sent back from the Flask server)
@@ -244,6 +247,7 @@ async function getOptimalRoute (matrix, destinations){
 
     // an array that represents optimal destination order
     var optimal_route = data['optimal_route'];
+    var algorithmConfirmation = data['algorithm_used'];
     return optimal_route;
 }
 
@@ -307,7 +311,7 @@ Finally, the route is drawn on the map using drawRoute.
 
 Note: The origin is both a starting location and an ending location on the route (the first and last index of the destinations list is the origin location). 
 ****************************************************************************************************************************************************************************/
-async function drawMap(destinations){
+async function drawMap(destinations,algorithm){
     initMap();
     var destCoords = [];
     // convert user inputted destination coordinates to coordinate objects
@@ -316,14 +320,7 @@ async function drawMap(destinations){
     for (let i = 0; i < destinations.length; i++) {
         var coords = await getPlace(destinations[i]);
         destCoords.push(coords);
-        // if the destination is not the final destination, then create a Marker object and add it to the global list
-        // (this is to avoid overlapping the origin location with two markers
-        if ( i != destinations.length - 1){
-            addMarker(coords,i);
-        }
     }
-    // draw the Markers on the map
-    setMapOnAll(map);
 
     console.log(destCoords);
 
@@ -339,11 +336,23 @@ async function drawMap(destinations){
 
     // obtain the optimal route from the origin to the waypoints and back to the origin, optimized for reducing distance traveled
     // this returns the order in which the destinations in the destCoords list should be traveled (by indices)
-    var optimalRoute = await getOptimalRoute(distanceMatrix,destCoords);
-    console.log(optimalRoute);
+    var optimalRoute = await getOptimalRoute(algorithm,distanceMatrix,destCoords);
+    console.log("Optimal route:",optimalRoute);
 
     // sort the destinations in order of the optimalRoute, draw the route on the map
-    drawRoute(optimalRoute.map(i => destCoords[i]));
+    var sortedDestCoords = optimalRoute.map(i => destCoords[i]);
+
+    for (let i = 0; i < sortedDestCoords.length; i++) {
+        // if the destination is not the final destination, then create a Marker object and add it to the global list
+        // (this is to avoid overlapping the origin location with two markers
+        if ( i != sortedDestCoords.length - 1){
+            addMarker(sortedDestCoords[i],i);
+        }
+    }
+    // draw the Markers on the map
+    setMapOnAll(map);
+
+    drawRoute(sortedDestCoords);
 }
     
 /****************************************************************************************************************************************************************************
@@ -356,7 +365,8 @@ These are event listeners that attach to a specific element in the HTML template
 document.addEventListener("DOMContentLoaded", function() {
     // If 'submit' button is clicked:
     // Then calculate distance matrix, send coordinates and distances to backend
-    document.getElementById('dest-form').addEventListener('submit', (e) => {
+    //document.getElementById('dest-form').addEventListener('submit', (e) => {
+    document.getElementById('submit1').addEventListener('click', (e) => {
         // prevent form submission from reloading the page
         e.preventDefault();
        
@@ -382,7 +392,35 @@ document.addEventListener("DOMContentLoaded", function() {
         destinations.push(origin);
         // draw a Google Maps Javascript API interactive map that displays an optimal route between the inputted destinations
         // (starting at destinations[0] and ending at destinations[-1]
-        drawMap(destinations);
+        drawMap(destinations,'genetic');
+    });
+    document.getElementById('submit2').addEventListener('click', (e) => {
+        // prevent form submission from reloading the page
+        e.preventDefault();
+       
+        // value of the user's input to the 'Origin:' text input field
+        var origin = document.getElementById('origin').value;
+
+        // a list of elements that belong to the class 'dest-entry'
+        // a.k.a. all text input elements with the label 'Destination:'
+        var destEntries = document.querySelectorAll('.dest-entry');
+
+        // a list of user inputted destinations
+        var destinations = [];
+
+        // the origin point is the starting destination, push it to the destinations list
+        destinations.push(origin);
+
+        // push the values of all text input elements that belong to the class 'dest-entry' to the destinations list
+        for(let i = 0; i < destEntries.length; i++){
+           destinations.push(destEntries[i].value);
+        } 
+
+        // the origin point is also the final destination, push it to the destinations list
+        destinations.push(origin);
+        // draw a Google Maps Javascript API interactive map that displays an optimal route between the inputted destinations
+        // (starting at destinations[0] and ending at destinations[-1]
+        drawMap(destinations,'MST');
     });
    
     // if 'add destination' button is clicked:
@@ -397,6 +435,8 @@ document.addEventListener("DOMContentLoaded", function() {
         var newDestLabel = document.createElement("label");
         newDestLabel.htmlFor = destId;
         newDestLabel.textContent = "Destination " + numDests + ":";
+        newDestLabel.id = "destlabel" + String(numDests);
+        
 
         // create a new HTML <input> element and set the 'id' attribute to destId, 'class' attribute to 'dest-entry', 'name' attribute to destId
         var newDestInput = document.createElement("input");
@@ -409,5 +449,19 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // append the newly created <label> and <input> elements to the form
         destinationEntryForm.append(newDestLabel,newDestInput);
+    });
+    document.getElementById('remove-dest-bttn').addEventListener('click', (e) => {
+        // the number of destination entry boxes that currently exist in the HTML
+        var numDests = document.querySelectorAll('.dest-entry').length;
+        if (numDests > 1){
+                
+            // create a string to be used in as an HTML id attribute, represents what 'dest' number the element is
+            var destInputId = "dest" + String(numDests);
+            var destLabelId = "destlabel" + String(numDests);
+            var lastDestInput = document.getElementById(destInputId);
+            var lastDestLabel = document.getElementById(destLabelId);
+            lastDestInput.remove();
+            lastDestLabel.remove();
+        }
     });
 });
