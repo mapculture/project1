@@ -29,14 +29,15 @@
 }
 
 #map {
-  height: 75%; /*setting the map height explicitly*/
+  /* originally 75% */
+  height: 50%; /*setting the map height explicitly*/
 }
 
 /* Optional: Makes the sample page fill the window. */
 
 html,
 body{
-    font-family: Arial;
+    /*font-family: Arial;*/
     height: 100%;
     margin: 0;
     /* padding: 0;*/
