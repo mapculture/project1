@@ -56,6 +56,7 @@ header{
 }
 
 label {
+    color: white;
     width:180px;
     clear:left;
     text-align:right;
