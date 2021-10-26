@@ -29,7 +29,8 @@
 }
 
 #map {
-  height: 75%; /*setting the map height explicitly*/
+  /* changed from 75%*/
+  height: 50%; /*setting the map height explicitly*/
 }
 
 /* Optional: Makes the sample page fill the window. */
@@ -43,6 +44,14 @@ body {
   background-image:url("https://cdn.pixabay.com/photo/2015/09/02/12/30/foot-bridge-918476_960_720.jpg");    
   padding: 20px;
 }
+
+header{
+  padding: 60px;
+  text-align: center;
+  color: white;
+  font-size: 40px;
+}
+
 
 label {
     width:180px;
