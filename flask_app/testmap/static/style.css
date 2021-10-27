@@ -87,8 +87,8 @@ input{
   justify-content:center;
 }
 video{
-    text-align:Center;
-    object-fit: cover;
+  text-align: center;
+  object-fit: cover;
 }
 .button-set{
     display: flex;
