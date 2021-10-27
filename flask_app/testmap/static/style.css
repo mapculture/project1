@@ -42,7 +42,7 @@ body {
 }
 .imagelocation {
   position: absolute;
-  bottom: 0px;
+  bottom: 20px;
 }
 label{
     width: 100px;
