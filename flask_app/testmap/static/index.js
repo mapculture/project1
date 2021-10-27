@@ -96,6 +96,7 @@ function getPlace(address){
         placesService.findPlaceFromQuery(
             request,
             (response, status) => {
+                console.log(response);
                 if(status === 'OK'){
                     // the response is a list of places in an order determined by what Google deems as most likely to be the correct location (given the inputted string)
                     // in this case, the first place in the list is chosen, and its coordinates are captured in a dictionary
@@ -428,29 +429,30 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById('add-dest-bttn').addEventListener('click', (e) => {
         // the number of destination entry boxes that currently exist in the HTML
         var numDests = document.querySelectorAll('.dest-entry').length + 1;
-        // create a string to be used in as an HTML id attribute, represents what 'dest' number the element is
-        var destId = "dest" + String(numDests);
+        if(numDests <= 9){
+            // create a string to be used in as an HTML id attribute, represents what 'dest' number the element is
+            var destId = "dest" + String(numDests);
 
-        // create a new HTML <label> element and set the 'for' attribute to the destId, also set the 'text' attribute to label what destination it is
-        var newDestLabel = document.createElement("label");
-        newDestLabel.htmlFor = destId;
-        newDestLabel.textContent = "Destination " + numDests + ":";
-        newDestLabel.id = "destlabel" + String(numDests);
-        
+            // create a new HTML <label> element and set the 'for' attribute to the destId, also set the 'text' attribute to label what destination it is
+            var newDestLabel = document.createElement("label");
+            newDestLabel.htmlFor = destId;
+            newDestLabel.textContent = "Destination " + numDests + ":";
+            newDestLabel.id = "destlabel" + String(numDests);
+            
+            // create a new HTML <input> element and set the 'id' attribute to destId, 'class' attribute to 'dest-entry', 'name' attribute to destId
+            var newDestInput = document.createElement("input");
+            newDestInput.id = destId;
+            newDestInput.className = "dest-entry";
+            newDestInput.name = destId;
+            var breakElement = document.createElement("br");
+            var whitespace = document.createTextNode(" ");
+            // the element on the HTML page with the id 'dest-form' 
+            var destinationEntryForm = document.getElementById('dest-form');
 
-        // create a new HTML <input> element and set the 'id' attribute to destId, 'class' attribute to 'dest-entry', 'name' attribute to destId
-        var newDestInput = document.createElement("input");
-        newDestInput.id = destId;
-        newDestInput.className = "dest-entry";
-        newDestInput.name = destId;
-
-        // the element on the HTML page with the id 'dest-form' 
-        var destinationEntryForm = document.getElementById('dest-form');
-
-        // append the newly created <label> and <input> elements to the form
-        destinationEntryForm.append(newDestLabel,newDestInput);
-    });
-    document.getElementById('remove-dest-bttn').addEventListener('click', (e) => {
+            // append the newly created <label> and <input> elements to the form
+            destinationEntryForm.append(newDestLabel,whitespace,newDestInput,breakElement);
+        }
+    }); document.getElementById('remove-dest-bttn').addEventListener('click', (e) => {
         // the number of destination entry boxes that currently exist in the HTML
         var numDests = document.querySelectorAll('.dest-entry').length;
         if (numDests > 1){
