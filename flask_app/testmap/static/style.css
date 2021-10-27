@@ -82,10 +82,12 @@ input{
     padding:5px;
 }
 .videolocation{
-  position: relative;
-  justify-content: center;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 video{
+    text-align:Center;
 }
 .button-set{
     display: flex;
