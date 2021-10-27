@@ -313,7 +313,14 @@ Finally, the route is drawn on the map using drawRoute.
 Note: The origin is both a starting location and an ending location on the route (the first and last index of the destinations list is the origin location). 
 ****************************************************************************************************************************************************************************/
 async function drawMap(destinations,algorithm){
-    initMap();
+    if(map === undefined){
+        console.log("hello");
+        initMap();
+    }
+    else{
+        directionsRenderer.setDirections(null); 
+        setMapOnAll(null);
+    }
     var destCoords = [];
     // convert user inputted destination coordinates to coordinate objects
     // create a marker for each destination 
