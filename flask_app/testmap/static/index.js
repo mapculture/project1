@@ -445,7 +445,10 @@ document.addEventListener("DOMContentLoaded", function() {
             newDestInput.id = destId;
             newDestInput.className = "dest-entry";
             newDestInput.name = destId;
+
+            var breakId = "break" + String(numDests);
             var breakElement = document.createElement("br");
+            breakElement.id = breakId;
             var whitespace = document.createTextNode(" ");
             // the element on the HTML page with the id 'dest-form' 
             var destinationEntryForm = document.getElementById('dest-form');
@@ -461,10 +464,14 @@ document.addEventListener("DOMContentLoaded", function() {
             // create a string to be used in as an HTML id attribute, represents what 'dest' number the element is
             var destInputId = "dest" + String(numDests);
             var destLabelId = "destlabel" + String(numDests);
+            var breakId = "break" + String(numDests);
+
             var lastDestInput = document.getElementById(destInputId);
             var lastDestLabel = document.getElementById(destLabelId);
+            var lastBreak = document.getElementById(breakId);
             lastDestInput.remove();
             lastDestLabel.remove();
+            lastBreak.remove();
         }
     });
 });
