@@ -96,6 +96,7 @@ function getPlace(address){
         placesService.findPlaceFromQuery(
             request,
             (response, status) => {
+                console.log(status);
                 console.log(response);
                 if(status === 'OK'){
                     // the response is a list of places in an order determined by what Google deems as most likely to be the correct location (given the inputted string)
@@ -107,7 +108,7 @@ function getPlace(address){
                     });
                 }
                 else {
-                    reject(response);
+                    reject(status);
                 }
             }
         )
@@ -331,22 +332,24 @@ async function drawMap(destinations,matrixType,algorithm){
     console.log(destinations);
     for (let i = 0; i < destinations.length; i++) {
         if(destinations[i].length != 0){
-            var coords = await getPlace(destinations[i]);
-            if(coords == undefined){
-                var header = document.getElementById('welcome'); 
-                header.innerText= "ERROR: A destination was entered that is not valid. Try again.";
-                header.style.color= "red";
-                console.log("inputted address is undefined!")    
-                var submitButtons = document.querySelectorAll('.submit-button');
-                sleep(2000).then(() => { 
-                    for(let i = 0; i < submitButtons.length; i++){
-                        submitButtons[i].style.display = "block";
-                    }
-                });
-                return;
-            }
-            destCoords.push(coords);
+            var coords = await getPlace(destinations[i]).catch(() => {
+                    var header = document.getElementById('welcome'); 
+                    header.innerText= "ERROR: A destination was entered that is not valid. Try again.";
+                    header.style.color= "red";
+                    console.log("inputted address is undefined!")    
+                    var submitButtons = document.querySelectorAll('.submit-button');
+                    sleep(2000).then(() => { 
+                        for(let i = 0; i < submitButtons.length; i++){
+                            submitButtons[i].style.display = "block";
+                        }
+                    });
+                    return undefined;
+            });
         }
+        if(coords == undefined){
+            return;
+        }
+        destCoords.push(coords);
     }
 
 
