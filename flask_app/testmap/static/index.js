@@ -218,7 +218,7 @@ async function getMatrix(dests){
         }
     }
     console.log("Distance Matrix:", distanceMatrix,"\n","Duration matrix:",durationMatrix);
-    return distanceMatrix;
+    return {'distanceMatrix': distanceMatrix,'durationMatrix': durationMatrix,};
 }
 
 /****************************************************************************************************************************************************************************
@@ -312,7 +312,7 @@ Finally, the route is drawn on the map using drawRoute.
 
 Note: The origin is both a starting location and an ending location on the route (the first and last index of the destinations list is the origin location). 
 ****************************************************************************************************************************************************************************/
-async function drawMap(destinations,algorithm){
+async function drawMap(destinations,matrixType,algorithm){
     if(map === undefined){
         console.log("hello");
         initMap();
@@ -343,13 +343,21 @@ async function drawMap(destinations,algorithm){
 
 
     // obtian the distance matrix
-    var distanceMatrix = await getMatrix(destCoords);
+    var matrices = await getMatrix(destCoords);
+    var distanceMatrix = matrices.distanceMatrix;
+    var durationMatrix = matrices.durationMatrix;
 
     // obtain the optimal route from the origin to the waypoints and back to the origin, optimized for reducing distance traveled
     // this returns the order in which the destinations in the destCoords list should be traveled (by indices)
-    var optimalRoute = await getOptimalRoute(algorithm,distanceMatrix,destCoords);
+    if(matrixType == "distance"){
+        var optimalRoute = await getOptimalRoute(algorithm,distanceMatrix,destCoords);
+        console.log("distance");
+    }
+    else{
+        var optimalRoute = await getOptimalRoute(algorithm,durationMatrix,destCoords);
+        console.log("duration");
+    } 
     console.log("Optimal route:",optimalRoute);
-
     // sort the destinations in order of the optimalRoute, draw the route on the map
     var sortedDestCoords = optimalRoute.map(i => destCoords[i]);
 
@@ -394,7 +402,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // If 'submit' button is clicked:
     // Then calculate distance matrix, send coordinates and distances to backend
     //document.getElementById('dest-form').addEventListener('submit', (e) => {
-    document.getElementById('submit1').addEventListener('click', (e) => {
+    document.getElementById('submit-distance-genetic').addEventListener('click', (e) => {
         // prevent form submission from reloading the page
         e.preventDefault();
       
@@ -421,9 +429,9 @@ document.addEventListener("DOMContentLoaded", function() {
         destinations.push(origin);
         // draw a Google Maps Javascript API interactive map that displays an optimal route between the inputted destinations
         // (starting at destinations[0] and ending at destinations[-1]
-        drawMap(destinations,'genetic');
+        drawMap(destinations,'distance','genetic');
     });
-    document.getElementById('submit2').addEventListener('click', (e) => {
+    document.getElementById('submit-distance-mst').addEventListener('click', (e) => {
         // prevent form submission from reloading the page
         e.preventDefault();
        
@@ -449,7 +457,64 @@ document.addEventListener("DOMContentLoaded", function() {
         destinations.push(origin);
         // draw a Google Maps Javascript API interactive map that displays an optimal route between the inputted destinations
         // (starting at destinations[0] and ending at destinations[-1]
-        drawMap(destinations,'MST');
+        drawMap(destinations,'distance','MST');
+    });
+
+    document.getElementById('submit-duration-genetic').addEventListener('click', (e) => {
+        // prevent form submission from reloading the page
+        e.preventDefault();
+       
+        // value of the user's input to the 'Origin:' text input field
+        var origin = document.getElementById('origin').value;
+
+        // a list of elements that belong to the class 'dest-entry'
+        // a.k.a. all text input elements with the label 'Destination:'
+        var destEntries = document.querySelectorAll('.dest-entry');
+
+        // a list of user inputted destinations
+        var destinations = [];
+
+        // the origin point is the starting destination, push it to the destinations list
+        destinations.push(origin);
+
+        // push the values of all text input elements that belong to the class 'dest-entry' to the destinations list
+        for(let i = 0; i < destEntries.length; i++){
+           destinations.push(destEntries[i].value);
+        } 
+
+        // the origin point is also the final destination, push it to the destinations list
+        destinations.push(origin);
+        // draw a Google Maps Javascript API interactive map that displays an optimal route between the inputted destinations
+        // (starting at destinations[0] and ending at destinations[-1]
+        drawMap(destinations,'duration','Genetic');
+    });
+    document.getElementById('submit-duration-mst').addEventListener('click', (e) => {
+        // prevent form submission from reloading the page
+        e.preventDefault();
+       
+        // value of the user's input to the 'Origin:' text input field
+        var origin = document.getElementById('origin').value;
+
+        // a list of elements that belong to the class 'dest-entry'
+        // a.k.a. all text input elements with the label 'Destination:'
+        var destEntries = document.querySelectorAll('.dest-entry');
+
+        // a list of user inputted destinations
+        var destinations = [];
+
+        // the origin point is the starting destination, push it to the destinations list
+        destinations.push(origin);
+
+        // push the values of all text input elements that belong to the class 'dest-entry' to the destinations list
+        for(let i = 0; i < destEntries.length; i++){
+           destinations.push(destEntries[i].value);
+        } 
+
+        // the origin point is also the final destination, push it to the destinations list
+        destinations.push(origin);
+        // draw a Google Maps Javascript API interactive map that displays an optimal route between the inputted destinations
+        // (starting at destinations[0] and ending at destinations[-1]
+        drawMap(destinations,'duration','MST');
     });
    
     // if 'add destination' button is clicked:
