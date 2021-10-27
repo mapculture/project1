@@ -332,6 +332,19 @@ async function drawMap(destinations,matrixType,algorithm){
     for (let i = 0; i < destinations.length; i++) {
         if(destinations[i].length != 0){
             var coords = await getPlace(destinations[i]);
+            if(coords == undefined){
+                var header = document.getElementById('welcome'); 
+                header.innerText= "ERROR: A destination was entered that is not valid. Try again.";
+                header.style.color= "red";
+                console.log("inputted address is undefined!")    
+                var submitButtons = document.querySelectorAll('.submit-button');
+                sleep(2000).then(() => { 
+                    for(let i = 0; i < submitButtons.length; i++){
+                        submitButtons[i].style.display = "block";
+                    }
+                });
+                return;
+            }
             destCoords.push(coords);
         }
     }
@@ -369,7 +382,7 @@ async function drawMap(destinations,matrixType,algorithm){
     }
     else{
         var header = document.getElementById('welcome'); 
-        header.innerText= "ERROR: A destination was either entered incorrectly or is not connected to the origin by land. Try again.";
+        header.innerText= "ERROR: A destination was entered that is not connected to the origin by land. Try again.";
         header.style.color= "red";
         console.log("distance or duration between destinations is undefined!")    
         var submitButtons = document.querySelectorAll('.submit-button');
