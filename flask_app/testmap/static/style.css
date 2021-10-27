@@ -88,6 +88,7 @@ input{
 }
 video{
     text-align:Center;
+    object-fit: cover;
 }
 .button-set{
     display: flex;
