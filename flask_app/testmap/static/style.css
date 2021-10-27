@@ -22,7 +22,7 @@ body {
 
   /* three columns (three values seperated by space, sized by fraction of available space*/
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 50px 1fr 45px;
+  grid-template-rows: 50px 1fr 50px;
   gap: 10px;
   padding: 10px;
   box-sizing: border-box;
@@ -32,32 +32,81 @@ body {
     /* specify the grid line number */
     border: 1px solid #000000;
     grid-column-start: 1;
+    grid-column-end: 2;
+    border-radius:25px;
+    padding:20px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+.header2 {
+    /* specify the grid line number */
+    /*border: 1px solid #000000;*/
+    grid-column-start: 2;
     grid-column-end: 4;
+    border-radius:25px;
+    padding:20px;
+    display:flex;
+    align-items:center;
+}
+#welcome {
+    text-align:center;
 }
 
 .side {
     border: 1px solid #000000;
     grid-row-start: 2;
     grid-row-end: 3;
+    border-radius:25px;
+    padding:20px;
 }
 .imagelocation {
-  text-align: center;
+  padding:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+img{
+    text-align:Center;
+    width:170.5px;
+    height:123.5px;
 }
 label{
     width: 150px;
     display:inline-block;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
-
+input{
+    width: 400px;
+    padding:5px;
+}
+.button-set{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+button{
+    padding: 5px;
+    margin: 5px;
+    text-align: center;
+}
 .map2 {
     border: 1px solid #000000;
+    border-radius: 20px;
     grid-column-start: 2;
     grid-column-end: 4;
+    grid-row-start: 1;
+    grid-row-end:4;
 }
 .footer {
     border: 1px solid #000000;
     grid-column-start: 1;
-    grid-column-end: 4;
-
+    grid-column-end: 2;
+    border-radius:25px;
+    padding:20px;
+    display:flex;
+    align-items:center;
 }
 #map {
     width: 100%;
