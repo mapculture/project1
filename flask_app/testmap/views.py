@@ -4,7 +4,8 @@ from .genetic_algorithm import TSPGeneticAlgorithm
 from .mst_algorithm import mst_algorithm
 
 # create a connection/route between URL/ and the function index() that returns a response
-@testmap_blueprint.route('/testmap', methods=['GET'])
+#@testmap_blueprint.route('/testmap', methods=['GET'])
+@testmap_blueprint.route('/', methods=['GET'])
 def testmap():
     return render_template('testmap.html') 
 

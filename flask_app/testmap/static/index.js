@@ -390,6 +390,16 @@ async function drawMap(destinations,matrixType,algorithm){
     setMapOnAll(map);
 
     drawRoute(sortedDestCoords);
+    var submitButtons = document.querySelectorAll('.submit-button');
+    sleep(3000).then(() => { 
+        for(let i = 0; i < submitButtons.length; i++){
+            submitButtons[i].style.display = "block";
+        }
+    });
+}
+// https://www.sitepoint.com/delay-sleep-pause-wait/
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
     
 /****************************************************************************************************************************************************************************
@@ -411,6 +421,7 @@ async function autoCompletify(text_input){
 document.addEventListener("DOMContentLoaded", function() {
     var originEntry = document.getElementById('origin'); 
     var destEntries = document.querySelectorAll('.dest-entry');
+    var submitButtons = document.querySelectorAll('.submit-button');
     autoCompletify(originEntry);
     for(let i = 0; i < destEntries.length; i++){
         autoCompletify(destEntries[i]); 
@@ -422,6 +433,9 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById('submit-distance-genetic').addEventListener('click', (e) => {
         // prevent form submission from reloading the page
         e.preventDefault();
+        for(let i = 0; i < submitButtons.length; i++){
+            submitButtons[i].style.display = "none";
+        }
       
         // value of the user's input to the 'Origin:' text input field
         var origin = document.getElementById('origin').value;
@@ -451,6 +465,9 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById('submit-distance-mst').addEventListener('click', (e) => {
         // prevent form submission from reloading the page
         e.preventDefault();
+        for(let i = 0; i < submitButtons.length; i++){
+            submitButtons[i].style.display = "none";
+        }
        
         // value of the user's input to the 'Origin:' text input field
         var origin = document.getElementById('origin').value;
@@ -480,6 +497,9 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById('submit-duration-genetic').addEventListener('click', (e) => {
         // prevent form submission from reloading the page
         e.preventDefault();
+        for(let i = 0; i < submitButtons.length; i++){
+            submitButtons[i].style.display = "none";
+        }
        
         // value of the user's input to the 'Origin:' text input field
         var origin = document.getElementById('origin').value;
@@ -508,6 +528,9 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById('submit-duration-mst').addEventListener('click', (e) => {
         // prevent form submission from reloading the page
         e.preventDefault();
+        for(let i = 0; i < submitButtons.length; i++){
+            submitButtons[i].style.display = "none";
+        }
        
         // value of the user's input to the 'Origin:' text input field
         var origin = document.getElementById('origin').value;

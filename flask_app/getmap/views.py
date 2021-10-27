@@ -3,7 +3,8 @@ from flask import Flask, jsonify, render_template, request
 from .genetic_algorithm import TSPGeneticAlgorithm
 
 # create a connection/route between URL/ and the function index() that returns a response
-@getmap_blueprint.route('/', methods=['GET'])
+#@getmap_blueprint.route('/', methods=['GET'])
+@getmap_blueprint.route('/getmap', methods=['GET'])
 def getmap():
     # load the getmap.html at the root of the website
     return render_template('getmap.html') 
