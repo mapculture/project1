@@ -187,6 +187,7 @@ async function getMatrix(dests){
     var durationMatrix = new Array(response.rows.length);
 
     // For each row in the matrix received from Google
+    var valid = true;
     for (var i = 0; i < response.rows.length; i++) {
 
         // The rows' elements correspond to the pairing of the origins (rows) with the destination (columns) of the distance or duration matrix
@@ -203,11 +204,13 @@ async function getMatrix(dests){
             var element = rowElements[j];
 
             // the distance value in kilometers 
-            var distance = element.distance.value;
-
-            // the duration value in minutes
-            var duration = element.duration.value;
-
+            if(element.distance == undefined || element.duration == undefined){
+                valid = false;
+            }
+            else{
+                var distance = element.distance.value;
+                var duration = element.duration.value;
+            }
             // populate the distance matrix with the row element's distance value
             distanceMatrix[i][j] = distance;
 
@@ -218,7 +221,7 @@ async function getMatrix(dests){
         }
     }
     console.log("Distance Matrix:", distanceMatrix,"\n","Duration matrix:",durationMatrix);
-    return {'distanceMatrix': distanceMatrix,'durationMatrix': durationMatrix,};
+    return {'valid':valid,'distanceMatrix': distanceMatrix,'durationMatrix': durationMatrix,};
 }
 
 /****************************************************************************************************************************************************************************
@@ -350,14 +353,27 @@ async function drawMap(destinations,matrixType,algorithm){
 
     // obtain the optimal route from the origin to the waypoints and back to the origin, optimized for reducing distance traveled
     // this returns the order in which the destinations in the destCoords list should be traveled (by indices)
-    if(matrixType == "distance"){
-        var optimalRoute = await getOptimalRoute(algorithm,distanceMatrix,destCoords);
-        console.log("distance");
+    console.log(matrices.valid);
+    if(matrices.valid == true){
+        var header = document.getElementById('welcome'); 
+        header.innerText= "Enter a set of addresses!";
+        header.style.color= "black";
+        if(matrixType == "distance"){
+            var optimalRoute = await getOptimalRoute(algorithm,distanceMatrix,destCoords);
+            console.log("distance");
+        }
+        else{
+            var optimalRoute = await getOptimalRoute(algorithm,durationMatrix,destCoords);
+            console.log("duration");
+        } 
     }
     else{
-        var optimalRoute = await getOptimalRoute(algorithm,durationMatrix,destCoords);
-        console.log("duration");
-    } 
+        var header = document.getElementById('welcome'); 
+        header.innerText= "ERROR: Destinations must be connected by land. Try again.";
+        header.style.color= "red";
+        console.log("distance or duration between destinations is undefined!")    
+        return;
+    }
     console.log("Optimal route:",optimalRoute);
     // sort the destinations in order of the optimalRoute, draw the route on the map
     var sortedDestCoords = optimalRoute.map(i => destCoords[i]);
