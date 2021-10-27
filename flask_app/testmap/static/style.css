@@ -81,6 +81,16 @@ input{
     width: 400px;
     padding:5px;
 }
+.videolocation{
+  position: relative;
+  justify-content: center;
+}
+video{
+  position: absolute;
+    left: 50%; /* % of surrounding element */
+    top: 50%;
+    transform: translate(-50%, -50%); /* % of current element */
+}
 .button-set{
     display: flex;
     align-items: center;
