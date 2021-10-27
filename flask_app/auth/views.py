@@ -1,8 +1,8 @@
 from . import auth_blueprint
 from flask import render_template
-from ..db import Mongodb
+from . import db
 
-mongo = Mongodb()
+mongo = db.Mongodb()
 mongo.connect()
 
 @auth_blueprint.route('/register', methods=['GET'])
