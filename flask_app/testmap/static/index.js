@@ -318,7 +318,8 @@ async function drawMap(destinations,matrixType,algorithm){
         initMap();
     }
     else{
-        directionsRenderer.setDirections(null); 
+        directionsRenderer.setMap(null); 
+        directionsRenderer.setMap(map);
         setMapOnAll(null);
     }
     var destCoords = [];
