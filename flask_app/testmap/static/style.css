@@ -104,6 +104,10 @@ button{
     font-weight: bold;
     background-color: black;
 }
+input[type=text]{
+    border: 2px solid black;
+    border-radius: 5px;
+}
 .map2 {
     border: 1px solid #000000;
     border-radius: 20px;
