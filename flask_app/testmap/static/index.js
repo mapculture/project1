@@ -595,7 +595,8 @@ document.addEventListener("DOMContentLoaded", function() {
             // append the newly created <label> and <input> elements to the form
             destinationEntryForm.append(newDestLabel,whitespace,newDestInput,breakElement);
         }
-    }); document.getElementById('remove-dest-bttn').addEventListener('click', (e) => {
+    }); 
+        document.getElementById('remove-dest-bttn').addEventListener('click', (e) => {
         // the number of destination entry boxes that currently exist in the HTML
         var numDests = document.querySelectorAll('.dest-entry').length;
         if (numDests > 1){
@@ -611,6 +612,14 @@ document.addEventListener("DOMContentLoaded", function() {
             lastDestInput.remove();
             lastDestLabel.remove();
             lastBreak.remove();
+        }
+    });
+        document.getElementById('clear-dests-bttn').addEventListener('click', (e) => {
+        // the number of destination entry boxes that currently exist in the HTML
+        var destEntries = document.querySelectorAll('.dest-entry');
+        for(let i = 0; i < destEntries.length;i++){
+            // create a string to be used in as an HTML id attribute, represents what 'dest' number the element is
+            destEntries[i].value = "";
         }
     });
 });
