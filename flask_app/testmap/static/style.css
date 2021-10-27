@@ -41,9 +41,7 @@ body {
     grid-row-end: 3;
 }
 .imagelocation {
-  position: absolute;
   text-align: center;
-  bottom: 60px;
 }
 label{
     width: 150px;

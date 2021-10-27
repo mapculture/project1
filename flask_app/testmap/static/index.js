@@ -319,9 +319,12 @@ async function drawMap(destinations,algorithm){
     // create a marker for each destination 
     console.log(destinations);
     for (let i = 0; i < destinations.length; i++) {
-        var coords = await getPlace(destinations[i]);
-        destCoords.push(coords);
+        if(destinations[i].length != 0){
+            var coords = await getPlace(destinations[i]);
+            destCoords.push(coords);
+        }
     }
+
 
     console.log(destCoords);
 
@@ -364,16 +367,33 @@ These are event listeners that attach to a specific element in the HTML template
 
 ****************************************************************************************************************************************************************************/
 // Wait for DOM to load before manipulating elements
+
+async function autoCompletify(text_input){
+    const options = {
+        componentRestrictions: {country: "us" },
+        fields: ["address_components","geometry","name"],
+    };
+    const auto = new google.maps.places.Autocomplete(text_input);
+}
+
 document.addEventListener("DOMContentLoaded", function() {
+    var originEntry = document.getElementById('origin'); 
+    var destEntries = document.querySelectorAll('.dest-entry');
+    autoCompletify(originEntry);
+    for(let i = 0; i < destEntries.length; i++){
+        autoCompletify(destEntries[i]); 
+    }
+
     // If 'submit' button is clicked:
     // Then calculate distance matrix, send coordinates and distances to backend
     //document.getElementById('dest-form').addEventListener('submit', (e) => {
     document.getElementById('submit1').addEventListener('click', (e) => {
         // prevent form submission from reloading the page
         e.preventDefault();
-       
+      
         // value of the user's input to the 'Origin:' text input field
         var origin = document.getElementById('origin').value;
+        console.log(origin);
 
         // a list of elements that belong to the class 'dest-entry'
         // a.k.a. all text input elements with the label 'Destination:'
@@ -445,6 +465,7 @@ document.addEventListener("DOMContentLoaded", function() {
             newDestInput.id = destId;
             newDestInput.className = "dest-entry";
             newDestInput.name = destId;
+            autoCompletify(newDestInput);
 
             var breakId = "break" + String(numDests);
             var breakElement = document.createElement("br");
