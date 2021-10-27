@@ -343,6 +343,7 @@ async function drawMap(destinations,algorithm){
     // sort the destinations in order of the optimalRoute, draw the route on the map
     var sortedDestCoords = optimalRoute.map(i => destCoords[i]);
 
+    markers = [];
     for (let i = 0; i < sortedDestCoords.length; i++) {
         // if the destination is not the final destination, then create a Marker object and add it to the global list
         // (this is to avoid overlapping the origin location with two markers
