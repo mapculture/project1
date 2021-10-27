@@ -99,6 +99,10 @@ button{
     padding: 5px;
     margin: 5px;
     text-align: center;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    background-color: black;
 }
 .map2 {
     border: 1px solid #000000;
