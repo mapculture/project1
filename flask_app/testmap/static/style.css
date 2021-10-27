@@ -72,8 +72,10 @@ body {
 }
 img{
     text-align:Center;
-    width:170.5px;
-    height:123.5px;
+    /*width was 170.5px*/
+    width:180px;
+    /*height was 123.5px*/
+    height:130px;
 }
 label{
     width: 150px;
