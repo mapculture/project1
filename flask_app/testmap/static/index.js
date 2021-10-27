@@ -369,7 +369,7 @@ async function drawMap(destinations,matrixType,algorithm){
     }
     else{
         var header = document.getElementById('welcome'); 
-        header.innerText= "ERROR: Destinations must be connected by land. Try again.";
+        header.innerText= "ERROR: A destination was either entered incorrectly or is not connected to the origin by land. Try again.";
         header.style.color= "red";
         console.log("distance or duration between destinations is undefined!")    
         var submitButtons = document.querySelectorAll('.submit-button');
