@@ -18,14 +18,15 @@ video {
     z-index: -1;
   }
 
- img {
-   position: fixed;
-   left: 0px;
-   top: 0px;
+img {
     width: 150px;
 }
+nav li {
+list-style: none;
+}
 nav ul{
-    float: right;
+  
+    float: left;
     margin-left: 5%;
     margin-right: 5%;
     margin-top: 2%;
