@@ -5,6 +5,17 @@ body {
   font-family: 'Quicksand', sans-serif;
   color: black;
 }
+video {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    right: 0;
+    bottom: 0;
+    top:0;
+    width: 100%;
+    object-fit: cover;
+    z-index: -1;
+  }
 img{
   width: 150px;
 }
