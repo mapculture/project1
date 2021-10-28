@@ -3,13 +3,20 @@
   <head>
     <title>CIS 422: Project 1 - About us</title>
     <meta charset="utf-8">
+  </head>
+
+  <body>
     <style>
-      .bodycontainer{
-        padding:0px;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-      }
+      .header{
+        border-radius: 25px;
+        border: 2px solid #000000;
+        padding: 20px;
+        width: 1fr;
+        height: 15px;
+        text-align: center;
+        font-family: 'Quicksand', sans-serif;
+        font-weight: bold;
+        font-size: 15px;
       img{
         text-align: center;
         width: 320;
@@ -27,8 +34,12 @@
         font-size: 15px;
       }
     </style>
-    <p id="rcorners"> About Us:</p>
-    <div class = bodycontainer>
-      <img src="/testmap/static/mapcultureanimated.gif" alt="animated logo">
+    <div class = header>
+      <p> About Us:</p>
+      <li>
+        <ul><a href="/">Home</a></ul>
+      <li>
     </div>
-  </head>
+    <img src="/testmap/static/mapcultureanimated.gif" alt="animated logo">
+    <p id="rcorners"> </p>
+  </body>
