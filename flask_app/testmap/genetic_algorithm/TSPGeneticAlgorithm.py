@@ -1,6 +1,6 @@
 # Author:       Kaiser Slocum
 # Created:      10/4/2021
-# Last Edited:  10/18/2021 
+# Last Edited:  10/29/2021 
 
 # Gnome and Gnomes need to be imported using relative path name for flask
 #import random, operator, Gnome, Gnomes, time, math
@@ -79,7 +79,7 @@ def randomStatTester():
 
 # Use this to get the best distance route
 # This method returns a Python array of the best route
-def getBestDistanceRoute(numCity, distanceMatrix, timeSec):
+def getBestDistanceRoute(numCity, distanceMatrix):
     # The number of columns in distanceMatrix must match the number of cities
     if (len(distanceMatrix) != numCity):
         raise Exception("The size of the distanceMatrix does not match the number of cities!")
@@ -90,6 +90,7 @@ def getBestDistanceRoute(numCity, distanceMatrix, timeSec):
     if (numCity > 30):
         raise Exception("Too many cities provided!")
 
+    numGen = 2 * numCity
     # If we have less than five cities, we can afford to just create a population of the number of permutations
     if(numCity < 5):
         numPop = math.factorial(numCity)
@@ -105,16 +106,15 @@ def getBestDistanceRoute(numCity, distanceMatrix, timeSec):
     # Create a list of gnomes (routes)
     gnomes = Gnomes.Gnomes(numPop,numCells,numElites,mutationRate,None,distanceMatrix)
     # Due to the fact that we cannot end our gnomes.createNewDisPop() method before it has completed, we are likely to go a little over the number of seconds specified
-    t = time.perf_counter()
-    while (t < timeSec):
+    genSum = 0
+    while (genSum < numGen):
         gnomes.createNewDisPop()
-        t = time.perf_counter()
-
+        genSum = genSum + 1    
     return gnomes.bestDistanceRoute.getGnome()
 
 # Use this to get the best duration route
 # This method returns a Python array of the best route
-def getBestDurationRoute(numCity, durationMatrix, timeSec):
+def getBestDurationRoute(numCity, durationMatrix):
     # The number of columns in durationMatrix must match the number of cities
     if (len(durationMatrix) != numCity):
         raise Exception("The size of the durationMatrix does not match the number of cities!")
@@ -125,6 +125,7 @@ def getBestDurationRoute(numCity, durationMatrix, timeSec):
     if (numCity > 30):
         raise Exception("Too many cities provided!")
 
+    numGen = 2 * numCity
     # If we have less than five cities, we can afford to just create a population of the number of permutations
     if(numCity < 5):
         numPop = math.factorial(numCity)
@@ -140,9 +141,8 @@ def getBestDurationRoute(numCity, durationMatrix, timeSec):
     # Create a list of gnomes (routes)
     gnomes = Gnomes.Gnomes(numPop,numCells,numElites,mutationRate,durationMatrix, None)
     # Due to the fact that we cannot end our gnomes.createNewDisPop() method before it has completed, we are likely to go a little over the number of seconds specified
-    t = time.perf_counter()
-    while (t < timeSec):
-        gnomes.createNewDisPop()
-        t = time.perf_counter()
-
+    genSum = 0
+    while (genSum < numGen):
+        gnomes.createNewDurPop()
+        genSum = genSum + 1
     return gnomes.bestDistanceRoute.getGnome()
