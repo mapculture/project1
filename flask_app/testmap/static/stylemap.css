@@ -6,6 +6,7 @@ body {
     width:100%;
     margin: 0px;
     padding:0px;
+    background-image: url("background.png");
 }
 
 /* container will span the entire width and height of the webpage */
