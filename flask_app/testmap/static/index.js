@@ -334,7 +334,7 @@ async function drawMap(destinations,matrixType,algorithm){
         if(destinations[i].length != 0){
             console.log(coords);
             var coords = await getPlace(destinations[i]).catch(() => {
-                    var header = document.getElementById('welcome'); 
+                    var header = document.getElementById('show-error'); 
                     header.innerText= "ERROR: A destination was entered that is not valid. Try again.";
                     header.style.color= "red";
                     console.log("inputted address is undefined!")    
@@ -372,9 +372,8 @@ async function drawMap(destinations,matrixType,algorithm){
     // this returns the order in which the destinations in the destCoords list should be traveled (by indices)
     console.log(matrices.valid);
     if(matrices.valid == true){
-        var header = document.getElementById('welcome'); 
-        header.innerText= "Enter a set of addresses!";
-        header.style.color= "black";
+        var header = document.getElementById('show-error'); 
+        header.innerText= ""
         if(matrixType == "distance"){
             var optimalRoute = await getOptimalRoute(algorithm,distanceMatrix,destCoords);
             console.log("distance");
@@ -385,7 +384,7 @@ async function drawMap(destinations,matrixType,algorithm){
         } 
     }
     else{
-        var header = document.getElementById('welcome'); 
+        var header = document.getElementById('show-error'); 
         header.innerText= "ERROR: A destination was entered that is not connected to the origin by land. Try again.";
         header.style.color= "red";
         console.log("distance or duration between destinations is undefined!")    
