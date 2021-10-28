@@ -332,6 +332,7 @@ async function drawMap(destinations,matrixType,algorithm){
     console.log(destinations);
     for (let i = 0; i < destinations.length; i++) {
         if(destinations[i].length != 0){
+            console.log(coords);
             var coords = await getPlace(destinations[i]).catch(() => {
                     var header = document.getElementById('welcome'); 
                     header.innerText= "ERROR: A destination was entered that is not valid. Try again.";
@@ -345,11 +346,11 @@ async function drawMap(destinations,matrixType,algorithm){
                     });
                     return undefined;
             });
+            if(coords == undefined){
+                return;
+            }
+            destCoords.push(coords);
         }
-        if(coords == undefined){
-            return;
-        }
-        destCoords.push(coords);
     }
 
 
