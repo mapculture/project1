@@ -30,7 +30,7 @@ def primMST(num_node, adjMatrix):
     #Reroute output to output.txt(can be variable)
 
     #Initialize return array
-    # array = list()
+    #array = list()
     array1 = list()
     array1.append(0)
 
@@ -57,8 +57,8 @@ def primMST(num_node, adjMatrix):
                             v2 = j
 
         #Print edges with weights attached
-        # array.append(adjMatrix[v1][v2])
-        # array1.append(v1)
+        #array.append(adjMatrix[v1][v2])
+        #array1.append(v1)
         array1.append(v2)
         #Add vertex to visited node list
         select_node[v2] = True
@@ -66,10 +66,11 @@ def primMST(num_node, adjMatrix):
         track += 1
 
     #Append final path from last node to start node
-    # array.append(adjMatrix[array1[-1]][0])
-    # array1.append(array1[-1])
+    #array.append(adjMatrix[array1[-1]][0])
+    #array1.append(array1[-1])
     array1.append(0)
-    # print(array)
+    #print(array)
+    print(array1)
     return array1
     # print(sum(array))
     #Close the open file
