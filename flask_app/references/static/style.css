@@ -2,16 +2,19 @@ html,
 body {
   height: 100%;
   margin: 0;
-  font-family: 'Quicksand', sans-serif;
+  font-family: 'Courier New', sans-serif;
+  background-image: url("https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80");
   color: black;
 }
 
-img{
-  width: 150px;
+img {
+    width: 150px;
 }
+
 nav li {
 list-style: none;
 }
+
 nav ul{
     float: left;
     margin-left: 5%;
@@ -23,17 +26,21 @@ nav ul{
     padding: 10px;
     border-radius: 5px;
 }
+
 a:link {
   color: white;
   text-decoration: none;
 }
+
 a:hover {
   text-decoration: underline;
   color: brown;
 }
+
 a:visited {
   color: white;
 }
+
 section {
   clear: left;
   float: center;
@@ -55,34 +62,23 @@ section h2 {
   font-size: 2em;
 }
 section p {
-  border-radius: 25px;
-  border: 2px solid #000000;
-  padding: 20px;
+  margin: 10px;
   width: 100%;
-  height: 100%;
   text-align: center;
-  font-family: 'Quicksand', sans-serif;
   font-weight: bold;
-  font-size: 15px;
-  background-color: rgba(255, 255, 255, 0.5);
+  font-size: 1.1em;
 }
-section h3 {
-  border-radius: 25px;
-  border: 2px solid #000000;
-  padding: 20px;
-  width: 100%;
-  height: 100%;
+section p:last-of-type {
+  margin-top: 5%;
+}
+section p a{
+  margin: 5px;
   text-align: center;
-  font-family: 'Quicksand', sans-serif;
   font-weight: bold;
-  font-size: 15px;
-  background-color: rgba(255, 255, 255, 0.5);
+    padding: 2px;
+    font-weight: bold;
+    background-color: black;
+    padding: 10px;
+    border-radius: 5px;
 }
 
-backg{
-  height: 100%;
-  margin: 0;
-  /* padding: 0;*/
-  /*background-color: darkcyan;*/
-  background-image: url("https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80");
-}
