@@ -25,7 +25,7 @@ nav li {
 list-style: none;
 }
 nav ul{
-  
+
     float: left;
     margin-left: 5%;
     margin-right: 5%;
@@ -53,12 +53,12 @@ section {
   float: center;
   margin: 10%;
   border-radius: 0px 0px 20px 20px;
-  color: black;  
-  padding: 0px;   
+  color: black;
+  padding: 0px;
 }
 section h1 {
   margin: 0px;
-  font-size: 3em; 
+  font-size: 3em;
   font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   width: 100%;
   text-align: center;
@@ -87,4 +87,33 @@ section p a{
     background-color: black;
     padding: 10px;
     border-radius: 5px;
+}
+
+
+.header{
+  border-radius: 25px;
+  border: 2px solid #000000;
+  padding: 20px;
+  width: 1fr;
+  height: 15px;
+  text-align: center;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: bold;
+  font-size: 15px;
+}
+img{
+  text-align: center;
+  width: 320;
+  height: 240;
+}
+#rcorners {
+  border-radius: 25px;
+  border: 2px solid #000000;
+  padding: 20px;
+  width: 1fr;
+  height: 15px;
+  text-align: center;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: bold;
+  font-size: 15px;
 }
