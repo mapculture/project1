@@ -16,7 +16,7 @@ body {
 
   font-family: 'Quicksand', sans-serif;
   font-weight: bold;
-  font-size: 15px;
+  font-size: 12px;
 
   /* define the container as a grid container */
   display: grid;
@@ -24,8 +24,8 @@ body {
   /* three columns (three values seperated by space, sized by fraction of available space*/
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 50px 1fr 50px;
-  gap: 10px;
-  padding: 10px;
+  gap: 5px;
+  padding: 5px;
   box-sizing: border-box;
 }
 
@@ -65,7 +65,7 @@ body {
     padding:20px;
 }
 .imagelocation {
-  padding:10px;
+  padding:0px;
   display:flex;
   align-items:center;
   justify-content:center;
