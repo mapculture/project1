@@ -20,7 +20,7 @@ html,
 .button-box{
     width: 220px;
     height: 35px;
-    position: relative;
+    position: absolute;
     box-shadow: 0 0 20px 9px #ff61241f;
     border-radius: 30px;
 }
