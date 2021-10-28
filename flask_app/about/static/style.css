@@ -6,9 +6,7 @@ body {
   color: black;
 }
 img{
-  text-align: center;
-  width: 320;
-  height: 240;
+  width: 150px;
 }
 nav li {
 list-style: none;
