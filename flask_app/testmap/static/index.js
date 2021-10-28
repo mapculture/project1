@@ -546,7 +546,7 @@ document.addEventListener("DOMContentLoaded", function() {
         destinations.push(origin);
         // draw a Google Maps Javascript API interactive map that displays an optimal route between the inputted destinations
         // (starting at destinations[0] and ending at destinations[-1]
-        drawMap(destinations,'duration','Genetic');
+        drawMap(destinations,'duration','genetic');
     });
     document.getElementById('submit-duration-mst').addEventListener('click', (e) => {
         // prevent form submission from reloading the page

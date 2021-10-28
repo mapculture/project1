@@ -27,8 +27,10 @@ def runAlgorithm():
 
     if algorithm == 'genetic':
         optimal_route = TSPGeneticAlgorithm.getBestDistanceRoute(num_dests,dist_matrix)
+        algorithm_used = 'genetic'
     else: 
         optimal_route = mst_algorithm.primMST(num_dests,dist_matrix)
+        algorithm_used = 'MST'
 
-    message = {'optimal_route': optimal_route, 'algorithm_used': algorithm}
+    message = {'optimal_route': optimal_route, 'algorithm_used': algorithm_used}
     return jsonify(message)
