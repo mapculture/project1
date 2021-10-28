@@ -16,8 +16,8 @@ def login():
     return render_template('login.html') """
 
 
-@auth_blueprint.route('/index', methods=['GET'])
-def index():
-    return render_template('index.html')
+@auth_blueprint.route('/login', methods=['GET'])
+def login():
+    return render_template('login.html')
 
 
