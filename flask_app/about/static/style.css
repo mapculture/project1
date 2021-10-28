@@ -41,6 +41,13 @@ section {
   color: black;
   padding: 0px;
 }
+section a{
+  border-radius: 25px;
+  border: 2px solid #000000;
+  padding: 20px;
+  width: 1fr;
+  height: 30vh;
+}
 section h1 {
   margin: 0px;
   font-size: 3em;
