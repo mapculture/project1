@@ -5,13 +5,9 @@ from .mst_algorithm import mst_algorithm
 
 # create a connection/route between URL/ and the function index() that returns a response
 #@testmap_blueprint.route('/testmap', methods=['GET'])
-@testmap_blueprint.route('/', methods=['GET'])
-def testmap():
-    return render_template('testmap.html') 
-
-@testmap_blueprint.route('/testmapmap', methods=['GET'])
+@testmap_blueprint.route('/testmap', methods=['GET'])
 def testmapsecondary():
-    return render_template('testmapmap.html') 
+    return render_template('testmap.html') 
 
 # POST: sending of information to another location
 # example: sending a letter in the mail

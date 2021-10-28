@@ -38,6 +38,7 @@ def create_app(test_config=None):
 
     with app.app_context():
         # import blueprints
+        from .home import home_blueprint
         from .getmap import getmap_blueprint 
         from .testmap import testmap_blueprint
         from .testmapOOP import testmapOOP_blueprint
@@ -48,6 +49,7 @@ def create_app(test_config=None):
         app.register_error_handler(500,internal_server_error)
 
         # register blueprints
+        app.register_blueprint(home_blueprint)
         app.register_blueprint(getmap_blueprint)
         app.register_blueprint(testmap_blueprint)
         app.register_blueprint(testmapOOP_blueprint)

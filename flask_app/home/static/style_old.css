@@ -1,0 +1,64 @@
+/* Always set the map height explicitly to define the size of the div
+       * element that contains the map. (source: Google API reference) */
+.container {
+  height: 25%;
+  position: relative;
+}
+
+/* source: https://css-tricks.com/centering-css-complete-guide/ */ 
+
+.center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.row{
+  /* padding: 2px; */
+}
+
+/*creating box around "enter set of coordinates" text */
+.box {
+    height: 200px;
+    width: 700px;
+    background-color: honeydew;
+    padding: 10px;
+    border: solid 3px black;
+    margin: 20px;
+}
+
+#map {
+  /* changed from 75%*/
+  height: 50%; /*setting the map height explicitly*/
+}
+
+/* Optional: Makes the sample page fill the window. */
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  /*padding: 0;*/
+  background-color: darkcyan;
+  padding: 20px;
+}
+
+header{
+  padding: 60px;
+  text-align: center;
+  color: white;
+  font-size: 40px;
+}
+
+
+label {
+    width:180px;
+    clear:left;
+    text-align:right;
+    padding-right:10px;
+}
+
+input, label {
+    float:left;
+}
