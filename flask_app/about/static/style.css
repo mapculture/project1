@@ -63,5 +63,5 @@ section p {
   font-family: 'Quicksand', sans-serif;
   font-weight: bold;
   font-size: 15px;
-
+  background-color: rgba(255, 255, 255, 0.5);
 }
