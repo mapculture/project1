@@ -4,58 +4,27 @@
     <title>CIS 422: Project 1</title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="/testmap/static/style.css" />
-    <script src="/testmap/static/index.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBGpRBsvbbPEHYD0Dgi6MP8G32hMkMC_6U&libraries=places" ></script>
-    <link rel="icon" type="image/x-icon" href="/testmap/static/mapcultureicon2.ico" />
   </head>
 
   <body>
-    <div class="container"> <!---grid container--> <!---grid has base layout of rows and columns -->
-        <div class="header">
-            <h3 id="welcome">Enter a set of addresses!</h3>
-        </div>
-        <div class="side">
-          <div class="imagelocation">
-            <img src="/testmap/static/mapculturelogo.png" alt="mapculture logo">
-          </div>
-          <form id="dest-form">
-            <label for="origin">Origin:</label>
-            <input id="origin" name="origin" type="text" value="University of Oregon"><br>
-            <label for="dest1" id="destlabel1">Destination 1:</label>
-            <input class="dest-entry" id="dest1" name="dest1" type="text" value="Bailey Hill Liquor"/><br id="break1">
-            <label for="dest2" id="destlabel2">Destination 2:</label>
-            <input class="dest-entry" id="dest2" name="dest2" type="text" value="The Duck Store"/><br id="break2">
-          </form>
-          <div class="button-set">
-              <button id="add-dest-bttn" name="add-dest-bttn" type="button">Add destination</button>
-              <button id="remove-dest-bttn" name="remove-dest-bttn" type="button">Remove destination</button>
-              <button id="clear-dests-bttn" name="clear-dests-bttn" type="button">Clear</button>
-          </div>
-          <div class="button-set">
-              <button type="submit" class="submit-button" id="submit-distance-mst" form="dest-form">Map [Distance,MST]</button>
-              <button type="submit" class="submit-button" id="submit-duration-mst" form="dest-form">Map [Duration,MST]</button>
-          </div>
-          <div class="button-set">
-              <button type="submit" class="submit-button"id="submit-distance-genetic" form="dest-form">Map [Distance,Genetic]</button>
-              <button type="submit" class="submit-button" id="submit-duration-genetic" form="dest-form">Map [Duration,Genetic]</button>
-          </div>
-          <div class="videolocation">
-            <video id="vid" width="500" height="375" controlsList="nodownload" autoplay loop muted playsinline>
-              <source src="/testmap/static/sceniccool.mp4" type="video/mp4" />
-            </video>
-            <script>
-              vid=document.getElementById("vid")
-              vid.disablePictureInPicture = true
-            </script>
-          </div>
-
-        </div>
-        <div class="map2" id="map">
-            <div id="map3"></div> <!-- This is where the map will be inserted -->
-        </div>
-        <div class="footer">
-            <p>Brought to you by mapculture.co -- Maps of the future.</p>
-        </div>
-    </div> <!-- container -->
+    <video id="vid" width="500" height="375" controlsList="nodownload" autoplay loop muted playsinline>
+      <source src="/testmap/static/sceniccool.mp4" type="video/mp4" />
+    </video>
+    <nav>
+      <img src="/testmap/static/mapculturelogo.png" >
+      <li>
+        <ul> <a href="/testmap/templates/testmap.html">About us</a> </ul>
+        <ul> <a href="/testmap/templates/testmap.html">Account</a> </ul>
+        <ul> <a href="/testmap/templates/testmapsecondary.html">Map Route</a> </ul>
+        <ul> <a href="/testmap/templates/testmap.html">Home</a> </ul>
+      </li>
+    </nav>    
+    <section>
+      <h1> A CUTTING EDGE SOFTWARE</h1>
+      <h2> <i>Maps of the future</i> </h2>
+      <p> Utilize the latest technology in algorithm optimization to reduce waste </p>
+      <p> <a href="/testmap/templates/testmapsecondary.html">Get your route now!</a></p>
+    </section>
   </body>
 </html>
+
