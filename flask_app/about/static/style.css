@@ -9,9 +9,9 @@ footer {
   border-radius: 20px;
   border: 2px solid #000000;
   padding: 20px;
-  width: 50vw;
+  width: 100vw;
   height: 2vh;
-  bottom: 25px;
+  bottom: 10px;
   text-align: center;
   font-family: 'Quicksand', sans-serif;
   font-weight: bold;
