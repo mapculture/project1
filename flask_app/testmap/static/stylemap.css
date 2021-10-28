@@ -119,7 +119,7 @@ a:link {
     color: brown;
   }
   a:visited {
-    color: white;
+    color: black;
   }
 .button-set{
     display: flex;
