@@ -60,7 +60,7 @@ body {
     border: 3px solid #000000;
     background-color: rgba(0, 0, 255, 0.5);
     grid-row-start: 2;
-    grid-row-end: 3;
+    grid-row-end: 4;
     border-radius:25px;
     padding:20px;
 }
