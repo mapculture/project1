@@ -2,7 +2,7 @@
 # Created:      10/4/2021
 # Last Edited:  10/18/2021 
 #import Gnome, random
-import random, Gnome
+import random
 from . import Gnome
 
 class Gnomes(object):
