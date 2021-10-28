@@ -5,19 +5,6 @@ body {
   font-family: 'Quicksand', sans-serif;
   color: black;
 }
-footer {
-  border-radius: 20px;
-  border: 2px solid #000000;
-  padding: 20px;
-  width: 0.5fr;
-  height: 2vh;
-  bottom: 4;
-  text-align: center;
-  font-family: 'Quicksand', sans-serif;
-  font-weight: bold;
-  font-size: 15px;
-  background-color: rgba(255, 255, 255, 0.5);
-}
 video {
     position: fixed;
     width: 100vw;
@@ -82,7 +69,19 @@ section p {
   border: 2px solid #000000;
   padding: 20px;
   width: 1fr;
-  height: 35vh;
+  height: 40vh;
+  text-align: center;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: bold;
+  font-size: 15px;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+section h3 {
+  border-radius: 25px;
+  border: 2px solid #000000;
+  padding: 20px;
+  width: 1fr;
+  height: 2vh;
   text-align: center;
   font-family: 'Quicksand', sans-serif;
   font-weight: bold;
