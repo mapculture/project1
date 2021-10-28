@@ -5,8 +5,9 @@ from . import db
 mongo = db.Mongodb()
 mongo.connect()
 
+#changed from /register
 @auth_blueprint.route('/registration', methods=['GET'])
-def register():
+def registration():
     return render_template('registration.html')
 
 # create a connection/route between URL /login and the function login() that returns a response
