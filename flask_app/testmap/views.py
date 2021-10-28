@@ -26,7 +26,7 @@ def runAlgorithm():
     algorithm = received_message['algorithm']
 
     if algorithm == 'genetic':
-        optimal_route = TSPGeneticAlgorithm.getBestDistanceRoute(num_dests,dist_matrix,10)
+        optimal_route = TSPGeneticAlgorithm.getBestDistanceRoute(num_dests,dist_matrix)
     else: 
         optimal_route = mst_algorithm.primMST(num_dests,dist_matrix)
 
