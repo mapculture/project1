@@ -85,7 +85,7 @@ class token(Resource):
                 return json.dumps(auth), 201
             return abort(400, "Incorrect password. Please try again!")
         else:
-            return abort(400, "This username does not exist. PLease register first and try agian")
+            return abort(400, "This username does not exist. Please register first and try agian")
 
 @testmapOOP_blueprint.route('/algo', methods=['POST'])
 def runAlgorithm():
