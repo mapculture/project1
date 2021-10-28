@@ -9,6 +9,10 @@ from .mst_algorithm import mst_algorithm
 def testmap():
     return render_template('testmap.html') 
 
+@testmap_blueprint.route('/testmapmap', methods=['GET'])
+def testmapsecondary():
+    return render_template('testmapmap.html') 
+
 # POST: sending of information to another location
 # example: sending a letter in the mail
 
