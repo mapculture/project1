@@ -339,7 +339,7 @@ async function drawMap(destinations,matrixType,algorithm){
                     console.log("getPlace request failed with status:",e);
                     var errorNotice;
                     if(e == "OVER_QUERY_LIMIT"){
-                        errorNotice = "ERROR: You are requesting routes too fast. Please wait some time before submitting another request"; 
+                        errorNotice= "ERROR: You have requested too many queries in too short of a time. Please wait at least 30 seconds before trying again.";
                     } 
                     else if(e == "ZERO_RESULTS"){
                         errorNotice = "ERROR: A destination was entered that is not valid. Try again.";
@@ -358,7 +358,11 @@ async function drawMap(destinations,matrixType,algorithm){
                         });
                     return undefined;
             });
+
+            // remove the last successful route from the map when displaying error messages
             if(coords == undefined){
+                directionsRenderer.setMap(null); 
+                setMapOnAll(null);
                 return;
             }
             else {
@@ -383,6 +387,7 @@ async function drawMap(destinations,matrixType,algorithm){
             var header = document.getElementById('show-error'); 
             header.innerText= "ERROR: You have requested too many queries in too short of a time. Please wait at least 30 seconds before trying again.";
             header.style.color= "red";
+            var submitButtons = document.querySelectorAll('.submit-button');
             sleep(2000).then(() => { 
                 for(let i = 0; i < submitButtons.length; i++){
                     submitButtons[i].style.display = "block";
@@ -390,6 +395,12 @@ async function drawMap(destinations,matrixType,algorithm){
             });
             return undefined;
     });
+    // remove the last successful route from the map when displaying error messages, then stop execution
+    if (matrices == undefined){
+        directionsRenderer.setMap(null); 
+        setMapOnAll(null);
+        return;
+    }
     var distanceMatrix = matrices.distanceMatrix;
     var durationMatrix = matrices.durationMatrix;
 
@@ -419,6 +430,9 @@ async function drawMap(destinations,matrixType,algorithm){
                 submitButtons[i].style.display = "block";
             }
             });
+        // remove the last successful route from the map when displaying error messages, then stop execution
+        directionsRenderer.setMap(null); 
+        setMapOnAll(null);
         return;
     }
     console.log("Optimal route:",optimalRoute);
