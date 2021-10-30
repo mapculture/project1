@@ -31,9 +31,8 @@ nav ul{
 
 nav ul2{
     text-align: center;
-    margin-left: 5%;
-    margin-right: 5%;
-    margin-top: 2%;
+    margin-left: auto;
+    margin-right: auto;
     padding: 0px;
     font-weight: bold;
     background-color: black;
