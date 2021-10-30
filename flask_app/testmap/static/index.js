@@ -16,9 +16,8 @@ This Javascript file is used by the getmap.html template and enables the page to
         - Draw this optimal route onto the map 
 
 Creation Date: 10/03/2021
-Last Modified: 10/17/2021
+Last Modified: 10/30/2021
 
-TODO: - Improper input handling... no input, wrong coordinate syntax
 *****************************************************************************************************************************************************************************\
 
 /* Declare global index.js variables: */
@@ -205,6 +204,9 @@ async function getMatrix(dests){
             var element = rowElements[j];
 
             // the distance value in kilometers 
+            if(element.status == "ZERO_RESULTS"){
+                console.log("ZERO_RESULTS!!!")
+            }
             if(element.distance == undefined || element.duration == undefined){
                 valid = false;
             }
@@ -333,27 +335,37 @@ async function drawMap(destinations,matrixType,algorithm){
     for (let i = 0; i < destinations.length; i++) {
         if(destinations[i].length != 0){
             console.log(coords);
-            var coords = await getPlace(destinations[i]).catch(() => {
+            var coords = await getPlace(destinations[i]).catch((e) => {
+                    console.log("getPlace request failed with status:",e);
+                    var errorNotice;
+                    if(e == "OVER_QUERY_LIMIT"){
+                        errorNotice = "ERROR: You are requesting routes too fast. Please wait some time before submitting another request"; 
+                    } 
+                    else if(e == "ZERO_RESULTS"){
+                        errorNotice = "ERROR: A destination was entered that is not valid. Try again.";
+                    }
+                    else{
+                        errorNotice = "ERROR: Request failed for an unknown reason. Please wait some time and try again.";
+                    }
                     var header = document.getElementById('show-error'); 
-                    header.innerText= "ERROR: A destination was entered that is not valid. Try again.";
                     header.style.color= "red";
-                    console.log("inputted address is undefined!")    
+                    header.innerText = errorNotice;
                     var submitButtons = document.querySelectorAll('.submit-button');
-                    sleep(2000).then(() => { 
+                    sleep(2000).then(() => {
                         for(let i = 0; i < submitButtons.length; i++){
                             submitButtons[i].style.display = "block";
                         }
-                    });
+                        });
                     return undefined;
             });
             if(coords == undefined){
                 return;
             }
-            destCoords.push(coords);
+            else {
+                destCoords.push(coords);
+            }
         }
     }
-
-
     console.log(destCoords);
 
     // the origin coordinates are the first (and last) coordinates in the list that contains all destination coords
@@ -364,7 +376,20 @@ async function drawMap(destinations,matrixType,algorithm){
 
 
     // obtian the distance matrix
-    var matrices = await getMatrix(destCoords);
+    //var matrices = await getMatrix(destCoords);
+
+    var matrices = await getMatrix(destCoords).catch((e) => {
+            console.error(e.message);
+            var header = document.getElementById('show-error'); 
+            header.innerText= "ERROR: You have requested too many queries in too short of a time. Please wait at least 30 seconds before trying again.";
+            header.style.color= "red";
+            sleep(2000).then(() => { 
+                for(let i = 0; i < submitButtons.length; i++){
+                    submitButtons[i].style.display = "block";
+                }
+            });
+            return undefined;
+    });
     var distanceMatrix = matrices.distanceMatrix;
     var durationMatrix = matrices.durationMatrix;
 
@@ -393,7 +418,7 @@ async function drawMap(destinations,matrixType,algorithm){
             for(let i = 0; i < submitButtons.length; i++){
                 submitButtons[i].style.display = "block";
             }
-        });
+            });
         return;
     }
     console.log("Optimal route:",optimalRoute);
