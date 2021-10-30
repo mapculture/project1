@@ -7,6 +7,7 @@ Date last edited: 10/29/2021
 /* Sets defaults */
 html, body {
   height: 100%;
+  width: 100%;
   margin: 0;
   padding: 0;
   font-family: 'Quicksand', sans-serif;
@@ -26,26 +27,31 @@ video {
   }
 /* Controls the size of our logo */
 img {
-    width: 150px;
+    max-width: 150px;
+    width: 100%;
 }
 /* We don't want those default dots on our list  */
 nav li {
   list-style: none;
 }
+/* This'll help the screen shrink better without the links all piling up beneath each other */
+nav ul:last-of-type {
+  margin-right: 0%;
+}
 /* Controls the look and layout of our top links/buttons */
 nav ul{
     float: left;
-    margin-left: 5%;
-    margin-right: 5%;
-    margin-top: 2%;
-    padding: 0px;
+    margin-left: 3%;
+    margin-right: 4%;
     font-weight: bold;
-    background-color: black;
     padding: 10px;
+    background-color: black;
     border-radius: 5px;
+    text-align: center;
 }
 /* The default color of our links */
 a:link, a:visited {
+  width: 100%;
   color: white;
   text-decoration: none;
 }
