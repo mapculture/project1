@@ -1,76 +1,67 @@
-html,
-*{
+/* We set the default font and that all structures won't have padding or margin */ 
+html,*{
     margin: 0;
     padding: 0;
     font-family: sans-serif;
+}
+/* We establish our background image */
+body {    
     background-image: url("desert.jpg");
+    background-size: cover;
 }
-.hero{
-    height: 100%;
-    width: 100%;
-}
+/* This positions our entire box of controls in the center of the screen */
+/* We also get to stylize our box */
 .form-box{
-    width: 380px;
-    height: 480px;
+    width: 300px;
+    height: 400px;
     position: relative;
     margin: 6% auto;
-    background: #fff;
     padding: 5px;
     overflow: hidden;
-    background-color: rgba(0,0,0,0.0);
+    background-color: rgba(255, 217, 0, 0.171);
+    border: 5px solid;      
 }
+/* The button box just affects the positioning of the login/register toggle button */
 .button-box{
     width: 220px;
-    height: 35px;
     position: absolute;
-    box-shadow: 0 0 20px 9px #ff61241f;
-    border-radius: 30px;
+    margin-left: 40px;
 }
+/* This affects the login/register toggle button */
 .toggle-btn{
     padding: 10px 30px;
-    cursor: pointer;
-    background: transparent;
+    width: 50%;
+    background: linear-gradient(to right, brown, #ffad06);
     border: 0;
-    outline: none;
-    position: relative;
 }
-.btn{
-    top: 0;
-    left: 0;
-    position: absolute;
-    width: 110px;
-    height: 100%;
-    background: linear-gradient(to right, #ff105f, #ffad06);
-    border-radius: 30px;
-    transition: .5s;;
+/* To create a sort of rainbow effect, we have to reverse the colors on the last one */
+/* Also, to avoid the gap, the last button has to be moved to the left a little */
+.toggle-btn:last-of-type{
+    background: linear-gradient(to right, #ffad06, brown);
+    margin-left: -5px;    
 }
-.social-icons{
-    width: 30px;
-    margin: 0 12px;
-    box-shadow: 0 0 20px 0 #7f7f7f3d;
-    cursor: pointer;
-    border-radius: 50%;
-}
+/* This affects the location of the input fields and the login/register buttons */
 .input-group{
     top: 180px;
     position: absolute;
     width: 208px;
+    /* transition is for the "swoosh" motion of moving between login and register */
     transition: .5s;
 }
-.input-fiels{
+/* This affects the input text boxes */
+.input-field{
     width: 100%;
-    padding: 10px 0;
+    padding: 5px;
     margin: 5px 0;
     border-left: 0;
     border-right: 0;
-    border-bottom: 1px solid #999;
-    outline: none;
-    background: transparent;
+    border-radius: 10px;
+    background-color: white;
 }
+/* This affects the "login" or "register" buttons at the bottom of the main form */
 .submit-btn{
     width: 85%;
     padding: 10px 30px;
-    cursor: pointer;
     display: block;
     margin: auto;
     background: linear-gradient(to right, #ff105f, #ffad06);
@@ -78,15 +69,18 @@ html,
     outline: none;
     border-radius: 30px;
 }
+/* This makes sure the check box is correctly positioned */
 .check-box{
     margin: 30px 10px 30px 0;
 }
+/* This is for the words next to the check box */
 span{
     color: #777;
     font-size: 12px;
     bottom: 68px;
     position: absolute;
 }
+/* Positions the login form box and the register form box */
 #login{
     left: 50px;
 }

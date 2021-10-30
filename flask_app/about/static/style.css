@@ -1,82 +1,82 @@
-html,
-body {
+/*
+Author: Jordan
+Last edited by: Kaiser
+Date last edited: 10/29/2021
+*/
+
+/* Default values for the web page */
+html, body {
   height: 100%;
-  margin: 0;
+  margin: 0px;
+  padding: 0px;
   font-family: 'Quicksand', sans-serif;
   color: black;
 }
+/* Controls the positioning of the background video */
 video {
-    position: fixed;
-    width: 100vw;
-    height: 100vh;
-    right: 0;
-    bottom: 0;
-    top:0;
-    width: 100%;
-    object-fit: cover;
-    z-index: -1;
-  }
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  right: 0;
+  bottom: 0;
+  top:0;
+  width: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+/* Controls the width of the icon and gif */
 img{
   width: 150px;
 }
+/* We don't want the list dots */
 nav li {
 list-style: none;
 }
+/* Controls the link/buttons at the top of the screen */
 nav ul{
-    float: left;
-    margin-left: 5%;
-    margin-right: 5%;
-    margin-top: 2%;
-    padding: 0px;
-    font-weight: bold;
-    background-color: black;
-    padding: 10px;
-    border-radius: 5px;
+  float: left;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top: 2%;
+  font-weight: bold;
+  background-color: black;
+  padding: 10px;
+  border-radius: 5px;
 }
-a:link {
+/* Controls the default appearance of the links */
+a:link, a:visited {
   color: white;
   text-decoration: none;
 }
+/* We want to make it obvious that the link is a link when the user hovers over it */
 a:hover {
   text-decoration: underline;
   color: brown;
 }
-a:visited {
-  color: white;
-}
+/* Controls the positioning of the main words on the about us page */
 section {
   clear: left;
   float: center;
   margin: 10%;
+  padding: 0px;
   border-radius: 0px 0px 20px 20px;
   color: black;
-  padding: 0px;
 }
+/* Chooses the attributes of the main header */
 section h1 {
-  margin: 0px;
   font-size: 3em;
-  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   width: 100%;
   text-align: center;
 }
+/* Chooses the attributes of the secondary header */
 section h2 {
   width: 100%;
   text-align: center;
   font-size: 2em;
 }
+/* Chooses the attributes of the pargraphs */
 section p {
-  border-radius: 25px;
-  border: 2px solid #000000;
-  padding: 20px;
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  font-family: 'Quicksand', sans-serif;
-  font-weight: bold;
-  font-size: 15px;
-  background-color: rgba(255, 255, 255, 0.5);
-}
-section h3 {
   border-radius: 25px;
   border: 2px solid #000000;
   padding: 20px;

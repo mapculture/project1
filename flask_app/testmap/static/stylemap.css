@@ -1,3 +1,9 @@
+/*
+Author: Unknown
+Lasted edited by: Kaiser
+Date last edited: 10/29/2021
+*/
+
 /* Always set the map height explicitly to define the size of the div
        * element that contains the map. (source: Google API reference) */
 html,
@@ -10,18 +16,14 @@ body {
 }
 
 /* container will span the entire width and height of the webpage */
-.container {
-  
+.container {  
   width: 100vw;
   height:100vh;
-
   font-family: 'Quicksand', sans-serif;
   font-weight: bold;
   font-size: 15px;
-
   /* define the container as a grid container */
   display: grid;
-
   /* three columns (three values seperated by space, sized by fraction of available space*/
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 50px 1fr 50px;
@@ -30,6 +32,7 @@ body {
   box-sizing: border-box;
 }
 
+/* Contains the home and account link buttons*/
 .header {
     /* specify the grid line number */
     background-color: rgba(0, 0, 255, 0.5);
@@ -43,20 +46,7 @@ body {
     justify-content:center;
     align-items:center;
 }
-.header2 {
-    /* specify the grid line number */
-    /*border: 1px solid #000000;*/
-    grid-column-start: 2;
-    grid-column-end: 4;
-    border-radius:25px;
-    padding:20px;
-    display:flex;
-    align-items:center;
-}
-#welcome {
-    text-align:center;
-}
-
+/* Contains the controls for the Google map */
 .side {
     border: 3px solid #000000;
     background-color: rgba(0, 0, 255, 0.5);
@@ -65,25 +55,26 @@ body {
     border-radius:25px;
     padding:20px;
 }
+/* Controls the position of the logo */
 .imagelocation {
-  padding:0px;
   display:flex;
   align-items:center;
   justify-content:center;
 }
+/* Controls the size of the image */
 img{
     text-align:Center;
-    /*width was 170.5px*/
     width:250px;
-    /*height was 123.5px*/
     height:175px;
 }
+/* Affects the Origin word */
 label{
     width: 150px;
     display:inline-block;
     padding-top: 5px;
     padding-bottom: 5px;
 }
+/* Affects the positioning of the text boxes and their labels */
 input{
     width: 400px;
     padding:5px;
@@ -92,41 +83,37 @@ input{
 }
 .header li{
     width: 100%;
-    padding: 0px;
     list-style: none;
 }
+/* Controls the position of the home and account links */
 .header ul{
     width: 47%;
     float: left;
-    text-align: center;
-    margin: 0px;
     padding: 0px;
+    text-align: center;    
     font-weight: bold;
 }
+/* Forces the account link to the right */
 .header ul:last-of-type{
-    width: 47%;
     float: right;
-    text-align: center;
-    margin: 0px;
-    padding: 0px;
-    font-weight: bold;
 }
-a:link {
+/* The default color of the link */
+a:link, a:visited{
     color: black;
     text-decoration: none;
-  }
-  a:hover {
+}
+/* If the user is hovering over the link, we need to make the link stand out */
+a:hover {
     text-decoration: underline;
     color: brown;
-  }
-  a:visited {
-    color: black;
-  }
+}
+/* Controls the positioning of all the buttons */
 .button-set{
     display: flex;
     align-items: center;
     justify-content: center;
 }
+/* Controls the formats of the buttons */
 button{
     padding: 5px;
     margin: 5px;
@@ -136,6 +123,7 @@ button{
     font-weight: bold;
     background-color: black;
 }
+/* Describe the map area's attributes */
 .map2 {
     border: 3px solid #000000;
     background-color: rgba(0, 0, 255, 0.5);
@@ -144,16 +132,6 @@ button{
     grid-column-end: 4;
     grid-row-start: 1;
     grid-row-end:4;
-}
-.footer {
-    border: 3px solid #000000;
-    background-color: rgba(0, 0, 255, 0.5);
-    grid-column-start: 1;
-    grid-column-end: 2;
-    border-radius:25px;
-    padding:20px;
-    display:flex;
-    align-items:center;
 }
 #map {
     width: 100%;

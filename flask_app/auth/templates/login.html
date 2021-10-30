@@ -1,3 +1,8 @@
+<!-- 
+Author: Liam
+Last Edited by: Kaiser
+Date Last Edited: 10/29/2021
+-->
 <html>
 <head>	
 	<title>CIS 422: Project 1</title>
@@ -7,20 +12,20 @@
 <body>
 	<div class="hero"> 
 		<div class="form-box">
+			<!-- This is the toggle button which is actually two buttons at the top of the main form box -->
 			<div class="button-box">
 				<div id="btn"></div>
 				<button type="button" class="toggle-btn" onclick="login()">Log In</button>
 				<button type="button" class="toggle-btn" onclick="register()">Register</button>
 			</div>
-			<div class="social-icons">
-				
-		</div>
+		<!-- This is where a user would login if they already had an account -->
 		<form id="login" class="input-group">
 			<input type="text" class="input-field" placeholder="User ID"required>
 			<input type="text" class="input-field" placeholder="Enter Password"required>
 			<input type="checkbox" class="check-box"><span>Remember Password</span>
 			<button type="submit" class="submit-btn">Log in</button>
 		</form>
+		<!-- This is where a user would create their account if they're new -->
 		<form id="register" class="input-group">
 			<input type="text" class="input-field" placeholder="User ID"required>
 			<input type="email" class="input-field" placeholder="Email ID"required>
@@ -30,7 +35,6 @@
 		</form>
 		</div>
 	</div> 
-
 	
 	<script>
 	var x = document.getElementById("login")
@@ -47,9 +51,6 @@
 		y.style.left = "450px";
 		z.style.left = "0px";
 	}
-
-
 	</script>
-
 </body>
 </html>
