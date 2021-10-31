@@ -64,6 +64,7 @@ body {
 }
 /* Controls the size of the image */
 img{
+   border-radius:25px;
     text-align:Center;
     width:250px;
     height:175px;
@@ -102,7 +103,7 @@ img{
 }
 /* The default color of the link */
 a:link, a:visited{
-    color: black;
+    color: white;
     text-decoration: none;
 }
 /* If the user is hovering over the link, we need to make the link stand out */
