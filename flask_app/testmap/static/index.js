@@ -609,4 +609,10 @@ document.addEventListener("DOMContentLoaded", function() {
             destEntries[i].value = "";
         }
     });
+        document.getElementById('help-bttn').addEventListener('click', (e) => {
+            submitButton.style.display = "show";
+            header.style.color="lightgreen";
+            header.style.textDecoration = "none";
+            header.innerText= "Choosing an algorithm:\n\nIf you can wait, the Genetic algorithm will get you a close-to-optimum route.\n\nIf you're in a hurry, the Prim’s algorithm will get you an efficient route fast.";
+    });
 });

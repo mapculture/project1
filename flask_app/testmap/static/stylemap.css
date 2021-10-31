@@ -35,7 +35,9 @@ body {
 /* Contains the home and account link buttons*/
 .header {
     background-color: rgba(0, 0, 255, 0.5);
-    color: black;
+    color: green;
+    font-size:15px;
+    font-weight:none;
     border: 3px solid #000000;
     /* specify the grid line numbers */
     grid-column-start: 1;
@@ -137,9 +139,9 @@ button{
     height: 100%;
 }
 h3{
-    color:white;
-    text-align:center;
-    text-decoration:underline;
+    color:lightgreen;
+    font-size:15px;
+    font-weight:none;
 }
 .options-container{
     display: flex;
