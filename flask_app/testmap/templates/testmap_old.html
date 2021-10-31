@@ -31,24 +31,15 @@
                 <button id="remove-dest-bttn" name="remove-dest-bttn" type="button">Remove destination</button>
                 <button id="clear-dests-bttn" name="clear-dests-bttn" type="button">Clear</button>
             </div>
-            <div class="options-container">
-                <div class="option-set">
-                    <input type="radio" name="radio" id="radio-distance" checked="checked"/>
-                    <label for="radio1">Optimize for Distance</label>
-                    <br>
-                    <input type="radio" name="radio" id="radio-duration"/>
-                    <label for="radio2">Optimize for Duration</label>
-                </div>
-                <div class="option-set">
-                    <input type="radio" name="radio1" id="radio-MST" checked="checked"/>
-                    <label for="radio3">Using Prim's Algorithm</label>
-                    <br>
-                    <input type="radio" name="radio1" id="radio-genetic"/>
-                    <label for="radio4">Using Genetic Algorithm</label>
-                </div>
-            </div>
+            <h3>Prim's Algorithm:</h4>
             <div class="button-set">
-                <button type="submit" class="submit-button" id="submit-bttn" form="dest-form">Draw Route</button>
+                <button type="submit" class="submit-button" id="submit-distance-mst" form="dest-form">Draw Route<br>[Minimize travel distance]</button>
+                <button type="submit" class="submit-button" id="submit-duration-mst" form="dest-form">Draw Route<br>[Minimize travel time]</button>
+            </div>
+            <h3>Genetic Algorithm:</h4>
+            <div class="button-set">
+                <button type="submit" class="submit-button"id="submit-distance-genetic" form="dest-form">Draw Route<br>[Minimize travel distance]</button>
+                <button type="submit" class="submit-button" id="submit-duration-genetic" form="dest-form">Draw Route<br>[Minimize travel time]</button>
             </div>
             <h3 id="show-error"><h3>
         </div> <!-- side -->
