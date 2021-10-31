@@ -67,7 +67,7 @@ img{
     height:175px;
 }
 /* Affects the Origin word */
-#dest-form label{
+label{
     color:white;
     width: 150px;
     display:inline-block;
@@ -75,7 +75,7 @@ img{
     padding-bottom: 5px;
 }
 /* Affects the positioning of the text boxes and their labels */
-#dest-form input{
+input{
     width: 500px;
     padding:5px;
     border: 2px solid black;
@@ -140,16 +140,4 @@ h3{
     color:white;
     text-align:center;
     text-decoration:underline;
-}
-.options-container{
-    display: flex;
-    align-items:center;
-    justify-content:center;
-    padding: 5px;
-}
-
-.option-set{
-    color:white;
-    padding:5px;
-    margin:5px;
 }

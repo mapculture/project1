@@ -484,7 +484,7 @@ async function autoCompletify(text_input){
 document.addEventListener("DOMContentLoaded", function() {
     var originEntry = document.getElementById('origin'); 
     var destEntries = document.querySelectorAll('.dest-entry');
-
+    var submitButtons = document.querySelectorAll('.submit-button');
     autoCompletify(originEntry);
     for(let i = 0; i < destEntries.length; i++){
         autoCompletify(destEntries[i]); 
@@ -492,23 +492,18 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // If 'submit' button is clicked:
     // Then calculate distance matrix, send coordinates and distances to backend
-    var submitButton = document.getElementById('submit-bttn');
-    
-    var radioDistance = document.getElementById('radio-distance');
-    var radioDuration = document.getElementById('radio-duration');
-
-    var radioMST = document.getElementById('radio-MST');
-    var radioGenetic = document.getElementById('radio-genetic');
-    var header = document.getElementById('show-error'); 
-
-    submitButton.addEventListener('click', (e) => {
+    //document.getElementById('dest-form').addEventListener('submit', (e) => {
+    document.getElementById('submit-distance-genetic').addEventListener('click', (e) => {
         // prevent form submission from reloading the page
         e.preventDefault();
-        submitButton.style.display = "none";
-        header.innerText= "";
+        for(let i = 0; i < submitButtons.length; i++){
+            submitButtons[i].style.display = "none";
+        }
       
         // value of the user's input to the 'Origin:' text input field
         var origin = document.getElementById('origin').value;
+        console.log(origin);
+
         // a list of elements that belong to the class 'dest-entry'
         // a.k.a. all text input elements with the label 'Destination:'
         var destEntries = document.querySelectorAll('.dest-entry');
@@ -520,36 +515,111 @@ document.addEventListener("DOMContentLoaded", function() {
         destinations.push(origin);
 
         // push the values of all text input elements that belong to the class 'dest-entry' to the destinations list
-        var allEmpty = true;
         for(let i = 0; i < destEntries.length; i++){
-            if(destEntries[i].value != ""){
-                allEmpty = false;
-            }
-            destinations.push(destEntries[i].value);
+           destinations.push(destEntries[i].value);
         } 
-        if(origin == "" || allEmpty){
-            header.innerText= "ERROR: A route requires an origin and at least one destination. Please try again.";
-            header.style.color= "red";
-            submitButton.style.display = "block";
-            return;
-        }
+
         // the origin point is also the final destination, push it to the destinations list
         destinations.push(origin);
         // draw a Google Maps Javascript API interactive map that displays an optimal route between the inputted destinations
         // (starting at destinations[0] and ending at destinations[-1]
-        if(radioDistance.checked && radioMST.checked){
-            drawMap(destinations,'distance','MST');
-        }
-        else if(radioDuration.checked && radioMST.checked){
-            drawMap(destinations,'duration','MST');
-        }
-        else if(radioDistance.checked && radioGenetic.checked){
-            drawMap(destinations,'distance','genetic');
-        }
-        else if(radioDuration.checked && radioGenetic.checked){
-            drawMap(destinations,'duration','genetic');
-        }
+        drawMap(destinations,'distance','genetic');
     });
+    document.getElementById('submit-distance-mst').addEventListener('click', (e) => {
+        // prevent form submission from reloading the page
+        e.preventDefault();
+        for(let i = 0; i < submitButtons.length; i++){
+            submitButtons[i].style.display = "none";
+        }
+       
+        // value of the user's input to the 'Origin:' text input field
+        var origin = document.getElementById('origin').value;
+
+        // a list of elements that belong to the class 'dest-entry'
+        // a.k.a. all text input elements with the label 'Destination:'
+        var destEntries = document.querySelectorAll('.dest-entry');
+
+        // a list of user inputted destinations
+        var destinations = [];
+
+        // the origin point is the starting destination, push it to the destinations list
+        destinations.push(origin);
+
+        // push the values of all text input elements that belong to the class 'dest-entry' to the destinations list
+        for(let i = 0; i < destEntries.length; i++){
+           destinations.push(destEntries[i].value);
+        } 
+
+        // the origin point is also the final destination, push it to the destinations list
+        destinations.push(origin);
+        // draw a Google Maps Javascript API interactive map that displays an optimal route between the inputted destinations
+        // (starting at destinations[0] and ending at destinations[-1]
+        drawMap(destinations,'distance','MST');
+    });
+
+    document.getElementById('submit-duration-genetic').addEventListener('click', (e) => {
+        // prevent form submission from reloading the page
+        e.preventDefault();
+        for(let i = 0; i < submitButtons.length; i++){
+            submitButtons[i].style.display = "none";
+        }
+       
+        // value of the user's input to the 'Origin:' text input field
+        var origin = document.getElementById('origin').value;
+
+        // a list of elements that belong to the class 'dest-entry'
+        // a.k.a. all text input elements with the label 'Destination:'
+        var destEntries = document.querySelectorAll('.dest-entry');
+
+        // a list of user inputted destinations
+        var destinations = [];
+
+        // the origin point is the starting destination, push it to the destinations list
+        destinations.push(origin);
+
+        // push the values of all text input elements that belong to the class 'dest-entry' to the destinations list
+        for(let i = 0; i < destEntries.length; i++){
+           destinations.push(destEntries[i].value);
+        } 
+
+        // the origin point is also the final destination, push it to the destinations list
+        destinations.push(origin);
+        // draw a Google Maps Javascript API interactive map that displays an optimal route between the inputted destinations
+        // (starting at destinations[0] and ending at destinations[-1]
+        drawMap(destinations,'duration','genetic');
+    });
+    document.getElementById('submit-duration-mst').addEventListener('click', (e) => {
+        // prevent form submission from reloading the page
+        e.preventDefault();
+        for(let i = 0; i < submitButtons.length; i++){
+            submitButtons[i].style.display = "none";
+        }
+       
+        // value of the user's input to the 'Origin:' text input field
+        var origin = document.getElementById('origin').value;
+
+        // a list of elements that belong to the class 'dest-entry'
+        // a.k.a. all text input elements with the label 'Destination:'
+        var destEntries = document.querySelectorAll('.dest-entry');
+
+        // a list of user inputted destinations
+        var destinations = [];
+
+        // the origin point is the starting destination, push it to the destinations list
+        destinations.push(origin);
+
+        // push the values of all text input elements that belong to the class 'dest-entry' to the destinations list
+        for(let i = 0; i < destEntries.length; i++){
+           destinations.push(destEntries[i].value);
+        } 
+
+        // the origin point is also the final destination, push it to the destinations list
+        destinations.push(origin);
+        // draw a Google Maps Javascript API interactive map that displays an optimal route between the inputted destinations
+        // (starting at destinations[0] and ending at destinations[-1]
+        drawMap(destinations,'duration','MST');
+    });
+   
     // if 'add destination' button is clicked:
     // Then create a text entry input field and append it to the form 
     document.getElementById('add-dest-bttn').addEventListener('click', (e) => {
