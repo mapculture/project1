@@ -40,9 +40,7 @@ def create_app(test_config=None):
         # import blueprints
         from .home import home_blueprint
         from .about import about_blueprint
-        from .getmap import getmap_blueprint 
-        from .testmap import testmap_blueprint
-        from .testmapOOP import testmapOOP_blueprint
+        from .map import map_blueprint
         from .auth import auth_blueprint
         from .references import references_blueprint
 
@@ -53,9 +51,7 @@ def create_app(test_config=None):
         # register blueprints
         app.register_blueprint(home_blueprint)
         app.register_blueprint(about_blueprint)
-        app.register_blueprint(getmap_blueprint)
-        app.register_blueprint(testmap_blueprint)
-        app.register_blueprint(testmapOOP_blueprint)
+        app.register_blueprint(map_blueprint)
         app.register_blueprint(auth_blueprint)
         app.register_blueprint(references_blueprint)
         return app

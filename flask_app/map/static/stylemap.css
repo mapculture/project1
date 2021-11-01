@@ -1,5 +1,5 @@
 /*
-Author: Kelemen, Kaiser, Sofi
+Author: Kelemen, Kaiser
 Lasted edited by: Kelemen
 Date last edited: 10/30/2021
 */
@@ -12,7 +12,8 @@ body {
     width:100%;
     margin: 0px;
     padding:0px;
-    background-image: url("background.png");
+    /* background source: https://commons.wikimedia.org/wiki/File:MarquamBridgeHill.jpg */
+    background-image: url("background.jpg");
 }
 
 /* container will span the entire width and height of the webpage */
@@ -34,8 +35,10 @@ body {
 
 /* Contains the home and account link buttons*/
 .header {
-    background-color: rgba(0, 0, 255, 0.5);
-    color: black;
+    background-color: rgba(0,128,128,0.5);
+    color: green;
+    font-size:15px;
+    font-weight:none;
     border: 3px solid #000000;
     /* specify the grid line numbers */
     grid-column-start: 1;
@@ -49,7 +52,7 @@ body {
 /* Contains the controls and text input form for the Google map */
 .side {
     border: 3px solid #000000;
-    background-color: rgba(0, 0, 255, 0.5);
+    background-color: rgba(0,128,128,0.5);
     grid-row-start: 2;
     border-radius:25px;
     padding:20px;
@@ -62,12 +65,13 @@ body {
 }
 /* Controls the size of the image */
 img{
+   border-radius:25px;
     text-align:Center;
     width:250px;
     height:175px;
 }
 /* Affects the Origin word */
-label{
+#dest-form label{
     color:white;
     width: 150px;
     display:inline-block;
@@ -75,7 +79,7 @@ label{
     padding-bottom: 5px;
 }
 /* Affects the positioning of the text boxes and their labels */
-input{
+#dest-form input{
     width: 500px;
     padding:5px;
     border: 2px solid black;
@@ -100,7 +104,7 @@ input{
 }
 /* The default color of the link */
 a:link, a:visited{
-    color: black;
+    color: white;
     text-decoration: none;
 }
 /* If the user is hovering over the link, we need to make the link stand out */
@@ -127,7 +131,7 @@ button{
 /* Describe the map div's attributes */
 #map {
     border: 3px solid #000000;
-    background-color: rgba(0, 0, 255, 0.5);
+    background-color: rgba(0,128,128,0.5);
     border-radius: 20px;
     grid-column-start: 2;
     grid-column-end: 4;
@@ -138,6 +142,18 @@ button{
 }
 h3{
     color:white;
-    text-align:center;
-    text-decoration:underline;
+    font-size:15px;
+    font-weight:none;
+}
+.options-container{
+    display: flex;
+    align-items:center;
+    justify-content:center;
+    padding: 5px;
+}
+
+.option-set{
+    color:white;
+    padding:5px;
+    margin:5px;
 }
