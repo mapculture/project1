@@ -652,7 +652,7 @@ document.addEventListener("DOMContentLoaded", function() {
             destinationEntryForm.append(newDestLabel,whitespace,newDestInput,breakElement);
         }
     }); 
-        document.getElementById('remove-dest-bttn').addEventListener('click', (e) => {
+    document.getElementById('remove-dest-bttn').addEventListener('click', (e) => {
         // the number of destination entry boxes that currently exist in the HTML
         var numDests = document.querySelectorAll('.dest-entry').length;
 
@@ -680,7 +680,7 @@ document.addEventListener("DOMContentLoaded", function() {
             lastBreak.remove();
         }
     });
-        document.getElementById('clear-dests-bttn').addEventListener('click', (e) => {
+    document.getElementById('clear-dests-bttn').addEventListener('click', (e) => {
         // the number of destination entry boxes that currently exist in the HTML
         var destEntries = document.querySelectorAll('.dest-entry');
 
@@ -689,9 +689,9 @@ document.addEventListener("DOMContentLoaded", function() {
             destEntries[i].value = "";
         }
     });
-        document.getElementById('help-bttn').addEventListener('click', (e) => {
-            // display a message to the user
-            // explain the differences between each algorithm
-            displayMessage("Choosing an algorithm:\n\nIf you can wait, the Genetic algorithm will get you a close-to-optimum route.\n\nIf you're in a hurry, the Prim’s algorithm will get you an efficient route fast.",false);
+    document.getElementById('help-bttn').addEventListener('click', (e) => {
+        // display a message to the user
+        // explain the differences between each algorithm
+        displayMessage("Choosing an algorithm:\n\nIf you can wait, the Genetic algorithm will get you a close-to-optimum route.\n\nIf you're in a hurry, the Prim’s algorithm will get you an efficient route fast.",false);
     });
 });
