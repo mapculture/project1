@@ -16,46 +16,44 @@
                     <ul><a href="/login">Account</a></ul>
                 </li>          
             </div>
-        <div class="side">
+        <div class="side"> <!-- sidebar column of grid container -->
             <div class="imagelocation">
                 <img src="/static/mapculturelogo.png" alt="mapculture logo">
             </div>
-            <form id="dest-form">
+            <form id="dest-form"> <!-- The origin location, and destination(s) input form --!>
                 <label for="origin">Origin:</label>
                 <input id="origin" name="origin" type="text" value=""><br>
                 <label for="dest1" id="destlabel1">Destination 1:</label>
                 <input class="dest-entry" id="dest1" name="dest1" type="text" value=""/><br id="break1">
             </form>
-            <div class="button-set">
+            <div class="button-set"> <!-- the set of button controls (add destination, remove destination, clear all destinations) -->
                 <button id="add-dest-bttn" name="add-dest-bttn" type="button">Add destination</button>
                 <button id="remove-dest-bttn" name="remove-dest-bttn" type="button">Remove destination</button>
                 <button id="clear-dests-bttn" name="clear-dests-bttn" type="button">Clear</button>
             </div>
-            <div class="options-container">
-                <div class="option-set">
+            <div class="options-container"> <!-- container for all radio bubble options (distance, duration, Prim's, Genetic) -->
+                <div class="option-set"> <!-- distance and duration bubbles -->
                     <input type="radio" name="radio" id="radio-distance" checked="checked"/>
                     <label for="radio1">Optimize for Distance</label>
                     <br>
                     <input type="radio" name="radio" id="radio-duration"/>
                     <label for="radio2">Optimize for Duration</label>
                 </div>
-                <div class="option-set">
+                <div class="option-set"> <!-- Prim's algorithm and Genetic algorithm bubbles -->
                     <input type="radio" name="radio1" id="radio-MST" checked="checked"/>
                     <label for="radio3">Using Prim's Algorithm</label>
                     <br>
                     <input type="radio" name="radio1" id="radio-genetic"/>
                     <label for="radio4">Using Genetic Algorithm</label>
                 </div>
-                <button type="button" id="help-bttn">?</button>
+                <button type="button" id="help-bttn">?</button> <!-- help button that displays information about algorithms when clicked -->
                 </div>
             <div class="button-set">
                 <button type="submit" class="submit-button" id="submit-bttn" form="dest-form">Draw Route</button>
             </div>
-            <div class="button-set">
-            </div>
-            <h3 id="show-error"><h3>
+            <h3 id="show-error"><h3> <!-- This is where ERROR messages and HELP messages are inserted to be displayed to the user -->
         </div> <!-- side -->
-        <div id="map"></div><!-- This is where the map will be inserted -->
+        <div id="map"></div><!-- This is where the map will be inserted -->  <!-- second column of grid container -->
     </div> <!-- container -->
   </body>
 </html>

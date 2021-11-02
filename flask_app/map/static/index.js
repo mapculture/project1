@@ -603,6 +603,10 @@ document.addEventListener("DOMContentLoaded", function() {
         if(origin == "" || allEmpty){
             // display an error message and kill execution
             displayMessage("ERROR: A route requires an origin and at least one destination. Please try again.",true);
+            // if the map is defined when this error occurs, then clear the map of any routes and markers
+            if(map !== undefined){
+                clearMap();
+            }
             return;
         }
         // the origin point is also the final destination, push it to the destinations list
