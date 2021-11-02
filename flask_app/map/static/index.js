@@ -188,8 +188,10 @@ async function getMatrix(dests){
     var distanceMatrix = new Array(response.rows.length);
     var durationMatrix = new Array(response.rows.length);
 
-    // For each row in the matrix received from Google
+    // error handler, true by default, false if any distance/duration in the matrix is undefined
     var valid = true;
+
+    // For each row in the matrix received from Google
     for (var i = 0; i < response.rows.length; i++) {
 
         // The rows' elements correspond to the pairing of the origins (rows) with the destination (columns) of the distance or duration matrix
@@ -205,14 +207,13 @@ async function getMatrix(dests){
             // Element at row i, column j of Google's matrix response 
             var element = rowElements[j];
 
-            // the distance value in kilometers 
-            if(element.status == "ZERO_RESULTS"){
-                console.log("ZERO_RESULTS!!!")
-            }
+            // if the distance or duration between two waypoints are undefined
+            // (returned from google)
             if(element.distance == undefined || element.duration == undefined){
                 valid = false;
             }
             else{
+                // the distance value in kilometers 
                 var distance = element.distance.value;
                 var duration = element.duration.value;
             }
@@ -226,6 +227,8 @@ async function getMatrix(dests){
         }
     }
     console.log("Distance Matrix:", distanceMatrix,"\n","Duration matrix:",durationMatrix);
+
+    // return the distanceMatrix, durationMatrix, and a boolean indicator of whether or not those matrices are valid
     return {'valid':valid,'distanceMatrix': distanceMatrix,'durationMatrix': durationMatrix,};
 }
 
@@ -310,6 +313,58 @@ function drawRoute(dests) {
         }
     });
 }
+/****************************************************************************************************************************************************************************
+FUNCTION: displayMessage
+
+This function populates a div on the html page with text. It is used to display error messages and help messages to the user.
+****************************************************************************************************************************************************************************/
+function displayMessage(message,isError){
+    var messageDiv = document.getElementById('show-error'); 
+    messageDiv.innerText = message;
+    // if the message is an error message
+    if(isError){
+        // color the text red
+        messageDiv.style.color= "red";
+    }
+    // else the message is a help message
+    else{
+        // color the text white
+        messageDiv.style.color="white";
+    }
+}
+/****************************************************************************************************************************************************************************
+FUNCTION: sleep
+
+// https://www.sitepoint.com/delay-sleep-pause-wait/
+****************************************************************************************************************************************************************************/
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+/****************************************************************************************************************************************************************************
+FUNCTION: hideElementForSeconds
+
+This function hides the an html element from the user for a given amount of time
+
+This function is used to hide the submit button. The purpsoe of hiding the submit button is to prevent the user from spamming Google with requests, and in turn receiving a cooldown from Google.
+****************************************************************************************************************************************************************************/
+async function hideElementForSeconds(element,ms){
+    element.style.display = "none";
+    sleep(ms).then(() => {
+            element.style.display = "block";
+    });
+}
+
+/****************************************************************************************************************************************************************************
+FUNCTION: clearMap
+
+This function clears any existing routes and markers from the map.
+****************************************************************************************************************************************************************************/
+function clearMap(){
+    // dissassociate the directionsRenderer (route drawer) from the map
+    directionsRenderer.setMap(null); 
+    // remove all markers from the map
+    setMapOnAll(null);
+}
 
 /****************************************************************************************************************************************************************************
 FUNCTION: drawMap
@@ -324,123 +379,108 @@ Finally, the route is drawn on the map using drawRoute.
 Note: The origin is both a starting location and an ending location on the route (the first and last index of the destinations list is the origin location). 
 ****************************************************************************************************************************************************************************/
 async function drawMap(destinations,matrixType,algorithm){
+    // if map has not yet been initialized
     if(map === undefined){
-        console.log("hello");
+        // initialize the map
         initMap();
     }
+    // else map already exists
     else{
-        directionsRenderer.setMap(null); 
+        // clear all routes and markers drawn from map
+        clearMap();
+        // reassociate the directionsRenderer with the map
+        // (required after clearing)
         directionsRenderer.setMap(map);
-        setMapOnAll(null);
     }
+
+    // a list of LatLng coordinates for each destination entered by the user
     var destCoords = [];
+
     // convert user inputted destination coordinates to coordinate objects
     // create a marker for each destination 
-    console.log(destinations);
     for (let i = 0; i < destinations.length; i++) {
+        // if the inputted destination is a non-empty string 
         if(destinations[i].length != 0){
-            console.log(coords);
+            // convert user input address to a coordinate
+            // returns undefined if there is an error
             var coords = await getPlace(destinations[i]).catch((e) => {
                     console.log("getPlace request failed with status:",e);
-                    var errorNotice;
+                    // user is requesting too many coordinates too quickly
                     if(e == "OVER_QUERY_LIMIT"){
-                        errorNotice= "ERROR: You have requested too many queries in too short of a time. Please wait at least 30 seconds before trying again.";
+                        displayMessage("ERROR: You have requested too many queries in too short of a time. Please wait at least 30 seconds before trying again.",true);
                     } 
+                    // user input address returned zero results
                     else if(e == "ZERO_RESULTS"){
-                        errorNotice = "ERROR: A destination was entered that is not valid. Try again.";
+                        displayMessage("ERROR: A destination was entered that is not valid. Try again.",true);
                     }
+                    // catch-all other errors
                     else{
-                        errorNotice = "ERROR: Request failed for an unknown reason. Please wait some time and try again.";
+                        displayMessage("ERROR: Request failed for an unknown reason. Please wait some time and try again.",true);
                     }
-                    var header = document.getElementById('show-error'); 
-                    header.style.color= "red";
-                    header.innerText = errorNotice;
-                    var submitButtons = document.querySelectorAll('.submit-button');
-                    sleep(2000).then(() => {
-                        for(let i = 0; i < submitButtons.length; i++){
-                            submitButtons[i].style.display = "block";
-                        }
-                        });
                     return undefined;
             });
 
+            // if coords are not defined (due to a querying error, user input error)
             // remove the last successful route from the map when displaying error messages
             if(coords == undefined){
-                directionsRenderer.setMap(null); 
-                setMapOnAll(null);
+                clearMap();
                 return;
             }
+            // add the coords to the list
             else {
                 destCoords.push(coords);
             }
         }
     }
-    console.log(destCoords);
-
     // the origin coordinates are the first (and last) coordinates in the list that contains all destination coords
     var originCoords = destCoords[0];
 
     // center the map's view on the origin location
     map.setCenter(originCoords);
 
-    // obtian the distance matrix
+    // obtain the distance matrix and duration matrix for the set of coordinates converted from user inputs
     var matrices = await getMatrix(destCoords).catch((e) => {
+            // catch and display getMatrix request failure as an error
+            // generally, this error will only occur if the user is making too many requests
             console.error(e.message);
-            var header = document.getElementById('show-error'); 
-            header.innerText= "ERROR: You have requested too many queries in too short of a time. Please wait at least 30 seconds before trying again.";
-            header.style.color= "red";
-            var submitButtons = document.querySelectorAll('.submit-button');
-            sleep(2000).then(() => { 
-                for(let i = 0; i < submitButtons.length; i++){
-                    submitButtons[i].style.display = "block";
-                }
-            });
             return undefined;
     });
+
+    // if the matrices are undefined (there was an error obtaining them)
     // remove the last successful route from the map when displaying error messages, then stop execution
     if (matrices == undefined){
-        directionsRenderer.setMap(null); 
-        setMapOnAll(null);
+        clearMap();
         return;
     }
+
+    // the distance matrix received from the request to Google
     var distanceMatrix = matrices.distanceMatrix;
+    // the duration matrix received from the request to Google
     var durationMatrix = matrices.durationMatrix;
 
-    // obtain the optimal route from the origin to the waypoints and back to the origin, optimized for reducing distance traveled
-    // this returns the order in which the destinations in the destCoords list should be traveled (by indices)
-    console.log(matrices.valid);
+    // if the matrices obtained from getMatrix do not have any elements with undefined distances/durations
     if(matrices.valid == true){
-        var header = document.getElementById('show-error'); 
-        header.innerText= ""
+        // obtain the optimal route from the origin to the waypoints and back to the origin, optimized for reducing distance traveled
         if(matrixType == "distance"){
+            // this returns the order in which the destinations in the destCoords list should be traveled (by indices)
             var optimalRoute = await getOptimalRoute(algorithm,distanceMatrix,destCoords);
-            console.log("distance");
         }
         else{
+            // obtain the optimal route from the origin to the waypoints and back to the origin, optimized for reducing time traveled
+            // this returns the order in which the destinations in the destCoords list should be traveled (by indices)
             var optimalRoute = await getOptimalRoute(algorithm,durationMatrix,destCoords);
-            console.log("duration");
         } 
     }
     else{
-        var header = document.getElementById('show-error'); 
-        header.innerText= "ERROR: A destination was entered that is not connected to the origin by land. Try again.";
-        header.style.color= "red";
-        console.log("distance or duration between destinations is undefined!")    
-        var submitButtons = document.querySelectorAll('.submit-button');
-        sleep(2000).then(() => { 
-            for(let i = 0; i < submitButtons.length; i++){
-                submitButtons[i].style.display = "block";
-            }
-            });
+        displayMessage("ERROR: A destination was entered that is not connected to the origin by land. Try again.",true);
         // remove the last successful route from the map when displaying error messages, then stop execution
-        directionsRenderer.setMap(null); 
-        setMapOnAll(null);
+        clearMap();
         return;
     }
-    console.log("Optimal route:",optimalRoute);
     // sort the destinations in order of the optimalRoute, draw the route on the map
     var sortedDestCoords = optimalRoute.map(i => destCoords[i]);
 
+    // create a marker for each location in the sorted location in the list
     markers = [];
     for (let i = 0; i < sortedDestCoords.length; i++) {
         // if the destination is not the final destination, then create a Marker object and add it to the global list
@@ -451,28 +491,16 @@ async function drawMap(destinations,matrixType,algorithm){
     }
     // draw the Markers on the map
     setMapOnAll(map);
-
+    // draw the route on the map
     drawRoute(sortedDestCoords);
-    var submitButtons = document.querySelectorAll('.submit-button');
-    sleep(2000).then(() => { 
-        for(let i = 0; i < submitButtons.length; i++){
-            submitButtons[i].style.display = "block";
-        }
-    });
-}
-// https://www.sitepoint.com/delay-sleep-pause-wait/
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
 }
     
 /****************************************************************************************************************************************************************************
-EVENT LISTENERS
+FUNCTION: autoCompletify
 
-These are event listeners that attach to a specific element in the HTML template (or DOM object) and call a function when triggered.
+This function converts a standard text input HTML element to a Google Places Autocomplete text input.
 
 ****************************************************************************************************************************************************************************/
-// Wait for DOM to load before manipulating elements
-
 async function autoCompletify(text_input){
     const options = {
         componentRestrictions: {country: "us" },
@@ -481,34 +509,56 @@ async function autoCompletify(text_input){
     const auto = new google.maps.places.Autocomplete(text_input);
 }
 
+/****************************************************************************************************************************************************************************
+EVENT LISTENERS
+
+These are event listeners that attach to a specific element in the HTML template (or DOM object) and call a function when triggered.
+
+****************************************************************************************************************************************************************************/
+// Wait for the DOM to finish loading before manipulating it
 document.addEventListener("DOMContentLoaded", function() {
+    // the origin address text input HTML element
     var originEntry = document.getElementById('origin'); 
+
+    // convert the originEntry from a text field to a Google Places Autocomplete text field
+    autoCompletify(originEntry);
+
+    // all destination address text input HTML elements 
     var destEntries = document.querySelectorAll('.dest-entry');
 
-    autoCompletify(originEntry);
+    // convert all destEntries from text fields to Google Places Autocomplete text fields
     for(let i = 0; i < destEntries.length; i++){
         autoCompletify(destEntries[i]); 
     }
 
-    // If 'submit' button is clicked:
-    // Then calculate distance matrix, send coordinates and distances to backend
+    // the "Draw Route" submit button
     var submitButton = document.getElementById('submit-bttn');
-    
+   
+    // the option bubbles (HTML radio inputs) for: "Distance vs. Duration" and "Prim's vs. Genetic"
     var radioDistance = document.getElementById('radio-distance');
     var radioDuration = document.getElementById('radio-duration');
-
     var radioMST = document.getElementById('radio-MST');
     var radioGenetic = document.getElementById('radio-genetic');
+
+    // the div where messages are displayed to the user (either ERROR messages or HELP messages)
     var header = document.getElementById('show-error'); 
 
+    // If 'submit' button is clicked:
+    // Then calculate matrices, send coordinates and distances to backend
     submitButton.addEventListener('click', (e) => {
         // prevent form submission from reloading the page
         e.preventDefault();
-        submitButton.style.display = "none";
+
+        // hide the submitButton for 2 seconds
+        // this is to prevent the user from spamming the submit button and causing a Google Request Cooldown
+        hideElementForSeconds(submitButton,2000);
+
+        // remove any ERROR messages or HELP messages
         header.innerText= "";
       
         // value of the user's input to the 'Origin:' text input field
         var origin = document.getElementById('origin').value;
+
         // a list of elements that belong to the class 'dest-entry'
         // a.k.a. all text input elements with the label 'Destination:'
         var destEntries = document.querySelectorAll('.dest-entry');
@@ -519,33 +569,47 @@ document.addEventListener("DOMContentLoaded", function() {
         // the origin point is the starting destination, push it to the destinations list
         destinations.push(origin);
 
-        // push the values of all text input elements that belong to the class 'dest-entry' to the destinations list
+        // flag that keeps track of whether or not all of the inputted destinations are empty
         var allEmpty = true;
+
+        // push the values of all text input elements that belong to the class 'dest-entry' to the destinations list
         for(let i = 0; i < destEntries.length; i++){
+            // If a destination entry is empty
+            // change the allEmpty flag
             if(destEntries[i].value != ""){
                 allEmpty = false;
             }
             destinations.push(destEntries[i].value);
         } 
+        // if the user did not provide any input for the origin 
+        // or if the user did not provide any destination addresses
         if(origin == "" || allEmpty){
-            header.innerText= "ERROR: A route requires an origin and at least one destination. Please try again.";
-            header.style.color= "red";
-            submitButton.style.display = "block";
+            // display an error message and kill execution
+            displayMessage("ERROR: A route requires an origin and at least one destination. Please try again.",true);
             return;
         }
         // the origin point is also the final destination, push it to the destinations list
         destinations.push(origin);
+
+
         // draw a Google Maps Javascript API interactive map that displays an optimal route between the inputted destinations
         // (starting at destinations[0] and ending at destinations[-1]
+
+        // draw the map and route based on the options the user selected:
+
+        // "Draw a route that minimizes distance and uses the MST algorithm"
         if(radioDistance.checked && radioMST.checked){
             drawMap(destinations,'distance','MST');
         }
+        // "Draw a route that minimizes time and uses the MST algorithm"
         else if(radioDuration.checked && radioMST.checked){
             drawMap(destinations,'duration','MST');
         }
+        // "Draw a route that minimizes distance and uses the genetic algorithm"
         else if(radioDistance.checked && radioGenetic.checked){
             drawMap(destinations,'distance','genetic');
         }
+        // "Draw a route that minimizes time and uses the genetic algorithm"
         else if(radioDuration.checked && radioGenetic.checked){
             drawMap(destinations,'duration','genetic');
         }
@@ -555,6 +619,8 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById('add-dest-bttn').addEventListener('click', (e) => {
         // the number of destination entry boxes that currently exist in the HTML
         var numDests = document.querySelectorAll('.dest-entry').length + 1;
+
+        // limit the number of destination input fields to 9
         if(numDests <= 9){
             // create a string to be used in as an HTML id attribute, represents what 'dest' number the element is
             var destId = "dest" + String(numDests);
@@ -572,30 +638,43 @@ document.addEventListener("DOMContentLoaded", function() {
             newDestInput.name = destId;
             autoCompletify(newDestInput);
 
+            // create a new HTML <br> element to better format the input form
             var breakId = "break" + String(numDests);
             var breakElement = document.createElement("br");
             breakElement.id = breakId;
+
+            // create an HTML whitespace element to help formatting
             var whitespace = document.createTextNode(" ");
             // the element on the HTML page with the id 'dest-form' 
             var destinationEntryForm = document.getElementById('dest-form');
 
-            // append the newly created <label> and <input> elements to the form
+            // append the newly created <label>, whitespace, <input>, and <br> elements to the form in that order
             destinationEntryForm.append(newDestLabel,whitespace,newDestInput,breakElement);
         }
     }); 
         document.getElementById('remove-dest-bttn').addEventListener('click', (e) => {
         // the number of destination entry boxes that currently exist in the HTML
         var numDests = document.querySelectorAll('.dest-entry').length;
+
+        // only remove a destination input if it is not the only destination left
+        // always leave the first destination input because it is required for app functionality
         if (numDests > 1){
                 
-            // create a string to be used in as an HTML id attribute, represents what 'dest' number the element is
+            // create a string to be used as an HTML id attribute, represents what 'dest' number the element is
             var destInputId = "dest" + String(numDests);
+            // create a string to be used as an HTML id attribute, represents what 'destLabel' number the element is
             var destLabelId = "destlabel" + String(numDests);
+            // create a string to be used as an HTML id attribute, represents what 'break' number the element is
             var breakId = "break" + String(numDests);
 
+            // get the last destination text input element in the form div
             var lastDestInput = document.getElementById(destInputId);
+            // get the last destination label element in the form div
             var lastDestLabel = document.getElementById(destLabelId);
+            // get the last destination line break element in the form div
             var lastBreak = document.getElementById(breakId);
+
+            // remove the elements from the HTML
             lastDestInput.remove();
             lastDestLabel.remove();
             lastBreak.remove();
@@ -604,15 +683,15 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById('clear-dests-bttn').addEventListener('click', (e) => {
         // the number of destination entry boxes that currently exist in the HTML
         var destEntries = document.querySelectorAll('.dest-entry');
+
+        // set the value of all destination text input fields to empty space
         for(let i = 0; i < destEntries.length;i++){
-            // create a string to be used in as an HTML id attribute, represents what 'dest' number the element is
             destEntries[i].value = "";
         }
     });
         document.getElementById('help-bttn').addEventListener('click', (e) => {
-            submitButton.style.display = "show";
-            header.style.color="white";
-            header.style.textDecoration = "none";
-            header.innerText= "Choosing an algorithm:\n\nIf you can wait, the Genetic algorithm will get you a close-to-optimum route.\n\nIf you're in a hurry, the Prim’s algorithm will get you an efficient route fast.";
+            // display a message to the user
+            // explain the differences between each algorithm
+            displayMessage("Choosing an algorithm:\n\nIf you can wait, the Genetic algorithm will get you a close-to-optimum route.\n\nIf you're in a hurry, the Prim’s algorithm will get you an efficient route fast.",false);
     });
 });
