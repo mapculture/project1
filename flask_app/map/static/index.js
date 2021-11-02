@@ -162,6 +162,8 @@ A request is formed with:
 
 If the response status is OK, then the distance and duration matrix rows are parsed into their respective Arrays.
 
+If the distance or duration of an element within the matrix is undefined, then the matrices are returned with the valid flag = false.
+
 Some code taken from: https://developers.google.com/maps/documentation/javascript/distancematrix#distance_matrix_parsing_the_results
 ****************************************************************************************************************************************************************************/
 async function getMatrix(dests){
@@ -241,6 +243,8 @@ The request consists of the number of inputted destinations and the distance or 
 
 The Flask server responds with a JSON that contains the optimal order in which to travel to each destination (determined by TSP algorithm).
 The async/await keywords allow the the function to operate asynchronously. The function will pause until the request completes.
+
+The algorithm parameter can be either 'MST' or 'genetic'.
 ****************************************************************************************************************************************************************************/
 async function getOptimalRoute (algorithm, matrix, destinations){
     // send HTTP POST request to the URL /optimalroute
@@ -318,6 +322,9 @@ function drawRoute(dests) {
 FUNCTION: displayMessage
 
 This function populates a div on the html page with text. It is used to display error messages and help messages to the user.
+
+ERROR messages are displayed with red text.
+HELP messages are displayed with white text.
 ****************************************************************************************************************************************************************************/
 function displayMessage(message,isError){
     var messageDiv = document.getElementById('show-error'); 
@@ -363,7 +370,7 @@ async function hideElementForSeconds(element,ms){
 /****************************************************************************************************************************************************************************
 FUNCTION: clearMap
 
-This function clears any existing routes and markers from the map.
+This function clears any existing routes and markers from the global map object.
 ****************************************************************************************************************************************************************************/
 function clearMap(){
     // dissassociate the directionsRenderer (route drawer) from the map
@@ -375,12 +382,15 @@ function clearMap(){
 /****************************************************************************************************************************************************************************
 FUNCTION: drawMap
 
-This is the main function that draws an interactive map with an optimal route between an origin and a set of destinations. 
+This is the main function that draws an interactive map with an optimal route between an origin and a set of destinations (optimizing for either distance or duration)
 This function takes in a list of user inputted location strings, where the first and last locations are the same. (Round trip).
 It initializes the Google Maps Javascript API map, then calls the helper function getPlace to convert the user inputted destinations into coordinates.
 A marker is created at each set of coordinates (except for the final location, to not overlap with the starting location's marker -- as they are the same).
 The distance and duration matrices are obtained by calling getMatrix, a call is then made to getOptimalRoute with that function as input.
 Finally, the route is drawn on the map using drawRoute.
+
+matrixType can be either: 'distance' or 'duration'
+algorithm can be either: 'MST' or 'genetic'
 
 Note: The origin is both a starting location and an ending location on the route (the first and last index of the destinations list is the origin location). 
 ****************************************************************************************************************************************************************************/
@@ -505,14 +515,15 @@ async function drawMap(destinations,matrixType,algorithm){
 FUNCTION: autoCompletify
 
 This function converts a standard text input HTML element to a Google Places Autocomplete text input.
-
 ****************************************************************************************************************************************************************************/
-async function autoCompletify(text_input){
+async function autoCompletify(textInput){
+    // set Google Places Autocomplete options
     const options = {
         componentRestrictions: {country: "us" },
         fields: ["address_components","geometry","name"],
     };
-    const auto = new google.maps.places.Autocomplete(text_input);
+    // instantiate a new Autocomplete box using the textInput HTML
+    const auto = new google.maps.places.Autocomplete(textInput);
 }
 
 /****************************************************************************************************************************************************************************
@@ -550,7 +561,7 @@ document.addEventListener("DOMContentLoaded", function() {
     var header = document.getElementById('show-error'); 
 
     // If 'submit' button is clicked:
-    // Then calculate matrices, send coordinates and distances to backend
+    // Then calculate matrices, send coordinates and distances to backend, receive optimal route, draw route onto Google map
     submitButton.addEventListener('click', (e) => {
         // prevent form submission from reloading the page
         e.preventDefault();
@@ -620,6 +631,7 @@ document.addEventListener("DOMContentLoaded", function() {
             drawMap(destinations,'duration','genetic');
         }
     });
+
     // if 'add destination' button is clicked:
     // Then create a text entry input field and append it to the form 
     document.getElementById('add-dest-bttn').addEventListener('click', (e) => {
@@ -658,6 +670,9 @@ document.addEventListener("DOMContentLoaded", function() {
             destinationEntryForm.append(newDestLabel,whitespace,newDestInput,breakElement);
         }
     }); 
+
+    // If 'remove destination' button is clicked:
+    // Then remove the last text input HTML element from the form. (If there is only one text input element left, then just clear that element's inner text)
     document.getElementById('remove-dest-bttn').addEventListener('click', (e) => {
         // the number of destination entry boxes that currently exist in the HTML
         var numDests = document.querySelectorAll('.dest-entry').length;
@@ -693,6 +708,8 @@ document.addEventListener("DOMContentLoaded", function() {
         }
             
     });
+    // If 'clear destinations' button is clicked:
+    // Clear the inner text for all text input HTML inputs in the form
     document.getElementById('clear-dests-bttn').addEventListener('click', (e) => {
         // the number of destination entry boxes that currently exist in the HTML
         var destEntries = document.querySelectorAll('.dest-entry');
@@ -702,6 +719,9 @@ document.addEventListener("DOMContentLoaded", function() {
             destEntries[i].value = "";
         }
     });
+
+    // If the '?' (help) button is clicked:
+    // Display a help message to the user that explains the difference between the genetic and MST algorithms 
     document.getElementById('help-bttn').addEventListener('click', (e) => {
         // display a message to the user
         // explain the differences between each algorithm
