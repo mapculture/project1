@@ -16,7 +16,7 @@ This Javascript file is used by the getmap.html template and enables the page to
         - Draw this optimal route onto the map 
 
 Creation Date: 10/03/2021
-Last Modified: 10/30/2021
+Last Modified: 11/02/2021
 
 *****************************************************************************************************************************************************************************\
 
@@ -144,6 +144,7 @@ This code was taken from a Google Maps API Documentation Example
 Source: https://developers.google.com/maps/documentation/javascript/examples/marker-remove
 ****************************************************************************************************************************************************************************/
 function setMapOnAll(map){
+    // add every marker from the global markers list to the map
     for (let i=0; i<markers.length; i++){
         markers[i].setMap(map);
     }
@@ -335,21 +336,26 @@ function displayMessage(message,isError){
 /****************************************************************************************************************************************************************************
 FUNCTION: sleep
 
-// https://www.sitepoint.com/delay-sleep-pause-wait/
+This function returns a promise after a timeout.
+Using this function requires that you call it from within an asynchronous function and use a 'then' callback to perform some operations after it resolves.
+
+Source: This function was taken from: https://www.sitepoint.com/delay-sleep-pause-wait/
 ****************************************************************************************************************************************************************************/
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
+
 /****************************************************************************************************************************************************************************
 FUNCTION: hideElementForSeconds
 
-This function hides the an html element from the user for a given amount of time
-
-This function is used to hide the submit button. The purpsoe of hiding the submit button is to prevent the user from spamming Google with requests, and in turn receiving a cooldown from Google.
+This function hides an html element from the user for a given amount of time.
 ****************************************************************************************************************************************************************************/
 async function hideElementForSeconds(element,ms){
+    // hide the element
     element.style.display = "none";
+    // sleep some milliseconds
     sleep(ms).then(() => {
+            // un-hide the element
             element.style.display = "block";
     });
 }
@@ -656,19 +662,19 @@ document.addEventListener("DOMContentLoaded", function() {
         // the number of destination entry boxes that currently exist in the HTML
         var numDests = document.querySelectorAll('.dest-entry').length;
 
+        // create a string to be used as an HTML id attribute, represents what 'dest' number the element is
+        var destInputId = "dest" + String(numDests);
+        // get the last destination text input element in the form div
+        var lastDestInput = document.getElementById(destInputId);
+
         // only remove a destination input if it is not the only destination left
         // always leave the first destination input because it is required for app functionality
         if (numDests > 1){
-                
-            // create a string to be used as an HTML id attribute, represents what 'dest' number the element is
-            var destInputId = "dest" + String(numDests);
             // create a string to be used as an HTML id attribute, represents what 'destLabel' number the element is
             var destLabelId = "destlabel" + String(numDests);
             // create a string to be used as an HTML id attribute, represents what 'break' number the element is
             var breakId = "break" + String(numDests);
 
-            // get the last destination text input element in the form div
-            var lastDestInput = document.getElementById(destInputId);
             // get the last destination label element in the form div
             var lastDestLabel = document.getElementById(destLabelId);
             // get the last destination line break element in the form div
@@ -679,6 +685,13 @@ document.addEventListener("DOMContentLoaded", function() {
             lastDestLabel.remove();
             lastBreak.remove();
         }
+
+        // else if there is only one destination input
+        // do not remove its input box, instead change its value to be empty
+        else{
+            lastDestInput.value = "";
+        }
+            
     });
     document.getElementById('clear-dests-bttn').addEventListener('click', (e) => {
         // the number of destination entry boxes that currently exist in the HTML
