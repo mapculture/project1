@@ -1,29 +1,38 @@
 '''
-CIS 422 Project 1: TSP Problem
-mapculture.co
+File name: __init__.py (main Flask app module)
 
-Flask application object creation
+Author: Kelemen Szimonisz
+Organization: Map Culture (University of Oregon, CIS422, FALL 2021)
 
-All view functions (the ones with a route() decorator on top) have to be imported into this file
+This python file creates and configures the Flask application object.
 
-Standard flask project structure:
-https://flask.palletsprojects.com/en/2.0.x/patterns/packages/
+Flask Blueprints of each Flask submodule are imported and registered to this file.
+Each blueprint handles the routing (view functions) for each submodule.
+
+Standard flask project structure: https://flask.palletsprojects.com/en/2.0.x/patterns/packages/
+
+The flask app follows a divisional organizational structure: https://exploreflask.com/en/latest/blueprints.html#divisional
 '''
 
 from flask import Flask, render_template
 
+# HTTP error handling
 # https://flask.palletsprojects.com/en/2.0.x/errorhandling/
+
+# 404 (page not found)
 def page_not_found(e):
+    # direct the user to the 404 page
     return render_template('404.html'), 404
 
+# 405 (HTTP method not allowed)
 def method_not_allowed(e):
     # if a request has the wrong method
+    # direct the user to the 405 page
     return render_template('405.html'), 405
 
-def method_not_allowed(e):
-    return render_template('405.html'), 405
-
+# 500 (internal server error (catch-all))
 def internal_server_error(e):
+    # direct the user to the 500 page
     return render_template('500.html'), 500
 
 
@@ -36,26 +45,29 @@ def create_app(test_config=None):
     # configure flask app with configuration found in config.py
     app.config.from_pyfile('config.py')
 
+    # reference the current app context
+    # (flask can have multiple apps running in the same process)
     with app.app_context():
-        # import blueprints
+        # import blueprints for all flask app modules
+        # modules: home, about, map, auth, references (represent each page in webapp)
         from .home import home_blueprint
         from .about import about_blueprint
         from .map import map_blueprint
         from .auth import auth_blueprint
         from .references import references_blueprint
 
+        # register error handlers for 404, 405, and 500
         app.register_error_handler(404,page_not_found)
         app.register_error_handler(405,method_not_allowed)
         app.register_error_handler(500,internal_server_error)
 
-        # register blueprints
+        # register the imported blueprints
         app.register_blueprint(home_blueprint)
         app.register_blueprint(about_blueprint)
         app.register_blueprint(map_blueprint)
         app.register_blueprint(auth_blueprint)
         app.register_blueprint(references_blueprint)
+
+        # return the flask app
         return app
 
-#https://flask.palletsprojects.com/en/2.0.x/errorhandling/#blueprint-error-handlers
-
-    
