@@ -11,7 +11,7 @@ Last Modified: 10/28/2021
 '''
 
 from . import auth_blueprint
-from flask import Flask, jsonify, render_template, request, current_app
+from flask import Flask, jsonify, render_template, request, current_app, redirect, url_for
 from . import db
 
 mongo = db.Mongodb()
@@ -22,4 +22,8 @@ mongo.connect()
 def login():
     # render about.html when the user goes to mapculture.co/login
     return render_template('login.html')
+
+@auth_blueprint.route('/sign_in', methods=['GET'])
+def sign_in():
+    return redirect(url_for("home_blueprint.index"))
 
