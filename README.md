@@ -4,7 +4,7 @@
 
 1. Install docker
 2. Obtain an API key of Google Maps Javascript API, Directions API, Distance Matrix API
-3. Put your API key on line 8 of `/flask_app/getmap/templates/getmap.html`
+3. Put your API key on line 8 of `/flask_app/map/templates/map.html`
 
 4. Build a Docker image, create and run a Docker container using docker-compose:
 
@@ -19,36 +19,80 @@
 Using docker-compose script will automatically push changes to the web app immediately after changes are made (without having to run any further commands or scripts).
 
     project1
-    ├── coordinates.txt
     ├── docker-compose.yml
     ├── Dockerfile
-    ├── documentation
-    │   ├── buildingplan.md
-    │   └── project1_prompt.pdf
     ├── flask_app
+    │   ├── about
+    │   │   ├── __init__.py
+    │   │   ├── static
+    │   │   │   ├── mapcultureanimated.gif
+    │   │   │   ├── scenicbackground.mp4
+    │   │   │   └── style.css
+    │   │   ├── templates
+    │   │   │   └── about.html
+    │   │   └── views.py
+    │   ├── auth
+    │   │   ├── api_db.py
+    │   │   ├── db.py
+    │   │   ├── __init__.py
+    │   │   ├── static
+    │   │   │   ├── desert.jpg
+    │   │   │   └── style.css
+    │   │   ├── templates
+    │   │   │   ├── index.html
+    │   │   │   └── login.html
+    │   │   └── views.py
     │   ├── config.py
-    │   ├── getmap
+    │   ├── home
+    │   │   ├── __init__.py
+    │   │   ├── static
+    │   │   │   ├── index.js
+    │   │   │   ├── sceniccool.mp4
+    │   │   │   └── style.css
+    │   │   ├── templates
+    │   │   │   └── index.html
+    │   │   └── views.py
+    │   ├── __init__.py
+    │   ├── map
+    │   │   ├── brute_force_algorithm
+    │   │   │   └── TSPBruteAlgorithm.py
     │   │   ├── genetic_algorithm
     │   │   │   ├── Gnome.py
     │   │   │   ├── Gnomes.py
     │   │   │   ├── __init__.py
+    │   │   │   ├── README.txt
     │   │   │   └── TSPGeneticAlgorithm.py
     │   │   ├── __init__.py
+    │   │   ├── mst_algorithm
+    │   │   │   ├── adj_matrix.py
+    │   │   │   ├── __init__.py
+    │   │   │   ├── mst_algorithm.py
+    │   │   │   └── README.txt
     │   │   ├── static
+    │   │   │   ├── background.jpg
     │   │   │   ├── index.js
-    │   │   │   └── style.css
+    │   │   │   └── stylemap.css
     │   │   ├── templates
-    │   │   │   └── getmap.html
+    │   │   │   └── map.html
     │   │   └── views.py
-    │   ├── home
+    │   ├── references
     │   │   ├── __init__.py
     │   │   ├── static
+    │   │   │   ├── frank-mckenna-OD9EOzfSOh0-unsplash.jpg
+    │   │   │   └── style.css
     │   │   ├── templates
-    │   │   │   └── home.html
+    │   │   │   └── references.html
     │   │   └── views.py
-    │   └── __init__.py
+    │   ├── static
+    │   │   ├── mapcultureicon.ico
+    │   │   └── mapculturelogo.png
+    │   └── templates
+    │       ├── 404.html
+    │       ├── 405.html
+    │       └── 500.html
     ├── kill.sh
     ├── README.md
+    ├── README.txt
     ├── requirements.txt
     └── run.sh
 
