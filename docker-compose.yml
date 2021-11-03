@@ -1,11 +1,41 @@
+###########################################################################################
+# File name: docker-compose.yml
+#
+# Author: Kelemen Szimonisz
+# Organization: Map Culture (University of Oregon, CIS422, FALL 2021)
+#
+# This file is a configuration file for Docker Compose 
+#
+# docker-compose.yml works in conjunction with the Dockerfile to:
+#   1. Define the app's environment (OS, dependencies, packages, libraries, etc.)
+#   2. Define and configure the application's services
+#       - Allows us to run multiple containers as a single service (in an isolated env)
+#       - Example: the flask app and MongoDB
+#
+# The biggest perk: configuring the 'volumes' option will share the source code between 
+#                   the developer's local flask app directories and the running container.
+#                   So all local changes will be reflected by the docker container, without
+#                   having to rebuild after each change.
+#
+# Resource: https://docs.docker.com/compose/
+##########################################################################################
+
 services:
+    # flask app service
     flaskwebservice:
+        # build the image using the Dockerfile found in the current directory
         build: .
+        # open the flask app to port 5000
         ports:
             - "5000:5000"
+        # mount the project directory (the current directory) from the developer's local system to /app inside the container
+        # this will allow the developer to make local changes, and have those changes be reflected by the container (without having to rebuild it)
         volumes:
             - .:/app
+        # link the flaskapp service to the database service
         links:
             - db
+    # database service
     db:
+        # mongoDB base image
         image: mongo

@@ -1,2 +1,17 @@
+##################################################################################
+# File name: requirements.txt
+#
+# Author: Kelemen Szimonisz
+# Organization: Map Culture (University of Oregon, CIS422, FALL 2021) 
+#
+# This text file is simply a list of python packages that pip will read and install 
+# (when the pip command is executed by the Dockerfile)
+# These are the packages that the flask app depend on.
+# - Flask
+# - pymongo
+#
+# Creation Date: 10/01/2021
+# Last Edited: 10/24/2021
+##################################################################################
 Flask
 pymongo
