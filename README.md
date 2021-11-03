@@ -29,9 +29,7 @@
 
 #### Accessing the web app (Production)
 
-Simply visit:
-    
-    wizardkaizar.pythonanywhere.com
+Simply visit: wizardkaizar.pythonanywhere.com
 
 Username: `CIS422`
 
