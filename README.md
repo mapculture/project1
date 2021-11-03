@@ -13,14 +13,14 @@
         1. docker-compose build
         2. docker-compose up -d 
 
-        - Note: (As an alternative you can run the bash script `run.sh`)
+        - Note: (As an alternative to these commands, you can run the bash script `run.sh`)
 
     - If you are on Windows, enter the following commands into Microsoft PowerShell: 
     
         1. docker-compose build
         2. docker-compose up -d 
 
-4. Visit `localhost:5000` in your web browser
+4. Visit `localhost:5000` in your web browser to view the web app
 
 #### (DEVELOPMENT) Making changes:
 
