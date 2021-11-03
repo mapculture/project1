@@ -1,7 +1,7 @@
 '''
 File name: references/__init__.py (references package)
 
-Author: Kelemen Szimonisz, Sofi Vinas
+Author: Sofi Vinas, Kelemen Szimonisz
 Organization: Map Culture (University of Oregon, CIS422, FALL 2021)
 
 This python file tells Python that the /references directory is a Python package.
@@ -10,6 +10,9 @@ This python file tells Python that the /references directory is a Python package
 In this file, we create and configure a blueprint for the Auth package.
 
 Reference: https://exploreflask.com/en/latest/blueprints.html
+
+Creation Date: 10/27/2021
+Last Edited: 10/27/2021
 '''
 
 from flask import Blueprint

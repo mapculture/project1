@@ -10,6 +10,9 @@ This python file tells Python that the /home directory is a Python package.
 In this file, we create and configure a blueprint for the Auth package.
 
 Reference: https://exploreflask.com/en/latest/blueprints.html
+
+Creation Date: 10/27/2021
+Last Edited:   10/27/2021
 '''
 
 from flask import Blueprint

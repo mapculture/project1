@@ -10,6 +10,9 @@ This python file tells Python that the /about directory is a Python package.
 In this file, we create and configure a blueprint for the About package.
 
 Reference: https://exploreflask.com/en/latest/blueprints.html
+
+Creation Date: 10/27/2021
+Last Modified: 10/27/2021
 '''
 from flask import Blueprint
 
@@ -28,7 +31,7 @@ about_blueprint = Blueprint(
     static_url_path='/about/static'
 )
 
-# import the views (routing functions) for the /about package 
+# import the module views (routing functions) for the /about blueprint 
 # We import this at the bottom of the file because /about/views.py imports the about_blueprint
 # The blueprint must be defined before importing.
 from . import views

@@ -10,6 +10,9 @@ This python file tells Python that the /auth directory is a Python package.
 In this file, we create and configure a blueprint for the Auth package.
 
 Reference: https://exploreflask.com/en/latest/blueprints.html
+
+Creation Date: 10/24/2021
+Last Edited: 10/24/2021
 '''
 from flask import Blueprint
 
@@ -28,7 +31,7 @@ auth_blueprint = Blueprint(
     static_url_path='/auth/static'
 )
 
-# Import the views (routing functions) for the auth blueprint 
+# Import the views module (routing functions) for the auth blueprint 
 # We import this at the bottom of the file because auth/views.py imports the auth_blueprint 
 # The blueprint must be defined before importing.
 from . import views

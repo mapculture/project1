@@ -9,9 +9,16 @@ This python file creates and configures the Flask application object.
 Flask Blueprints of each Flask submodule are imported and registered to this file.
 Each blueprint handles the routing (view functions) for each submodule.
 
-Standard flask project structure: https://flask.palletsprojects.com/en/2.0.x/patterns/packages/
+Resources used to help create this file:
 
-The flask app follows a divisional organizational structure: https://exploreflask.com/en/latest/blueprints.html#divisional
+Standard flask project structure:
+https://flask.palletsprojects.com/en/2.0.x/patterns/packages/
+
+The flask app follows a divisional organizational structure: 
+https://exploreflask.com/en/latest/blueprints.html#divisional
+
+Creation Date: 10/05/2021
+Last Edited: 11/02/2021
 '''
 
 from flask import Flask, render_template

@@ -10,6 +10,9 @@ This python file tells Python that the /map directory is a Python package.
 In this file, we create and configure a blueprint for the Auth package.
 
 Reference: https://exploreflask.com/en/latest/blueprints.html
+
+Creation Date: 10/12/2021
+Last Modified: 11/01/2021
 '''
 
 from flask import Blueprint
