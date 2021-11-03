@@ -1,6 +1,12 @@
+--------------------------------------------------------------------
+File Name: FLASK_README.txt
+Author: Kelemen Szimonisz
+Organization: Map Culture (University of Oregon, CIS 422, Fall 2021)
 
+Creation Date: 11/03/2021
+Last Edited:   11/03/2021
+--------------------------------------------------------------------
 The flask_app folder contains the main Flask application object.
-
 
 -------------- THE MAIN FLASK APP ----------------------------------
 The Flask application object is defined in:
