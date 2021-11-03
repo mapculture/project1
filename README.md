@@ -10,14 +10,15 @@
 
 - If you are on macOS or Linux, enter the following commands into your terminal:
 
-    docker-compose build
-    docker-compose up -d 
+    1. docker-compose build
+    2. docker-compose up -d 
 
-    - (As an alternative you can run the bash script `run.sh`
+    - Note: (As an alternative you can run the bash script `run.sh`)
 
 - If you are on Windows, enter the following commands into Microsoft PowerShell: 
-    docker-compose build
-    docker-compose up -d 
+    
+    1. docker-compose build
+    2. docker-compose up -d 
 
 4. Visit `localhost:5000` in your web browser
 
