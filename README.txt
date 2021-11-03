@@ -1,6 +1,6 @@
 ## CIS 422 Project 1 - Traveling Salesperson Problem Web App
 
-#### Building and Running the web app:
+#### Building and Running the web app (Development):
 
 1. Install Docker Desktop for Mac or Windows, or Docker (and Docker Compose) for linux:
     - https://docs.docker.com/get-docker/
@@ -26,6 +26,17 @@
 
 - Requirement: The latest release of Docker
     - Docker handles all dependencies needed to build and run the web app
+
+#### Accessing the web app (Production)
+
+Simply visit:
+    
+    wizardkaizar.pythonanywhere.com
+
+Username: `CIS422`
+
+Password: `NeverGonnaDie`
+    
 
 #### (DEVELOPMENT) Making changes:
 
