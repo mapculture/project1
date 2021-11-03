@@ -2,21 +2,26 @@
 
 #### Running the web app:
 
-1. Install docker
-2. Obtain an API key of Google Maps Javascript API, Directions API, Distance Matrix API
-3. Put your API key on line 8 of `/flask_app/map/templates/map.html`
+1. Install Docker Desktop for Mac or Windows, or Docker (and Docker Compose) for linux:
+    - https://docs.docker.com/get-docker/
+    - https://docs.docker.com/compose/install/ (Linux only)
+2. Run Docker Desktop (Mac and Windows) or the Docker daemon (Linux) in the background
+3. Build and run the application stack using docker-compose:
 
-4. Build a Docker image, create and run a Docker container using docker-compose:
+- If you are on macOS or Linux, enter the following commands into your terminal:
+    docker-compose build
+    docker-compose up -d 
+    - (As an alternative you can run the bash script `run.sh`
 
-- If you are on macOS or Linux: you can execute the `run.sh` script
+- If you are on Windows, enter the following commands into Microsoft PowerShell: 
+    docker-compose build
+    docker-compose up -d 
 
-- If you are on Windows: `docker-compose up -d` in Microsoft PowerShell
+4. Visit `localhost:5000` in your web browser
 
-5. Visit `localhost:5000` in your web browser
+#### (DEVELOPMENT) Making changes:
 
-#### Making changes:
-
-Using docker-compose script will automatically push changes to the web app immediately after changes are made (without having to run any further commands or scripts).
+Using the docker-compose script will automatically push changes to the web app immediately after changes are made (without having to run any further commands or scripts).
 
     project1
     ├── docker-compose.yml
@@ -96,7 +101,7 @@ Using docker-compose script will automatically push changes to the web app immed
     ├── requirements.txt
     └── run.sh
 
-### Debugging the Flask server:
+### (DEVELOPMENT) Debugging the Flask server:
 
     docker logs -f project1-flaskwebservice-1    
 
