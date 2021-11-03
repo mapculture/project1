@@ -1,3 +1,10 @@
+/*
+Statement: Describes the attribute styles for login.html
+Authors: Liam Dauphinee, Kaiser Slocum
+Team: Map Culture (Team 5)
+Date Last Edited: 10/29/2021
+*/
+
 /* We set the default font and that all structures won't have padding or margin */ 
 html,*{
     margin: 0;
