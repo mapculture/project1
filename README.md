@@ -9,8 +9,10 @@
 3. Build and run the application stack using docker-compose:
 
 - If you are on macOS or Linux, enter the following commands into your terminal:
+
     docker-compose build
     docker-compose up -d 
+
     - (As an alternative you can run the bash script `run.sh`
 
 - If you are on Windows, enter the following commands into Microsoft PowerShell: 
