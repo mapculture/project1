@@ -17,7 +17,7 @@ Date Last Edited: 10/29/2021
 			<a href="/" >Home</a>
 			<!-- This is the toggle button which is actually two buttons at the top of the main form box -->
 			<div class="button-box">				
-				<button type="button" class="toggle-btn" onclick="login()">Log In</button>
+				<button type="button" class="toggle-btn" onclick="signin()">Log In</button>
 				<button type="button" class="toggle-btn" onclick="register()">Register</button>
 			</div>
 		<!-- This is where a user would login if they already had an account -->
@@ -39,7 +39,7 @@ Date Last Edited: 10/29/2021
 	</div> 
 	
 	<script>
-	var x = document.getElementById("login")
+	var x = document.getElementById("signin")
 	var y = document.getElementById("register")
 	var z = document.getElementById("btn")
 	
@@ -48,7 +48,7 @@ Date Last Edited: 10/29/2021
 		y.style.left = "50px";
 		z.style.left = "110px";
 	}
-	function login(){
+	function signin(){
 		x.style.left = "50px";
 		y.style.left = "450px";
 		z.style.left = "0px";
