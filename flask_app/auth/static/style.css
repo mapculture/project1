@@ -52,9 +52,9 @@ a{
     text-decoration: none;
 }
 /* When users hover, we want to let them know this is a link */
-a:hover{
+a:hover,.submit-btn:hover,.toggle-btn:hover{
     color: rgb(28, 196, 28);
-    text-decoration: underline;
+    font-weight: bold;
 }
 /* This affects the login/register toggle button */
 .toggle-btn{
