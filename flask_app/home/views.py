@@ -18,8 +18,3 @@ from flask import Flask, jsonify, render_template, request, current_app
 def index():
     # render index.html when the user goes to mapculture.co
     return render_template('index.html')
-    
-@home_blueprint.route('/', methods=['GET'])
-def index():
-    # render index.html when the user goes to mapculture.co
-    return render_template('index.html')  
