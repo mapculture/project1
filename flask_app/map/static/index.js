@@ -465,6 +465,7 @@ async function drawMap(destinations,matrixType,algorithm){
     // if the matrices are undefined (there was an error obtaining them)
     // remove the last successful route from the map when displaying error messages, then stop execution
     if (matrices == undefined){
+        displayMessage("ERROR: You have requested too many queries in too short of a time. Please wait at least 30 seconds before trying again.",true);
         clearMap();
         return;
     }
