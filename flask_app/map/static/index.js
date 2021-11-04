@@ -4,7 +4,7 @@ File Name: index.js
 Author: Kelemen Szimonisz
 Organization: Map Culture (University of Oregon, CIS422, FALL 2021)
 
-This Javascript file is used by the getmap.html template and enables the page to:
+This Javascript file is used by the map.html template and enables the page to:
     1. Append the number of inputs to the destination entry form when the 'Add destination' button is clicked.
     2. Handle the submit button for the destination entry form
     3. Use the Google Maps Javascript API to:
